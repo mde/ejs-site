@@ -55,7 +55,7 @@
                         <li class="nav-item"><a class="scrollto" href="#install">Get Started</a></li>
                         <li class="nav-item"><a class="scrollto" href="#docs">Docs</a></li>
                         <li class="nav-item"><a class="scrollto" href="#license">License</a></li>
-                        <li class="nav-item"><a class="scrollto" href="#contact">Contact</a></li>
+                        <li class="nav-item"><a href="https://github.com/mde/ejs">GitHub</a></li>
                     </ul><!--//nav-->
                 </div><!--//navabr-collapse-->
             </nav><!--//main-nav-->
@@ -70,9 +70,9 @@
             EJS
             <span style="font-size: 60%;">%&gt;</span>
             </span></h2>
-            <p class="intro">Simple. Effective. JavaScript templating.</p>
+            <p class="intro">Effective JavaScript templating.</p>
             <div class="btns">
-                <a class="btn btn-cta-secondary" href="http://themes.3rdwavemedia.com/" target="_blank">Download</a>
+                <a class="btn btn-cta-secondary" href="https://github.com/mde/ejs/releases/latest" target="_blank">Get It</a>
             </div>
             <ul class="meta list-inline">
                 <li>&nbsp;</li>
@@ -90,10 +90,11 @@
         <div class="container">
             <h2 class="title text-center">What is EJS?</h2>
             <p class="intro text-center">
-	      EJS is a simple templating language that lets you generate HTML
-	      markup with plain JavaScript. No religiousness about how to
-	      organize things. No reinvention of iteration and control-flow.
-	      It's just plain JavaScript.
+	      "E" is for "effective." EJS is a simple templating language that
+	      lets you generate HTML markup with plain JavaScript. No
+	      religiousness about how to organize things. No reinvention of
+	      iteration and control-flow.  It's just plain JavaScript.
+
             </p>
             <div class="row">
                 <div class="item col-md-4 col-sm-6 col-xs-12">
@@ -179,7 +180,7 @@
             <h2 class="title text-center">Get Started</h2>
               <div class="block">
                 <h3 class="sub-title text-center">Install</h3>
-                <p>It's easy to install EJS in your app using NPM.</p>
+                <p>It's easy to install EJS with NPM.</p>
                 <div class="code-block">
                     <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
                     <pre><code class="language-bash">$ npm install ejs</code></pre>
@@ -215,71 +216,118 @@
         <div class="container">
             <div class="docs-inner">
             <h2 class="title text-center">Docs</h2>
-            <div class="block">
-                <h3 class="sub-title text-center">HTML</h3>
-                <p><a href="http://prismjs.com/" target="_blank">PrismJS</a> is used as the syntax highlighter here.</p>
-                <p>Below are the details of the custom PrismJS build used in this template. You can <a href="http://prismjs.com/download.html" target="_blank">build your own version</a> via their website should you need to.</p>
-                <ul class="list-unstyled">
-                    <li><strong>Compression level:</strong> Minified</li>
-                    <li><strong>Theme:</strong> Okaidia</li>
-                    <li><strong>Languages:</strong> Markup, CSS, C-like, JavaScript, PHP and Python</li>
-                </ul>
-                <div class="code-block">
-                    <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-                    <pre><code class="language-markup">
-    &ltp class="my-style"&gt
-      Hello World!
-    &lt/p&gt
-                     </code></pre>
-                </div><!--//code-block-->
-            </div><!--//block-->
 
-            <div class="block">
-                <h3 class="sub-title text-center">CSS</h3>
-                <p>Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.</p>
+              <div class="block">
+                <h3 class="sub-title text-center">Example</h3>
 
                 <div class="code-block">
                     <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-                    <pre>
-    <code class="language-css">
-    /*
-     * Template Name: devAid - Responsive Website Template for developers
-     * Version: 1.0
-     * Author: Xiaoying Riley at 3rd Wave Media
-     * Website: http://themes.3rdwavemedia.com/
-     * Twitter: @3rdwave_themes
-    */
-    body {
-      font-family: 'Lato', arial, sans-serif;
-      color: #444444;
-      font-size: 16px;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-    </code></pre>
+                    <pre><code class="language-markup">&lt;% if (user) { %&gt;
+  &lt;h2&gt;&lt;%= user.name %&gt;&lt;/h2&gt;
+&lt;% } %&gt;</code></pre>
                 </div><!--//code-block-->
-            </div><!--//block-->
+              </div><!--//block-->
 
-            <div class="block">
-                <h3 class="sub-title text-center">JavaScript</h3>
-                <p>Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Lorem ipsum dolor sit amet, consectetuer adipiscing elit ligula eget dolor.</p>
+              <div class="block">
+                <h3 class="sub-title text-center">Usage</h3>
+
                 <div class="code-block">
-                    <pre><code class="language-javascript">
-    if( awesome ){
-        console.log('This is Awesome');
-    }else{
-        $('body').addClass('give-me-awesome');
-    }
-                    </code></pre>
+                    <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
+                    <pre><code class="language-javascript">var template = ejs.compile(str, options);
+template(data);
+// => Rendered HTML string
+
+ejs.render(str, data, options);
+// => Rendered HTML string</code></pre>
                 </div><!--//code-block-->
-            </div><!--//block-->
-            <div class="block">
-                <h3 class="sub-title text-center">Full Documentation</h3>
-                <p>If your documentation is very long you can host the full docs page (including FAQ etc) on GitHub and provide a Call to Action button below to direct users there.</p>
-                <p class="text-center">
-                    <a class="btn btn-cta-primary" href="https://github.com/twbs/bootstrap" target="_blank">More on GitHub</a>
-                </p>
-            </div><!--//block-->
+              </div><!--//block-->
+
+              <div class="block">
+                <h3 class="sub-title text-center">Options</h3>
+
+<ul>
+<li>
+<code>cache</code>           Compiled functions are cached, requires <code>filename</code>
+</li>
+<li>
+<code>filename</code>        Used by <code>cache</code> to key caches, and for includes</li>
+<li>
+<code>context</code>         Function execution context</li>
+<li>
+<code>compileDebug</code>    When <code>false</code> no debug instrumentation is compiled</li>
+<li>
+<code>client</code>          Returns standalone compiled function</li>
+<li>
+<code>delimiter</code>       Character to use with angle brackets for open/close</li>
+<li>
+<code>debug</code>           Output generated function body</li>
+<li>
+<code>_with</code>           Whether or not to use <code>with() {}</code> constructs. If <code>false</code> then the locals will be stored in the <code>locals</code> object.</li>
+</ul>
+
+              </div><!--//block-->
+
+              <div class="block">
+                <h3 class="sub-title text-center">Tags</h3>
+
+<ul>
+<li>
+<code>&lt;%</code>              'Scriptlet' tag, for control-flow, no output</li>
+<li>
+<code>&lt;%=</code>             Outputs the value into the template (HTML escaped)</li>
+<li>
+<code>&lt;%-</code>             Outputs the unescaped value into the template</li>
+<li>
+<code>&lt;%#</code>             Comment tag, no execution, no output</li>
+<li>
+<code>&lt;%%</code>             Outputs a literal '&lt;%'</li>
+<li>
+<code>%&gt;</code>              Plain ending tag</li>
+<li>
+<code>-%&gt;</code>             Trim-mode ('newline slurp') tag, trims following newline</li>
+</ul>
+              </div><!--//block-->
+
+              <div class="block">
+                <h3 class="sub-title text-center">Includes</h3>
+
+<p>Includes are relative to the template with the <code>include</code> call. (This
+requires the 'filename' option.) For example if you have "./views/users.ejs" and
+"./views/user/show.ejs" you would use <code>&lt;%- include('user/show'); %&gt;</code>.</p>
+
+<p>You'll likely want to use the raw output tag (<code>&lt;%-</code>) with your include to avoid
+double-escaping the HTML output.</p>
+
+                <div class="code-block">
+                    <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
+                    <pre><code class="language-markup">&lt;ul&gt;
+  &lt;% users.forEach(function(user){ %&gt;
+    &lt;%- include('user/show', {user: user}); %&gt;
+  &lt;% }); %&gt;
+&lt;/ul&gt;</code></pre>
+                </div><!--//code-block-->
+              </div><!--//block-->
+
+              <div class="block">
+                <h3 class="sub-title text-center">Customer delimiters</h3>
+
+<p>Custom delimiters can be applied on a per-template basis, or globally:</p>
+                <div class="code-block">
+                    <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
+                    <pre><code class="language-javascript">var ejs = require('ejs'),
+    users = ['geddy', 'neil', 'alex'];
+
+// Just one template
+ejs.render('%lt;?= users.join(" | "); ?&gt;', {users: users},
+    {delimiter: '?'});
+// => 'geddy | neil | alex'
+
+// Or globally
+ejs.delimiter = '$';
+ejs.render('&lt;$= users.join(" | "); $&gt;', {users: users});
+// => 'geddy | neil | alex'</code></pre>
+                </div><!--//code-block-->
+              </div><!--//block-->
 
             </div><!--//docs-inner-->
         </div><!--//container-->
@@ -300,7 +348,7 @@
     <!-- ******FOOTER****** -->
     <footer class="footer">
         <div class="container text-center">
-            <small class="copyright">Designed with <i class="fa fa-heart"></i> by <a href="http://themes.3rdwavemedia.com" target="_blank">Xiaoying Riley</a> for developers</small>
+            <small class="copyright">EJS &copy; 2112 <a href="http://twitter.com/mde">Matthew Eernisse</a> ::: Template designed with <i class="fa fa-heart"></i> by <a href="http://themes.3rdwavemedia.com" target="_blank">Xiaoying Riley</a></small>
         </div><!--//container-->
     </footer><!--//footer-->
 

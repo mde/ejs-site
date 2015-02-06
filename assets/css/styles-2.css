@@ -1,3 +1,10 @@
+/*   
+ * Template Name: devAid - Responsive Website Template for developers
+ * Version: 1.0
+ * Author: Xiaoying Riley at 3rd Wave Media
+ * Website: http://themes.3rdwavemedia.com/
+ * Twitter: @3rdwave_themes
+*/
 /* style-2.css */
 /* ======= Base ======= */
 body {
@@ -82,6 +89,9 @@ a.btn-cta-secondary:hover,
 }
 pre code {
   font-size: 16px;
+}
+ul {
+  margin-top: 24px;
 }
 /* ======= Header ======= */
 .header {
@@ -586,6 +596,10 @@ pre code {
   background: #3f4a19;
   color: #fff;
 }
+.footer a {
+  color: #fff;
+  text-decoration: underline;
+}
 .footer .copyright {
   -webkit-opacity: 0.8;
   -moz-opacity: 0.8;
@@ -594,3 +608,56 @@ pre code {
 .footer .fa-heart {
   color: #bf225a;
 }
+/* Extra small devices (phones, less than 768px) */
+@media (max-width: 767px) {
+  .header .main-nav button {
+    margin-right: 0;
+  }
+  .header .main-nav .navbar-collapse {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .promo .btns .btn {
+    margin-right: 0;
+    clear: both;
+    display: block;
+    margin-bottom: 30px;
+  }
+  .promo .title {
+    font-size: 66px;
+  }
+  .promo .meta {
+    margin-top: 60px;
+  }
+  .promo .meta li {
+    float: none;
+    display: block;
+    margin-bottom: 5px;
+  }
+  .contact .author-message {
+    text-align: center;
+  }
+  .contact .author-message .profile {
+    position: static;
+    margin: 0 auto;
+    margin-bottom: 30px;
+  }
+  .contact .author-message .speech-bubble {
+    margin-left: 0;
+  }
+  .contact .author-message .speech-bubble:after {
+    display: none;
+  }
+  .contact .social-icons a {
+    width: 36px;
+    height: 36px;
+    padding-top: 7px;
+    margin-right: 2px;
+  }
+  .contact .social-icons a .fa:before {
+    font-size: 18px;
+  }
+}
+/* Small devices (tablets, 768px and up) */
+/* Medium devices (desktops, 992px and up) */
+/* Large devices (large desktops, 1200px and up) */
