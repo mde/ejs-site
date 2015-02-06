@@ -226,7 +226,7 @@ pre code {
 }
 /* ======= About Section ======= */
 .about {
-  padding: 80px 0;
+  padding: 36px 0;
   background: #f5f5f5;
 }
 .about .title {
@@ -262,7 +262,7 @@ pre code {
 }
 /* ======= Features Section ======= */
 .features {
-  padding: 80px 0;
+  padding: 36px 0;
   background: #b4ca65;
   color: #fff;
 }
@@ -287,7 +287,7 @@ pre code {
 }
 /* ======= Install Section ======= */
 .install {
-  padding: 80px 0;
+  padding: 36px 0;
   background: #f5f5f5;
 }
 .install .title {
@@ -327,7 +327,7 @@ pre code {
 }
 /* ======= Docs Section ======= */
 .docs {
-  padding: 80px 0;
+  padding: 36px 0;
   background: #f5f5f5;
 }
 .docs .title {
@@ -367,7 +367,7 @@ pre code {
 }
 /* ======= License Section ======= */
 .license {
-  padding: 80px 0;
+  padding: 36px 0;
   background: #f5f5f5;
 }
 .license .title {
@@ -445,7 +445,7 @@ pre code {
 }
 /* ======= Contact Section ======= */
 .contact {
-  padding: 80px 0;
+  padding: 36px 0;
   background: #b4ca65;
   color: #fff;
 }

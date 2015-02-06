@@ -102,7 +102,7 @@
                     </div>
                     <div class="content">
                         <h3 class="sub-title">Use plain JavaScript</h3>
-                        <p>We love JavaScript. It's a totally friendly language. Why reinvent iteration and control-flow in a different, dumbed-down language? Just use JS!</p>
+                        <p>We love JavaScript. It's a totally friendly language. All templating languages grow to be Turing-complete. Just cut out the middle-man, and use JS!</p>
                     </div><!--//content-->
                 </div><!--//item-->
                 <div class="item col-md-4 col-sm-6 col-xs-12">
@@ -130,7 +130,7 @@
                     </div>
                     <div class="content">
                         <h3 class="sub-title">Speedy execution</h3>
-                        <p>EJS caches the intermediate JS functions for your templates, so execution is fast. V8 and other JS runtimes just keep getting faster &mdash; so should your templates.</p>
+                        <p>We all know how fast V8 and the other JavaScript runtimes have gotten. EJS caches the intermediate JS functions for fast execution.</p>
                     </div><!--//content-->
                 </div><!--//item-->
                 <div class="item col-md-4 col-sm-6 col-xs-12">
@@ -184,15 +184,27 @@
                     <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
                     <pre><code class="language-bash">$ npm install ejs</code></pre>
                 </div><!--//code-block-->
-
                 <h3 class="sub-title text-center">Use</h3>
                 <p>Pass EJS a template string and some data. BOOM, you've got some HTML.</p>
                 <div class="code-block">
                     <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
                     <pre><code class="language-javascript">var ejs = require('ejs'),
-    people = ['geddy', 'neil', 'alex'];
+    people = ['geddy', 'neil', 'alex'],
     html = ejs.render('&lt;%= people.join(", "); %&gt;', {people: people});</code></pre>
                 </div><!--//code-block-->
+
+                <h3 class="sub-title text-center">Browser support</h3>
+                <p>Download a browser build from <a href="https://github.com/mde/ejs/releases/latest">the latest release</a>, and use it in a script tag.</p>
+
+                <div class="code-block">
+                    <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
+                    <pre><code class="language-markup">&lt;script src="ejs.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  var people = ['geddy', 'neil', 'alex'],
+      html = ejs.render('&lt;%= people.join(", "); %&gt;', {people: people});
+&lt;/script&gt;</code></pre>
+                </div><!--//code-block-->
+
               </div><!--//block-->
             </div><!--//install-inner-->
         </div><!--//container-->
