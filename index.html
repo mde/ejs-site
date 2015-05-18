@@ -11,8 +11,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="favicon.ico">
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,300italic,400italic' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,300italic,400italic' rel='stylesheet'>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet'>
     <!-- Global CSS -->
     <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
     <!-- Plugins CSS -->
@@ -318,7 +318,7 @@ double-escaping the HTML output.</p>
     users = ['geddy', 'neil', 'alex'];
 
 // Just one template
-ejs.render('%lt;?= users.join(" | "); ?&gt;', {users: users},
+ejs.render('&lt;?= users.join(" | "); ?&gt;', {users: users},
     {delimiter: '?'});
 // => 'geddy | neil | alex'
 
@@ -353,13 +353,13 @@ ejs.render('&lt;$= users.join(" | "); $&gt;', {users: users});
     </footer><!--//footer-->
 
     <!-- Javascript -->
-    <script type="text/javascript" src="assets/plugins/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="assets/plugins/jquery-migrate-1.2.1.min.js"></script>
-    <script type="text/javascript" src="assets/plugins/jquery.easing.1.3.js"></script>
-    <script type="text/javascript" src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>
-    <script type="text/javascript" src="assets/plugins/prism/prism.js"></script>
-    <script type="text/javascript" src="assets/js/main.js"></script>
+    <script src="assets/plugins/jquery-1.11.1.min.js"></script>
+    <script src="assets/plugins/jquery-migrate-1.2.1.min.js"></script>
+    <script src="assets/plugins/jquery.easing.1.3.js"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>
+    <script src="assets/plugins/prism/prism.js"></script>
+    <script src="assets/js/main.js"></script>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
