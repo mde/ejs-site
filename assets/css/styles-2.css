@@ -375,6 +375,39 @@ ul {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
+/* ======= Support Section ======= */
+.support {
+  padding: 36px 0;
+  background: #f5f5f5;
+}
+.support .title {
+  color: #607026;
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+.support .support-inner {
+  max-width: 800px;
+  background: #fff;
+  padding: 30px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  margin: 0 auto;
+}
+.support h3 a {
+  color: #b4ca65;
+}
+.support .block {
+  margin-bottom: 45px;
+}
+.support .block:last-child {
+  margin-bottom: 0px;
+}
 /* ======= License Section ======= */
 .license {
   padding: 36px 0;
