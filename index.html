@@ -190,7 +190,7 @@
 
             <div class="code-block">
               <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-javascript">var ejs = require('ejs'),
+              <pre><code class="language-javascript">let ejs = require('ejs'),
     people = ['geddy', 'neil', 'alex'],
     html = ejs.render('&lt;%= people.join(", "); %&gt;', {people: people});</code></pre>
             </div>
@@ -203,7 +203,7 @@
               <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
               <pre><code class="language-markup">&lt;script src="ejs.js"&gt;&lt;/script&gt;
 &lt;script&gt;
-  var people = ['geddy', 'neil', 'alex'],
+  let people = ['geddy', 'neil', 'alex'],
       html = ejs.render('&lt;%= people.join(", "); %&gt;', {people: people});
 &lt;/script&gt;</code></pre>
             </div>
@@ -236,7 +236,7 @@
 
             <div class="code-block">
               <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-javascript">var template = ejs.compile(str, options);
+              <pre><code class="language-javascript">let template = ejs.compile(str, options);
 template(data);
 // => Rendered HTML string
 
@@ -300,7 +300,7 @@ ejs.renderFile(filename, data, options, function(err, str){
 
             <div class="code-block">
               <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-javascript">var ejs = require('ejs'),
+              <pre><code class="language-javascript">let ejs = require('ejs'),
     users = ['geddy', 'neil', 'alex'];
 
 // Just one template
@@ -314,6 +314,103 @@ ejs.render('&lt;$= users.join(" | "); $&gt;', {users: users});
 // => 'geddy | neil | alex'</code></pre>
             </div>
             <!--//code-block-->
+          </div><!--//block-->
+
+          <div class="block">
+            <h3 class="sub-title text-center">Caching</h3>
+<p>EJS ships with a basic in-process cache for caching the intermediate JavaScript
+functions used to render templates. It's easy to plug in LRU caching using
+Node's `lru-cache` library:</p>
+
+<div class="code-block">
+              <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
+              <pre><code class="language-javascript">let ejs = require('ejs'),
+    LRU = require('lru-cache');
+ejs.cache = LRU(100); // LRU cache with 100-item limit</code></pre>
+
+<p>If you want to clear the EJS cache, call <code>ejs.clearCache</code>. If you're using the
+LRU cache and need a different limit, simple reset `ejs.cache` to a new instance
+of the LRU.</p>
+          </div><!--//block-->
+
+          <div class="block">
+            <h3 class="sub-title text-center">Custom file loader</h3>
+<p>The default file loader is <code>fs.readFileSync</code>, if you want to customize it,
+you can set <code>ejs.fileLoader</code>.</p>
+
+<div class="code-block">
+              <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
+              <pre><code class="language-javascript">let ejs = require('ejs');
+let myFileLoader = function (filePath) {
+  return 'myFileLoader: ' + fs.readFileSync(filePath);
+};
+
+ejs.fileLoader = myFileLoad;</code></pre>
+
+<p>With this feature, you can preprocess the template before reading it.</p>
+          </div><!--//block-->
+
+          <div class="block">
+            <h3 class="sub-title text-center">Layouts</h3>
+
+<p>EJS does not specifically support blocks, but layouts can be implemented by
+including headers and footers, like so:</p>
+
+<div class="code-block">
+              <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
+              <pre><code class="language-javascript">&lt;%- include('header'); -%&gt;
+&lt;h1&gt;
+  Title
+&lt;/h1&gt;
+&lt;p&gt;
+  My page
+&lt;/p&gt;
+&lt;%- include('footer'); -%&gt;</code></pre>
+          </div><!--//block-->
+
+          <div class="block">
+            <h3 class="sub-title text-center">Client-side support</h3>
+
+<p>Go to the <a href="https://github.com/mde/ejs/releases/latest">latest release</a>, download
+<code>./ejs.js</code> or <code>./ejs.min.js</code>. Alternately, you can compile it yourself by cloning
+the repository and running <code>jake build</code> (or <code>$(npm bin)/jake build</code> if jake is
+not installed globally).</p>
+
+<p>Include one of these files on your page, and <code>ejs</code> should be available globally</p>
+
+<h4>Example</h4>
+
+<div class="code-block">
+              <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
+              <pre><code class="language-javascript">&lt;div id="output"&gt;&lt;/div&gt;
+&lt;script src="ejs.min.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  let people = ['geddy', 'neil', 'alex'],
+      html = ejs.render('&lt;%= people.join(", "); %&gt;', {people: people});
+  // With jQuery:
+  $('#output').html(html);
+  // Vanilla JS:
+  document.getElementById('output').innerHTML = html;
+&lt;/script&gt;</code></pre>
+
+<h4>Caveats</h4>
+
+<p>Most of EJS will work as expected; however, there are a few things to note:</p>
+
+<ol>
+  <li>Obviously, since you do not have access to the filesystem, `ejs.renderFile` won't work.</li>
+  <li>For the same reason, includes do not work unless you use an include callback. Here is an example:</li>
+</ol>
+
+              <pre><code class="language-javascript">let str = "Hello <%= include('file', {person: 'John'}); %>",
+      fn = ejs.compile(str, {client: true});
+
+fn(data, null, function(path, d){ // include callback
+  // path -> 'file'
+  // d -> {person: 'John'}
+  // Put your code here
+  // Return the contents of file as a string
+}); // returns rendered string</code></pre>
           </div><!--//block-->
 
           <div class="block">
