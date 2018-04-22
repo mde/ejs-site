@@ -263,6 +263,7 @@ ejs.renderFile(filename, data, options, function(err, str){
               <li><code>localsName</code> Name to use for the object storing local variables when not using <code>with</code> Defaults to <code>locals</code></li>
               <li><code>rmWhitespace</code> Remove all safe-to-remove whitespace, including leading and trailing whitespace. It also enables a safer version of <code>-%&gt;</code> line slurping for all scriptlet tags (it does not strip new lines of tags in the middle of a line).</li>
               <li><code>escape</code> The escaping function used with <code>&lt;%=</code> construct. It is used in rendering and is <code>.toString()</code>ed in the generation of client functions. (By default escapes XML).</li>
+              <li><code>outputFunctionName</code> Set to a string (e.g., <code>'echo'</code> or <code>'print'</code>) for a function to print output inside scriptlet tags.</li>
             </ul>
           </div><!--//block-->
           <div class="block">
