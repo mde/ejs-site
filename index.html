@@ -161,8 +161,9 @@
 
           <li><i class="fa fa-check"></i>Fast compilation and rendering</li>
           <li><i class="fa fa-check"></i>Simple template tags: &lt;% %&gt;</li>
-          <li><i class="fa fa-check"></i>Custom delimiters (e.g., use &lt;? ?&gt; instead of &lt;% %&gt;)</li>
-          <li><i class="fa fa-check"></i>Includes</li>
+          <li><i class="fa fa-check"></i>Custom delimiters (e.g., use [? ?] instead of &lt;% %&gt;)</li>
+          <li><i class="fa fa-check"></i>Sub-template includes</li>
+          <li><i class="fa fa-check"></i>Ships with CLI</li>
           <li><i class="fa fa-check"></i>Both server JS and browser support</li>
           <li><i class="fa fa-check"></i>Static caching of intermediate JavaScript</li>
           <li><i class="fa fa-check"></i>Static caching of templates</li>
@@ -190,9 +191,17 @@
 
             <div class="code-block">
               <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-javascript">let ejs = require('ejs'),
-    people = ['geddy', 'neil', 'alex'],
-    html = ejs.render('&lt;%= people.join(", "); %&gt;', {people: people});</code></pre>
+              <pre><code class="language-javascript">let ejs = require('ejs');
+let people = ['geddy', 'neil', 'alex'];
+let html = ejs.render('&lt;%= people.join(", "); %&gt;', {people: people});</code></pre>
+            </div>
+
+            <!--//code-block-->
+            <h3 class="sub-title text-center">CLI</h3>
+            <p>Feed it a template file and a data file, and specify an output file.</p>
+
+            <div class="code-block">
+              <pre><code class="language-bash">ejs ./template_file.ejs -f data_file.json -o ./output.html</code></pre>
             </div>
             <!--//code-block-->
 
@@ -203,8 +212,8 @@
               <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
               <pre><code class="language-markup">&lt;script src="ejs.js"&gt;&lt;/script&gt;
 &lt;script&gt;
-  let people = ['geddy', 'neil', 'alex'],
-      html = ejs.render('&lt;%= people.join(", "); %&gt;', {people: people});
+  let people = ['geddy', 'neil', 'alex'];
+  let html = ejs.render('&lt;%= people.join(", "); %&gt;', {people: people});
 &lt;/script&gt;</code></pre>
             </div>
             <!--//code-block-->
@@ -254,12 +263,17 @@ ejs.renderFile(filename, data, options, function(err, str){
             <ul>
               <li><code>cache</code> Compiled functions are cached, requires <code>filename</code></li>
               <li><code>filename</code> Used by <code>cache</code> to key caches, and for includes</li>
+              <li><code>root</code> Set project root for includes with an absolute path (e.g, /file.ejs). Can be array to try to resolve include from multiple directories.</li>
+              <li><code>views</code> An array of paths to use when resolving includes with relative paths.</li>
               <li><code>context</code> Function execution context</li>
               <li><code>compileDebug</code> When <code>false</code> no debug instrumentation is compiled</li>
               <li><code>client</code> Returns standalone compiled function</li>
-              <li><code>delimiter</code> Character to use with angle brackets for open/close</li>
-              <li><code>debug</code> Output generated function body</li>
-              <li><code>_with</code> Whether or not to use <code>with() {}</code> constructs. If <code>false</code> then the locals will be stored in the <code>locals</code> object.</li>
+              <li><code>delimiter</code> <Character to use for inner delimiter, by default '%'/li>
+              <li><code>openDelimiter</code> <Character to use for opening delimiter, by default '<'/li>
+              <li><code>closeDelimiter</code> <Character to use for closing delimiter, by default '>'/li>
+              <li><code>debug</code> Outputs generated function body</li>
+              <li><code>strict</code> When set to `true`, generated function is in strict mode</li>
+              <li><code>_with</code> Whether or not to use <code>with() {}</code> constructs. If <code>false</code> then the locals will be stored in the <code>locals</code> object. (Implies `--strict`)</li>
               <li><code>localsName</code> Name to use for the object storing local variables when not using <code>with</code> Defaults to <code>locals</code></li>
               <li><code>rmWhitespace</code> Remove all safe-to-remove whitespace, including leading and trailing whitespace. It also enables a safer version of <code>-%&gt;</code> line slurping for all scriptlet tags (it does not strip new lines of tags in the middle of a line).</li>
               <li><code>escape</code> The escaping function used with <code>&lt;%=</code> construct. It is used in rendering and is <code>.toString()</code>ed in the generation of client functions. (By default escapes XML).</li>
@@ -293,6 +307,51 @@ ejs.renderFile(filename, data, options, function(err, str){
     &lt;%- include('user/show', {user: user}); %&gt;
   &lt;% }); %&gt;
 &lt;/ul&gt;</code></pre>
+            </div>
+            <!--//code-block-->
+          </div><!--//block-->
+          <div class="block">
+            <h3 class="sub-title text-center">CLI</h3>
+            <p>EJS ships with a full-featured command-line interface. Options are similar to those used in JavaScript code:</p>
+            <ul>
+              <li><code>cache</code> Compiled functions are cached, requires <code>filename</code></li>
+
+
+<li><code>-o / --output-file FILE</code>
+Write the rendered output to FILE rather than stdout.</li>
+<li><code>-f / --data-file FILE</code>
+Must be JSON-formatted. Use parsed input from FILE as data for rendering.</li>
+<li><code>-i / --data-input STRING</code>
+Must be JSON-formatted and URI-encoded. Use parsed input from STRING as data for rendering.</li>
+<li><code>-m / --delimiter CHARACTER</code>
+Use CHARACTER with angle brackets for open/close (defaults to %).</li>
+<li><code>-p / --open-delimiter CHARACTER</code>
+Use CHARACTER instead of left angle bracket to open.</li>
+<li><code>-c / --close-delimiter CHARACTER</code>
+Use CHARACTER instead of right angle bracket to close.</li>
+<li><code>-s / --strict</code>
+When set to `true`, generated function is in strict mode</li>
+<li><code>-n / --no-with</code>
+Use 'locals' object for vars rather than using `with` (implies --strict).</li>
+<li><code>-l / --locals-name</code>
+Name to use for the object storing local variables when not using `with`.</li>
+<li><code>-w / --rm-whitespace</code>
+Remove all safe-to-remove whitespace, including leading and trailing whitespace.</li>
+<li><code>-d / --debug</code>
+Outputs generated function body</li>
+<li><code>-h / --help</code>
+Display this help message.</li>
+<li><code>-V/v / --version</code>
+Display the EJS version.</li>
+            </ul>
+
+            <p>Some examples of use:</p>
+
+            <div class="code-block">
+              <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
+              <pre><code class="language-bash">$ ejs -p [ -c ] ./template_file.ejs -o ./output.html
+$ ejs ./test/fixtures/user.ejs name=Lerxst
+$ ejs -n -l _ ./some_template.ejs -f ./data_file.json</code></pre>
             </div>
             <!--//code-block-->
           </div><!--//block-->
