@@ -1,0 +1,25 @@
+{
+  "name": "EJS", 
+  "short_name": "EJS -- Embedded JavaScript templates", 
+  "icons": [ 
+    {
+      "src": "/assets/images/icon/android-chrome-64x64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/images/icon/android-chrome-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/images/icon/android-chrome-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#a91e50", 
+  "background_color": "#a91e50",
+  "display": "standalone",
+  "start_url": "/"
+}
