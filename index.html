@@ -9,11 +9,11 @@
     <!-- Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
     <meta name="description" content="'E' is for 'effective'. EJS is a simple templating language that lets you generate HTML markup with plain JavaScript. No religiousness about how to organize things. No reinvention of iteration and control-flow. It's just plain JavaScript.">
     <meta name="author" content="">
     <meta name="tmeme-color" content="#a91e50">
-    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.svg">
     <!-- manifest -->
     <link rel="manifest" href="/manifest.json">
     <link href='https://fonts.googleapis.com/css?family=Lato:300,400,300italic,400italic' rel='stylesheet'>
@@ -35,6 +35,16 @@
   box-shadow: 8px 8px 19px -10px rgba(0,0,0,0.4);
   border-radius: 4px;
   overflow: hidden;
+}
+
+@media (max-width: 756px) {
+  .display {
+    width: 100% !important;
+  }
+  
+  img {
+    width: 100%;
+  }
 }
 
 </style>
@@ -72,7 +82,7 @@
               <li class="nav-item"><a class="scrollto" href="#docs">Docs</a></li>
               <li class="nav-item"><a class="scrollto" href="#support">Support</a></li>
               <li class="nav-item"><a class="scrollto" href="#license">License</a></li>
-              <li class="nav-item"><a href="https://github.com/mde/ejs">GitHub</a></li>
+              <li class="nav-item"><a href="https://github.com/mde/ejs" target="_blank">GitHub</a></li>
             </ul><!--//navbar-nav-->
           </div><!--//navabr-collapse-->
         </nav><!--//main-nav-->
@@ -565,9 +575,6 @@ fn(data, null, function(path, d){ // include callback
           }
         })
       }
-    </script>
-
-    <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js');
