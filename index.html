@@ -181,6 +181,31 @@
             </div><!--//content-->
           </div><!--//item-->
         </div><!--//row-->
+
+        <div style="width: 680px; text-align: center; border: 1px solid #ccc; margin: 48px auto; padding: 48px; color: #333;">
+          <h2 class="title">Security Professionals: Please Note</h2>
+          <p>
+            Before reporting any security issues, please reference the <a href="https://github.com/mde/ejs/blob/main/SECURITY.md" target="_blank">SECURITY.md</a>
+            for the project, partcularly the following::
+          </p>
+          <div style="margin: 24px 0 0 24px; padding-left: 24px; border-left: 1px solid #ccc; text-align: left; font-style: italic">
+          <p>
+            If you give end-users unfettered access to the EJS render method, you are using EJS
+            in an inherently un-secure way. Please do not report security issues that stem from doing that.
+           </p>
+          <p>
+            EJS is effectively a JavaScript runtime. Its entire job is to execute JavaScript.
+            If you run the EJS render method without checking the inputs yourself, you are responsible for the results.
+          </p>
+        </div>
+        <p style="margin: 24px;">In short, <em>DO NOT</em> submit 'vulnerabilities' that include this snippet of code:</p>
+        <div class="code-block" style="margin-top: 36px">
+          <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
+          <pre><code class="language-javascript">app.get('/', (req, res) => {
+ res.render('index', req.query);
+});</code></pre>
+        </div>
+        <!--//code-block-->
       </div><!--//container-->
     </section><!--//about-->
 
