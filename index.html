@@ -120,6 +120,7 @@
     </section><!--//promo-->
 
     <!-- ******ABOUT****** -->
+    <a name="about"></a>
     <section id="about" class="about section">
       <div class="container">
         <h2 class="title text-center">What is EJS?</h2>
@@ -210,6 +211,7 @@
     </section><!--//about-->
 
     <!-- ******FEATURES****** -->
+    <a name="features"></a>
     <section id="features" class="features section">
       <div class="container text-center">
         <h2 class="title">Features</h2>
@@ -228,6 +230,7 @@
         </ul>
       </div><!--//container-->
     </section><!--//features-->
+    <a name="install"></a>
     <section id="install" class="install section">
       <div class="container">
         <div class="install-inner">
@@ -280,6 +283,7 @@ let html = ejs.render('&lt;%= people.join(", "); %&gt;', {people: people});</cod
     </section><!--//install-->
 
     <!-- ******DOCS****** -->
+    <a name="docs"></a>
     <section id="docs" class="docs section">
       <div class="container">
         <div class="docs-inner">
@@ -540,6 +544,7 @@ fn(data, null, function(path, d){ // include callback
     </section><!--//features-->
 
     <!-- ******SUPPORT****** -->
+    <a name="support"></a>
     <section id="support" class="support section">
       <div class="container">
         <div class="support-inner">
@@ -557,6 +562,7 @@ fn(data, null, function(path, d){ // include callback
     </section><!--//support-->
 
     <!-- ******LICENSE****** -->
+    <a name="license"></a>
     <section id="license" class="license section">
       <div class="container">
         <div class="license-inner">
@@ -582,6 +588,7 @@ fn(data, null, function(path, d){ // include callback
     <script src="assets/plugins/prism/prism.js"></script>
     <script src="assets/js/main.js"></script>
     <script>
+
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -591,8 +598,78 @@ fn(data, null, function(path, d){ // include callback
     </script>
 
     <script>
-      // remove service worker cache
       "use strict";
+
+      // Gross fix for scrollto bug, gotta handle both clicking and scrolling
+      let mutex;
+      const navbar = document.querySelector('.navbar-nav');
+      navbar.addEventListener('click', function (ev) {
+        if (ev.target.tagName === 'A') {
+          // If the clicked item is a link, remove the active class from all items
+          fixNav();
+          // Add the active class to the clicked item
+          const item = ev.target.closest('.nav-item');
+          if (item) {
+            item.classList.add('active');
+          }
+        }
+      });
+      function fixNav() {
+        const navbar = document.querySelector('.navbar-nav');
+        const menuItems = navbar.querySelectorAll('.nav-item');
+        menuItems.forEach(item => {
+          item.classList.remove('active');
+        });
+      }
+      let previousHash;
+      document.onscroll = function () {
+        // Prevent double invocation on initial load
+        if (mutex) {
+          return;
+        }
+        mutex = true;
+
+        setTimeout(() => {
+          fixNav();
+          // If there is a navigation fragement, highlight the active item
+          const hash = window.location.hash;
+          let selected;
+          if (hash && hash !== previousHash) {
+            previousHash = hash;
+            selected = hash.replace('#', '');
+          }
+          else {
+            // Get the bottom-most named anchor that is visible
+            const anchors = document.querySelectorAll('a[name]');
+            let activeAnchor;
+            anchors.forEach(anchor => {
+              const rect = anchor.getBoundingClientRect();
+              if (rect.bottom <= window.innerHeight) {
+                activeAnchor = anchor;
+              }
+            });
+            if (activeAnchor) {
+              selected = activeAnchor.getAttribute('name');
+            }
+          }
+
+          // Find the nav item that matches the selected anchor
+          const navItems = navbar.querySelectorAll('.nav-item');
+          navItems.forEach(item => {
+            const anchor = item.querySelector('a');
+            if (anchor && anchor.getAttribute('href') === `#${selected}`) {
+              item.classList.add('active');
+            }
+          });
+
+          setTimeout(() => {
+            mutex = false;
+          }, 100);
+
+        }, 50);
+      }
+
+      // remove service worker cache
       if(navigator.serviceWorker){
         navigator.serviceWorker.getRegistrations().then(function(registrations) {
           for(let registration of registrations) {
