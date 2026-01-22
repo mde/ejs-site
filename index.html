@@ -327,7 +327,6 @@ ejs.renderFile(filename, data, options, function(err, str){
               <li><code>views</code> An array of paths to use when resolving includes with relative paths.</li>
               <li><code>context</code> Function execution context</li>
               <li><code>compileDebug</code> When <code>false</code> no debug instrumentation is compiled</li>
-              <li><code>client</code> Returns standalone compiled function</li>
               <li><code>delimiter</code> Character to use for inner delimiter, by default '%'</li>
               <li><code>openDelimiter</code> Character to use for opening delimiter, by default '&lt;'</li>
               <li><code>closeDelimiter</code> Character to use for closing delimiter, by default '&gt;'</li>
@@ -336,7 +335,7 @@ ejs.renderFile(filename, data, options, function(err, str){
               <li><code>_with</code> Whether or not to use <code>with() {}</code> constructs. If <code>false</code> then the locals will be stored in the <code>locals</code> object. (Implies `--strict`)</li>
               <li><code>localsName</code> Name to use for the object storing local variables when not using <code>with</code> Defaults to <code>locals</code></li>
               <li><code>rmWhitespace</code> Remove all safe-to-remove whitespace, including leading and trailing whitespace. It also enables a safer version of <code>-%&gt;</code> line slurping for all scriptlet tags (it does not strip new lines of tags in the middle of a line).</li>
-              <li><code>escape</code> The escaping function used with <code>&lt;%=</code> construct. It is used in rendering and is <code>.toString()</code>ed in the generation of client functions. (By default escapes XML).</li>
+              <li><code>escape</code> The escaping function used with <code>&lt;%=</code> construct. It is used in rendering. (By default escapes XML).</li>
               <li><code>outputFunctionName</code> Set to a string (e.g., <code>'echo'</code> or <code>'print'</code>) for a function to print output inside scriptlet tags.</li>
               <li><code>async</code> When <code>true</code>, EJS will use an async function for rendering. (Depends on async/await support in the JS runtime.</li>
             </ul>
@@ -524,7 +523,7 @@ not installed globally).</p>
 </ol>
 
               <pre><code class="language-javascript">let str = "Hello <%= include('file', {person: 'John'}); %>",
-      fn = ejs.compile(str, {client: true});
+      fn = ejs.compile(str);
 
 fn(data, null, function(path, d){ // include callback
   // path -> 'file'
