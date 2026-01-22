@@ -245,12 +245,29 @@
             </div>
             <!--//code-block-->
 
+            <h3 class="sub-title text-center">ESM or CJS</h3>
+            <p>EJS works with both ES Modules (ESM) and CommonJS (CJS). Choose the module system that fits your project.</p>
+
+            <h4>ES Modules (ESM)</h4>
+            <div class="code-block">
+              <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
+              <pre><code class="language-javascript">import ejs from 'ejs';</code></pre>
+            </div>
+            <!--//code-block-->
+
+            <h4>CommonJS (CJS)</h4>
+            <div class="code-block">
+              <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
+              <pre><code class="language-javascript">let ejs = require('ejs');</code></pre>
+            </div>
+            <!--//code-block-->
+
             <h3 class="sub-title text-center">Use</h3>
             <p>Pass EJS a template string and some data. BOOM, you've got some HTML.</p>
 
             <div class="code-block">
               <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-javascript">let ejs = require('ejs');
+              <pre><code class="language-javascript">import ejs from 'ejs';
 let people = ['geddy', 'neil', 'alex'];
 let html = ejs.render('&lt;%= people.join(", "); %&gt;', {people: people});</code></pre>
             </div>
@@ -305,16 +322,17 @@ let html = ejs.render('&lt;%= people.join(", "); %&gt;', {people: people});</cod
 
             <div class="code-block">
               <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-javascript">let template = ejs.compile(str, options);
+              <pre><code class="language-javascript">import ejs from 'ejs';
+
+let template = ejs.compile(str, options);
 template(data);
 // => Rendered HTML string
 
 ejs.render(str, data, options);
 // => Rendered HTML string
 
-ejs.renderFile(filename, data, options, function(err, str){
-    // str => Rendered HTML string
-});</code></pre>
+let html = await ejs.renderFile(filename, data, options);
+// => Rendered HTML string</code></pre>
             </div>
             <!--//code-block-->
           </div><!--//block-->
@@ -420,8 +438,9 @@ $ ejs -n -l _ ./some_template.ejs -f ./data_file.json</code></pre>
 
             <div class="code-block">
               <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-javascript">let ejs = require('ejs'),
-    users = ['geddy', 'neil', 'alex'];
+              <pre><code class="language-javascript">import ejs from 'ejs';
+
+let users = ['geddy', 'neil', 'alex'];
 
 // Just one template
 ejs.render('&lt;?= users.join(" | "); ?&gt;', {users: users},
@@ -444,8 +463,9 @@ Node's `lru-cache` library:</p>
 
 <div class="code-block">
               <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-javascript">let ejs = require('ejs'),
-    LRU = require('lru-cache');
+              <pre><code class="language-javascript">import ejs from 'ejs';
+import LRU from 'lru-cache';
+
 ejs.cache = LRU(100); // LRU cache with 100-item limit</code></pre>
 
 <p>If you want to clear the EJS cache, call <code>ejs.clearCache</code>. If you're using the
@@ -460,7 +480,9 @@ you can set <code>ejs.fileLoader</code>.</p>
 
 <div class="code-block">
               <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-javascript">let ejs = require('ejs');
+              <pre><code class="language-javascript">import ejs from 'ejs';
+import fs from 'fs';
+
 let myFileLoader = function (filePath) {
   return 'myFileLoader: ' + fs.readFileSync(filePath);
 };
