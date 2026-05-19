@@ -1,703 +1,413 @@
 <!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!-->
 <html lang="en">
-<!--<![endif]-->
   <head>
-    <title>EJS -- Embedded JavaScript templates</title>
-    <!-- Meta -->
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>EJS -- Embedded JavaScript templates</title>
     <meta name="description" content="'E' is for 'effective'. EJS is a simple templating language that lets you generate HTML markup with plain JavaScript. No religiousness about how to organize things. No reinvention of iteration and control-flow. It's just plain JavaScript.">
-    <meta name="author" content="">
-    <meta name="tmeme-color" content="#a91e50">
-    <link rel="shortcut icon" href="/favicon.svg">
-    <!-- manifest -->
+    <meta name="theme-color" content="#bf225a">
+    <link rel="icon" href="/favicon.svg">
     <link rel="manifest" href="/manifest.json">
-    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,300italic,400italic' rel='stylesheet'>
-    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet'>
-    <!-- Global CSS -->
-    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
-    <!-- Plugins CSS -->
-    <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.css">
-    <link rel="stylesheet" href="assets/plugins/prism/prism.css">
-    <!-- Theme CSS -->
-    <link id="theme-style" rel="stylesheet" href="assets/css/styles-2.css">
-<style type="text/css">
-.display {
-  display: block;
-  width: 380px;
-  border: 1px solid #666;
-  margin: -56px auto 32px auto;
-  background: #fff;
-  box-shadow: 8px 8px 19px -10px rgba(0,0,0,0.4);
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-@media (max-width: 756px) {
-  .display {
-    width: 100% !important;
-  }
-  
-  img {
-    width: 100%;
-  }
-}
-
-</style>
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body data-spy="scroll">
-
-    <!-- ******HEADER****** -->
-    <header id="header" class="header">
-      <div class="container">
-        <h1 class="logo pull-left">
-            <a class="scrollto" href="#promo">
-                <span class="logo-title">EJS</span>
-            </a>
-        </h1><!--//logo-->
-        <nav id="main-nav" class="main-nav navbar-right" role="navigation">
-          <div class="navbar-header">
-            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button><!--//nav-toggle-->
-          </div><!--//navbar-header-->
-          <div class="navbar-collapse collapse" id="navbar-collapse">
-            <ul class="nav navbar-nav">
-              <li class="active nav-item sr-only"><a class="scrollto" href="#promo">Home</a></li>
-              <li class="nav-item"><a class="scrollto" href="#about">About</a></li>
-              <li class="nav-item"><a class="scrollto" href="#features">Features</a></li>
-              <li class="nav-item"><a class="scrollto" href="#install">Get Started</a></li>
-              <li class="nav-item"><a class="scrollto" href="#docs">Docs</a></li>
-              <li class="nav-item"><a class="scrollto" href="#support">Support</a></li>
-              <li class="nav-item"><a class="scrollto" href="#license">License</a></li>
-              <li class="nav-item"><a href="https://github.com/mde/ejs" target="_blank">GitHub</a></li>
-            </ul><!--//navbar-nav-->
-          </div><!--//navabr-collapse-->
-        </nav><!--//main-nav-->
-      </div><!--//container-->
-    </header><!--//header-->
-
-    <!-- ******PROMO****** -->
-    <section id="promo" class="promo section offset-header">
-      <div class="container text-center">
-        <a href="https://jakejs.com/" class="display">
-          <img src="assets/images/jake_display.png" alt="Jake JavaScript build tool" width="380"  />
-        </a>
-      </div>
-      <div class="container text-center">
-        <h2 class="title">
-          <span class="highlight">
-            <span style="font-size: 60%;">&lt;%=</span>
-            EJS
-            <span style="font-size: 60%;">%&gt;</span>
-          </span>
-        </h2>
-        <p class="intro">Embedded JavaScript templating.</p>
-        <div class="btns">
-          <a class="btn btn-cta-secondary scrollto" href="#install">Get Started</a>
-        </div>
-        <ul class="meta list-inline">
-          <li>&nbsp;</li>
-        </ul><!--//meta-->
-      </div><!--//container-->
-      <div class="social-media">
-        <div class="social-media-inner container text-center">
-          <ul class="list-inline"></ul>
-        </div>
-      </div>
-    </section><!--//promo-->
-
-    <!-- ******ABOUT****** -->
-    <a name="about"></a>
-    <section id="about" class="about section">
-      <div class="container">
-        <h2 class="title text-center">What is EJS?</h2>
-        <p class="intro text-center">What is the "E" for? "Embedded?" Could be. How about "Effective," "Elegant," or just "Easy"? EJS is a simple templating language that lets you generate HTML markup with plain JavaScript. No religiousness about how to organize things. No reinvention of iteration and control-flow. It's just plain JavaScript.</p>
-        <div class="row">
-          <div class="item col-md-4 col-sm-6 col-xs-12">
-            <div class="icon-holder">
-              <i class="fa fa-heart"></i>
-            </div>
-            <div class="content">
-              <h3 class="sub-title">Use plain JavaScript</h3>
-              <p>We love JavaScript. It's a totally friendly language. All templating languages grow to be Turing-complete. Just cut out the middle-man, and use JS!</p>
-            </div><!--//content-->
-          </div><!--//item-->
-          <div class="item col-md-4 col-sm-6 col-xs-12">
-            <div class="icon-holder">
-              <i class="fa fa-clock-o"></i>
-            </div>
-            <div class="content">
-              <h3 class="sub-title">Fast development time</h3>
-              <p>Don't waste time and attention figuring out arcane new syntax because 'elegance' &mdash; or how to preprocess your data so it will actually render right.</p>
-            </div><!--//content-->
-          </div><!--//item-->
-          <div class="item col-md-4 col-sm-6 col-xs-12">
-            <div class="icon-holder">
-              <i class="fa fa-code"></i>
-            </div>
-            <div class="content">
-              <h3 class="sub-title">Simple syntax</h3>
-              <p>JavaScript code in simple, straightforward scriptlet tags. Just write JavaScript that emits the HTML you want, and get the job done!</p>
-            </div><!--//content-->
-          </div><!--//item-->
-          <div class="clearfix visible-md"></div>
-          <div class="item col-md-4 col-sm-6 col-xs-12">
-            <div class="icon-holder">
-              <i class="fa fa-fighter-jet"></i>
-            </div>
-            <div class="content">
-              <h3 class="sub-title">Speedy execution</h3>
-              <p>We all know how fast V8 and the other JavaScript runtimes have gotten. EJS caches the intermediate JS functions for fast execution.</p>
-            </div><!--//content-->
-          </div><!--//item-->
-          <div class="item col-md-4 col-sm-6 col-xs-12">
-            <div class="icon-holder">
-              <i class="fa fa-thumbs-up"></i>
-            </div>
-            <div class="content">
-              <h3 class="sub-title">Easy debugging</h3>
-              <p>It's easy to debug EJS errors: your errors are plain JavaScript exceptions, with template line-numbers included.</p>
-            </div><!--//content-->
-          </div><!--//item-->
-          <div class="item col-md-4 col-sm-6 col-xs-12">
-            <div class="icon-holder">
-              <i class="fa fa-flask"></i>
-            </div>
-            <div class="content">
-              <h3 class="sub-title">Active development</h3>
-              <p>EJS has a large community of active users, and the library is under active development. We're happy to answer your questions or give you help.</p>
-            </div><!--//content-->
-          </div><!--//item-->
-        </div><!--//row-->
-
-        <div style="width: 680px; text-align: center; border: 1px solid #ccc; margin: 48px auto; padding: 48px; color: #333;">
-          <h2 class="title">Security Professionals: Please Note</h2>
-          <p>
-            Before reporting any security issues, please reference the <a href="https://github.com/mde/ejs/blob/main/SECURITY.md" target="_blank">SECURITY.md</a>
-            for the project, partcularly the following:
-          </p>
-          <div style="margin: 24px 0 0 24px; padding-left: 24px; border-left: 1px solid #ccc; text-align: left; font-style: italic">
-          <p>
-            If you give end-users unfettered access to the EJS render method, you are using EJS
-            in an inherently un-secure way. Please do not report security issues that stem from doing that.
-           </p>
-          <p>
-            EJS is effectively a JavaScript runtime. Its entire job is to execute JavaScript.
-            If you run the EJS render method without checking the inputs yourself, you are responsible for the results.
-          </p>
-        </div>
-        <p style="margin: 24px;">In short, <em>DO NOT</em> submit 'vulnerabilities' that include this snippet of code:</p>
-        <div class="code-block" style="margin-top: 36px">
-          <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-          <pre><code class="language-javascript">app.get('/', (req, res) => {
- res.render('index', req.query);
-});</code></pre>
-        </div>
-        <!--//code-block-->
-      </div><!--//container-->
-    </section><!--//about-->
-
-    <!-- ******FEATURES****** -->
-    <a name="features"></a>
-    <section id="features" class="features section">
-      <div class="container text-center">
-        <h2 class="title">Features</h2>
-        <ul class="feature-list list-unstyled">
-
-          <li><i class="fa fa-check"></i>Fast compilation and rendering</li>
-          <li><i class="fa fa-check"></i>Simple template tags: &lt;% %&gt;</li>
-          <li><i class="fa fa-check"></i>Custom delimiters (e.g., use [? ?] instead of &lt;% %&gt;)</li>
-          <li><i class="fa fa-check"></i>Sub-template includes</li>
-          <li><i class="fa fa-check"></i>Ships with CLI</li>
-          <li><i class="fa fa-check"></i>Both server JS and browser support</li>
-          <li><i class="fa fa-check"></i>Static caching of intermediate JavaScript</li>
-          <li><i class="fa fa-check"></i>Static caching of templates</li>
-          <li><i class="fa fa-check"></i>Complies with the <a href="http://expressjs.com">Express</a> view system</li>
-
-        </ul>
-      </div><!--//container-->
-    </section><!--//features-->
-    <a name="install"></a>
-    <section id="install" class="install section">
-      <div class="container">
-        <div class="install-inner">
-          <h2 class="title text-center">Get Started</h2>
-          <div class="block">
-            <h3 class="sub-title text-center">Install</h3>
-            <p>It's easy to install EJS with NPM.</p>
-
-            <div class="code-block">
-              <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-bash">$ npm install ejs</code></pre>
-            </div>
-            <!--//code-block-->
-
-            <h3 class="sub-title text-center">ESM or CJS</h3>
-            <p>EJS works with both ES Modules (ESM) and CommonJS (CJS). Choose the module system that fits your project.</p>
-
-            <h4>ES Modules (ESM)</h4>
-            <div class="code-block">
-              <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-javascript">import ejs from 'ejs';</code></pre>
-            </div>
-            <!--//code-block-->
-
-            <h4>CommonJS (CJS)</h4>
-            <div class="code-block">
-              <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-javascript">let ejs = require('ejs');</code></pre>
-            </div>
-            <!--//code-block-->
-
-            <h3 class="sub-title text-center">Use</h3>
-            <p>Pass EJS a template string and some data. BOOM, you've got some HTML.</p>
-
-            <div class="code-block">
-              <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-javascript">import ejs from 'ejs';
-let people = ['geddy', 'neil', 'alex'];
-let html = ejs.render('&lt;%= people.join(", "); %&gt;', {people: people});</code></pre>
-            </div>
-
-            <!--//code-block-->
-            <h3 class="sub-title text-center">CLI</h3>
-            <p>Feed it a template file and a data file, and specify an output file.</p>
-
-            <div class="code-block">
-              <pre><code class="language-bash">ejs ./template_file.ejs -f data_file.json -o ./output.html</code></pre>
-            </div>
-            <!--//code-block-->
-
-            <h3 class="sub-title text-center">Browser support</h3>
-            <p>Download a browser build from <a href="https://github.com/mde/ejs/releases/latest">the latest release</a>, and use it in a script tag.</p>
-
-            <div class="code-block">
-              <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-markup">&lt;script src="ejs.js"&gt;&lt;/script&gt;
-&lt;script&gt;
-  let people = ['geddy', 'neil', 'alex'];
-  let html = ejs.render('&lt;%= people.join(", "); %&gt;', {people: people});
-&lt;/script&gt;</code></pre>
-            </div>
-            <!--//code-block-->
-
-          </div><!--//block-->
-        </div><!--//install-inner-->
-      </div><!--//container-->
-    </section><!--//install-->
-
-    <!-- ******DOCS****** -->
-    <a name="docs"></a>
-    <section id="docs" class="docs section">
-      <div class="container">
-        <div class="docs-inner">
-          <h2 class="title text-center">Docs</h2>
-          <div class="block">
-            <h3 class="sub-title text-center">Example</h3>
-
-            <div class="code-block">
-              <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-markup">&lt;% if (user) { %&gt;
-  &lt;h2&gt;&lt;%= user.name %&gt;&lt;/h2&gt;
-&lt;% } %&gt;</code></pre>
-            </div>
-            <!--//code-block-->
-
-          </div><!--//block-->
-          <div class="block">
-            <h3 class="sub-title text-center">Usage</h3>
-
-            <div class="code-block">
-              <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-javascript">import ejs from 'ejs';
-
-let template = ejs.compile(str, options);
-template(data);
-// => Rendered HTML string
-
-ejs.render(str, data, options);
-// => Rendered HTML string
-
-let html = await ejs.renderFile(filename, data, options);
-// => Rendered HTML string</code></pre>
-            </div>
-            <!--//code-block-->
-          </div><!--//block-->
-          <div class="block">
-            <h3 class="sub-title text-center">Options</h3>
-            <ul>
-              <li><code>cache</code> Compiled functions are cached, requires <code>filename</code></li>
-              <li><code>filename</code> Used by <code>cache</code> to key caches, and for includes</li>
-              <li><code>root</code> Set project root for includes with an absolute path (e.g, /file.ejs). Can be array to try to resolve include from multiple directories.</li>
-              <li><code>views</code> An array of paths to use when resolving includes with relative paths.</li>
-              <li><code>context</code> Function execution context</li>
-              <li><code>compileDebug</code> When <code>false</code> no debug instrumentation is compiled</li>
-              <li><code>delimiter</code> Character to use for inner delimiter, by default '%'</li>
-              <li><code>openDelimiter</code> Character to use for opening delimiter, by default '&lt;'</li>
-              <li><code>closeDelimiter</code> Character to use for closing delimiter, by default '&gt;'</li>
-              <li><code>debug</code> Outputs generated function body</li>
-              <li><code>strict</code> When set to `true`, generated function is in strict mode</li>
-              <li><code>_with</code> Whether or not to use <code>with() {}</code> constructs. If <code>false</code> then the locals will be stored in the <code>locals</code> object. (Implies `--strict`)</li>
-              <li><code>localsName</code> Name to use for the object storing local variables when not using <code>with</code> Defaults to <code>locals</code></li>
-              <li><code>rmWhitespace</code> Remove all safe-to-remove whitespace, including leading and trailing whitespace. It also enables a safer version of <code>-%&gt;</code> line slurping for all scriptlet tags (it does not strip new lines of tags in the middle of a line).</li>
-              <li><code>escape</code> The escaping function used with <code>&lt;%=</code> construct. It is used in rendering. (By default escapes XML).</li>
-              <li><code>outputFunctionName</code> Set to a string (e.g., <code>'echo'</code> or <code>'print'</code>) for a function to print output inside scriptlet tags.</li>
-              <li><code>async</code> When <code>true</code>, EJS will use an async function for rendering. (Depends on async/await support in the JS runtime.</li>
-            </ul>
-          </div><!--//block-->
-          <div class="block">
-            <h3 class="sub-title text-center">Tags</h3>
-            <ul>
-              <li><code>&lt;%</code> 'Scriptlet' tag, for control-flow, no output</li>
-              <li><code>&lt;%_</code> ‘Whitespace Slurping’ Scriptlet tag, strips all whitespace before it</li>
-              <li><code>&lt;%=</code> Outputs the value into the template (HTML escaped)</li>
-              <li><code>&lt;%-</code> Outputs the unescaped value into the template</li>
-              <li><code>&lt;%#</code> Comment tag, no execution, no output</li>
-              <li><code>&lt;%%</code> Outputs a literal '&lt;%'</li>
-              <li><code>%&gt;</code> Plain ending tag</li>
-              <li><code>-%&gt;</code> Trim-mode ('newline slurp') tag, trims following newline</li>
-              <li><code>_%&gt;</code> ‘Whitespace Slurping’ ending tag, removes all whitespace after it</li>
-            </ul>
-          </div><!--//block-->
-          <div class="block">
-            <h3 class="sub-title text-center">Includes</h3>
-            <p>Includes are relative to the template with the <code>include</code> call. (This requires the 'filename' option.) For example if you have "./views/users.ejs" and "./views/user/show.ejs" you would use <code>&lt;%- include('user/show'); %&gt;</code>.</p>
-            <p>You'll likely want to use the raw output tag (<code>&lt;%-</code>) with your include to avoid double-escaping the HTML output.</p>
-
-            <div class="code-block">
-              <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-markup">&lt;ul&gt;
-  &lt;% users.forEach(function(user){ %&gt;
-    &lt;%- include('user/show', {user: user}); %&gt;
-  &lt;% }); %&gt;
-&lt;/ul&gt;</code></pre>
-            </div>
-            <!--//code-block-->
-          </div><!--//block-->
-          <div class="block">
-            <h3 class="sub-title text-center">CLI</h3>
-            <p>EJS ships with a full-featured command-line interface. Options are similar to those used in JavaScript code:</p>
-            <ul>
-              <li><code>cache</code> Compiled functions are cached, requires <code>filename</code></li>
-
-
-<li><code>-o / --output-file FILE</code>
-Write the rendered output to FILE rather than stdout.</li>
-<li><code>-f / --data-file FILE</code>
-Must be JSON-formatted. Use parsed input from FILE as data for rendering.</li>
-<li><code>-i / --data-input STRING</code>
-Must be JSON-formatted and URI-encoded. Use parsed input from STRING as data for rendering.</li>
-<li><code>-m / --delimiter CHARACTER</code>
-Use CHARACTER with angle brackets for open/close (defaults to %).</li>
-<li><code>-p / --open-delimiter CHARACTER</code>
-Use CHARACTER instead of left angle bracket to open.</li>
-<li><code>-c / --close-delimiter CHARACTER</code>
-Use CHARACTER instead of right angle bracket to close.</li>
-<li><code>-s / --strict</code>
-When set to `true`, generated function is in strict mode</li>
-<li><code>-n / --no-with</code>
-Use 'locals' object for vars rather than using `with` (implies --strict).</li>
-<li><code>-l / --locals-name</code>
-Name to use for the object storing local variables when not using `with`.</li>
-<li><code>-w / --rm-whitespace</code>
-Remove all safe-to-remove whitespace, including leading and trailing whitespace.</li>
-<li><code>-d / --debug</code>
-Outputs generated function body</li>
-<li><code>-h / --help</code>
-Display this help message.</li>
-<li><code>-V/v / --version</code>
-Display the EJS version.</li>
-            </ul>
-
-            <p>Some examples of use:</p>
-
-            <div class="code-block">
-              <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-bash">$ ejs -p [ -c ] ./template_file.ejs -o ./output.html
-$ ejs ./test/fixtures/user.ejs name=Lerxst
-$ ejs -n -l _ ./some_template.ejs -f ./data_file.json</code></pre>
-            </div>
-            <!--//code-block-->
-          </div><!--//block-->
-          <div class="block">
-            <h3 class="sub-title text-center">Custom delimiters</h3>
-            <p>Custom delimiters can be applied on a per-template basis, or globally:</p>
-
-            <div class="code-block">
-              <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-javascript">import ejs from 'ejs';
-
-let users = ['geddy', 'neil', 'alex'];
-
-// Just one template
-ejs.render('&lt;?= users.join(" | "); ?&gt;', {users: users},
-    {delimiter: '?'});
-// => 'geddy | neil | alex'
-
-// Or globally
-ejs.delimiter = '$';
-ejs.render('&lt;$= users.join(" | "); $&gt;', {users: users});
-// => 'geddy | neil | alex'</code></pre>
-            </div>
-            <!--//code-block-->
-          </div><!--//block-->
-
-          <div class="block">
-            <h3 class="sub-title text-center">Caching</h3>
-<p>EJS ships with a basic in-process cache for caching the intermediate JavaScript
-functions used to render templates. It's easy to plug in LRU caching using
-Node's `lru-cache` library:</p>
-
-<div class="code-block">
-              <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-javascript">import ejs from 'ejs';
-import LRU from 'lru-cache';
-
-ejs.cache = LRU(100); // LRU cache with 100-item limit</code></pre>
-
-<p>If you want to clear the EJS cache, call <code>ejs.clearCache</code>. If you're using the
-LRU cache and need a different limit, simple reset `ejs.cache` to a new instance
-of the LRU.</p>
-          </div><!--//block-->
-
-          <div class="block">
-            <h3 class="sub-title text-center">Custom file loader</h3>
-<p>The default file loader is <code>fs.readFileSync</code>, if you want to customize it,
-you can set <code>ejs.fileLoader</code>.</p>
-
-<div class="code-block">
-              <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-javascript">import ejs from 'ejs';
-import fs from 'fs';
-
-let myFileLoader = function (filePath) {
-  return 'myFileLoader: ' + fs.readFileSync(filePath);
-};
-
-ejs.fileLoader = myFileLoader;</code></pre>
-
-<p>With this feature, you can preprocess the template before reading it.</p>
-          </div><!--//block-->
-
-          <div class="block">
-            <h3 class="sub-title text-center">Layouts</h3>
-
-<p>EJS does not specifically support blocks, but layouts can be implemented by
-including headers and footers, like so:</p>
-
-<div class="code-block">
-              <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-javascript">&lt;%- include('header'); -%&gt;
-&lt;h1&gt;
-  Title
-&lt;/h1&gt;
-&lt;p&gt;
-  My page
-&lt;/p&gt;
-&lt;%- include('footer'); -%&gt;</code></pre>
-          </div><!--//block-->
-
-          <div class="block">
-            <h3 class="sub-title text-center">Client-side support</h3>
-
-<p>Go to the <a href="https://github.com/mde/ejs/releases/latest">latest release</a>, download
-<code>./ejs.js</code> or <code>./ejs.min.js</code>. Alternately, you can compile it yourself by cloning
-the repository and running <code>jake build</code> (or <code>$(npm bin)/jake build</code> if jake is
-not installed globally).</p>
-
-<p>Include one of these files on your page, and <code>ejs</code> should be available globally</p>
-
-<h4>Example</h4>
-
-<div class="code-block">
-              <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
-              <pre><code class="language-javascript">&lt;div id="output"&gt;&lt;/div&gt;
-&lt;script src="ejs.min.js"&gt;&lt;/script&gt;
-&lt;script&gt;
-  let people = ['geddy', 'neil', 'alex'],
-      html = ejs.render('&lt;%= people.join(", "); %&gt;', {people: people});
-  // With jQuery:
-  $('#output').html(html);
-  // Vanilla JS:
-  document.getElementById('output').innerHTML = html;
-&lt;/script&gt;</code></pre>
-
-<h4>Caveats</h4>
-
-<p>Most of EJS will work as expected; however, there are a few things to note:</p>
-
-<ol>
-  <li>Obviously, since you do not have access to the filesystem, `ejs.renderFile` won't work.</li>
-  <li>For the same reason, includes do not work unless you use an include callback. Here is an example:</li>
-</ol>
-
-              <pre><code class="language-javascript">let str = "Hello <%= include('file', {person: 'John'}); %>",
-      fn = ejs.compile(str);
-
-fn(data, null, function(path, d){ // include callback
-  // path -> 'file'
-  // d -> {person: 'John'}
-  // Put your code here
-  // Return the contents of file as a string
-}); // returns rendered string</code></pre>
-          </div><!--//block-->
-
-          <div class="block">
-            <h3 class="sub-title text-center">Using EJS with Express</h3>
-            <p><a href="https://github.com/mde/ejs/wiki/Using-EJS-with-Express">This GitHub Wiki page</a> explains various ways of passing EJS options to Express.</p>
-          </div><!--//block-->
-
-        </div><!--//docs-inner-->
-      </div><!--//container-->
-    </section><!--//features-->
-
-    <!-- ******SUPPORT****** -->
-    <a name="support"></a>
-    <section id="support" class="support section">
-      <div class="container">
-        <div class="support-inner">
-          <h2 class="title text-center">Support</h2>
-          <div class="block">
-            <h3 class="sub-title text-center"><a href="http://stackoverflow.com/questions/tagged/ejs">Stack Overflow</a></h3>
-            <p><a href="http://stackoverflow.com/questions/ask">Ask questions</a> about specific problems you have faced, including details about what exactly you are trying to do. Make sure you tag your question with <code>ejs</code>. You can also read through <a href="http://stackoverflow.com/questions/tagged/ejs">existing ejs questions</a>.</p>
-          </div><!--//block-->
-          <div class="block">
-            <h3 class="sub-title text-center"><a href="https://github.com/mde/ejs/issues">GitHub issues</a></h3>
-            <p>The <a href="https://github.com/mde/ejs/issues">issue tracker</a> is the preferred channel for bug reports, features requests and submitting pull requests.</p>
-          </div><!--//block-->
-        </div><!--//support-inner-->
-      </div><!--//container-->
-    </section><!--//support-->
-
-    <!-- ******LICENSE****** -->
-    <a name="license"></a>
-    <section id="license" class="license section">
-      <div class="container">
-        <div class="license-inner">
-          <h2 class="title text-center">License</h2>
-          <p>EJS is licensed under the Apache License, version 2.0. Information can found here: <a href="http://www.apache.org/licenses/">http://www.apache.org/licenses/</a>.</p>
-        </div><!--//license-inner-->
-      </div><!--//container-->
-    </section><!--//license-->
-
-    <!-- ******FOOTER****** -->
-    <footer class="footer">
-      <div class="container text-center">
-        <small class="copyright">EJS &copy; 2112 <a href="http://twitter.com/mde">Matthew Eernisse</a> ::: Template designed with <i class="fa fa-heart"></i> by <a href="http://themes.3rdwavemedia.com" target="_blank">Xiaoying Riley</a></small>
-      </div><!--//container-->
-    </footer><!--//footer-->
-
-    <!-- Javascript -->
-    <script src="assets/plugins/jquery-1.11.1.min.js"></script>
-    <script src="assets/plugins/jquery-migrate-1.2.1.min.js"></script>
-    <script src="assets/plugins/jquery.easing.1.3.js"></script>
-    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>
-    <script src="assets/plugins/prism/prism.js"></script>
-    <script src="assets/js/main.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600&display=swap">
     <script>
-
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-59448014-1', 'auto');
-      ga('send', 'pageview');
+      (() => {
+        const stored = localStorage.getItem('theme');
+        const theme = stored || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.dataset.theme = theme;
+      })();
     </script>
+    <style>
+      :root {
+        --bg: #f7f1e3;
+        --surface: #fffaeb;
+        --surface-faint: #ede5d0;
+        --surface-deep: #e3d9bc;
+        --border: #d4caa8;
+        --border-subtle: #e3d9bc;
+        --text-primary: #1a1a1a;
+        --text-body: #2a2a2a;
+        --text-secondary: #6e6553;
+        --text-hover: #1a1a1a;
+        --text-faint: #e3d9bc;
+        --green: #5a7020;
+        --green-cta-bg: #5a7020;
+        --green-cta-text: #fffaeb;
+        --crimson: #bf225a;
+        --crimson-hover: #a01d4a;
+        --crimson-faint-bg: #f5e0e8;
+        --crimson-faint-border: #e8c5d0;
+      }
+
+      :root[data-theme="dark"] {
+        --bg: #111;
+        --surface: #1a1a1a;
+        --surface-faint: #0e0e0e;
+        --surface-deep: #0a0a0a;
+        --border: #272727;
+        --border-subtle: #1a1a1a;
+        --text-primary: #f0f0f0;
+        --text-body: #d0d0d0;
+        --text-secondary: #888;
+        --text-hover: #ccc;
+        --text-faint: #1e1e1e;
+        --green: #b4ca65;
+        --green-cta-bg: #b4ca65;
+        --green-cta-text: #111;
+        --crimson: #bf225a;
+        --crimson-hover: #d4275f;
+        --crimson-faint-bg: #1a0d10;
+        --crimson-faint-border: #2a1520;
+      }
+
+      html { scroll-behavior: smooth; }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body { background: var(--bg); }
+
+      .page {
+        background: var(--bg);
+        font-family: 'Inter', sans-serif;
+        color: var(--text-body);
+        border-radius: 10px;
+        overflow: hidden;
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+
+      /* NAV */
+      .nav {
+        height: 52px;
+        border-bottom: 1px solid var(--border);
+        padding: 0 48px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--bg);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      .nav-logo { font-size: 15px; font-weight: 600; color: var(--green); }
+      .nav-center { display: flex; gap: 2px; list-style: none; }
+      .nav-center a { font-size: 12px; color: var(--text-secondary); text-decoration: none; padding: 6px 12px; border-radius: 6px; }
+      .nav-center a:hover { color: var(--text-hover); background: var(--surface); }
+      .nav-right { display: flex; gap: 8px; align-items: center; }
+      .nav-gh { font-size: 12px; color: var(--text-secondary); text-decoration: none; border: 1px solid var(--border); padding: 5px 12px; border-radius: 6px; }
+      .nav-cta { font-size: 12px; font-weight: 500; color: var(--green-cta-text); background: var(--green-cta-bg); text-decoration: none; padding: 5px 14px; border-radius: 6px; }
+      .theme-toggle { background: none; border: 1px solid var(--border); color: var(--text-secondary); padding: 5px 8px; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; font: inherit; }
+      .theme-toggle:hover { color: var(--text-primary); border-color: var(--text-primary); }
+      .theme-toggle svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+      .theme-toggle .icon-moon { display: none; }
+      [data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+      [data-theme="dark"] .theme-toggle .icon-moon { display: inline; }
+
+      /* HERO */
+      .hero {
+        padding: 64px 48px 56px;
+        border-bottom: 1px solid var(--border);
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1fr 420px;
+        gap: 48px;
+        align-items: end;
+        margin-bottom: 56px;
+      }
+      .hero-title { font-size: 58px; font-weight: 600; line-height: 1.05; letter-spacing: -2px; color: var(--text-primary); margin-bottom: 20px; }
+      .hero-title .ejs { color: var(--green); font-family: 'IBM Plex Mono', monospace; letter-spacing: -2px; }
+      .hero-title .delim { color: var(--crimson); font-family: 'IBM Plex Mono', monospace; font-size: 44px; font-weight: 600; vertical-align: baseline; opacity: 0.7; }
+      .hero-body { font-size: 15px; color: var(--text-secondary); line-height: 1.7; max-width: 400px; margin-bottom: 28px; }
+      .hero-btns { display: flex; gap: 10px; margin-bottom: 48px; }
+      .btn-primary { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 500; background: var(--crimson); color: #fff; padding: 12px 28px; border-radius: 6px; text-decoration: none; transition: background 0.15s; }
+      .btn-primary:hover { background: var(--crimson-hover); }
+      .hero-right { align-self: stretch; display: flex; flex-direction: column; justify-content: center; }
+
+      /* Code surface — dark in both themes */
+      .code-card { background: #0d0d0d; border: 1px solid #272727; border-radius: 10px; overflow: hidden; }
+      .code-body { padding: 20px 20px 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.8; color: #f0f0f0; }
+      .ln { color: #666; margin-right: 14px; font-size: 10px; user-select: none; }
+      .t-tag { color: #bf225a; } .t-var { color: #b4ca65; } .t-kw { color: #7a9fd4; } .t-str { color: #90a93a; } .t-html { color: #888; } .t-cm { color: #666; }
+
+      .stats-strip { display: grid; grid-template-columns: repeat(3, 1fr); }
+      .stat { padding: 0 24px; border-right: 1px solid var(--border-subtle); }
+      .stat:first-child { padding-left: 0; }
+      .stat:last-child { border-right: none; padding-right: 0; }
+      .stat-value { font-size: 30px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.5px; line-height: 1.1; margin-bottom: 8px; }
+      .stat-label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em; }
+
+      /* ABOUT */
+      .section { padding: 72px 48px; border-bottom: 1px solid var(--border); }
+      .section-label { font-size: 11px; font-weight: 600; color: var(--crimson); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 12px; }
+      .section-title { font-size: 32px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.8px; margin-bottom: 12px; }
+      .section-intro { font-size: 14px; color: var(--text-secondary); line-height: 1.7; max-width: 600px; margin-bottom: 48px; }
+      .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 48px; }
+      .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; display: grid; grid-template-columns: auto 1fr; column-gap: 14px; row-gap: 14px; }
+      .card-icon { display: flex; align-self: center; }
+      .card-icon svg { width: 24px; height: 24px; stroke: var(--green); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+      .card-title { font-size: 16px; font-weight: 600; color: var(--text-primary); align-self: center; }
+      .card-body { grid-column: 1 / -1; font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
+      .security-notice { border: 1px solid var(--border); border-left: 3px solid var(--crimson); border-radius: 0 10px 10px 0; background: var(--surface); padding: 28px 32px; }
+      .notice-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+      .notice-badge { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--crimson); background: var(--crimson-faint-bg); border: 1px solid var(--crimson-faint-border); padding: 3px 8px; border-radius: 3px; }
+      .notice-title { font-size: 17px; font-weight: 600; color: var(--text-primary); }
+      .notice-body { font-size: 13px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 12px; max-width: 65ch; }
+      .notice-body a { color: var(--green); text-decoration: underline; }
+      .notice-quote { border-left: 2px solid var(--border); padding-left: 16px; margin: 16px 0; max-width: 65ch; }
+      .notice-quote p { font-size: 13px; color: var(--text-secondary); line-height: 1.7; font-style: italic; margin-bottom: 8px; }
+      /* Code snippet inside notice — dark in both themes */
+      .notice-code { background: #0d0d0d; border: 1px solid #272727; border-radius: 6px; padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.7; margin-top: 14px; color: #f0f0f0; }
+
+      /* FEATURES */
+      .features-inner { display: grid; grid-template-columns: 280px 1fr; gap: 48px; align-items: start; }
+      .feature-count { font-size: 48px; font-weight: 600; color: var(--text-faint); line-height: 1; margin-top: 32px; letter-spacing: -2px; }
+      .feature-count span { font-size: 13px; color: var(--text-secondary); letter-spacing: 0; font-weight: 400; display: block; margin-top: 4px; }
+      .feature-list { display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; list-style: none; }
+      .feature-item { display: flex; align-items: flex-start; gap: 12px; padding: 18px 0; border-bottom: 1px solid var(--border-subtle); }
+      .feature-item:nth-last-child(-n+2) { border-bottom: none; }
+      .feature-item svg { width: 16px; height: 16px; stroke: var(--green); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; margin-top: 1px; }
+      .feature-text { font-size: 13px; color: var(--text-body); line-height: 1.5; }
+      .feature-text a { color: var(--green); text-decoration: underline; }
+
+      /* GET STARTED */
+      .block { display: grid; grid-template-columns: 220px 1fr; gap: 40px; align-items: start; padding: 36px 0; border-top: 1px solid var(--border-subtle); }
+      .block-label { font-size: 11px; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+      .block-title { font-size: 17px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+      .block-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+      /* Code window — dark in both themes */
+      .code-window { background: #0d0d0d; border: 1px solid #272727; border-radius: 10px; overflow: hidden; }
+      .code-file { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px; border-bottom: 1px solid #1a1a1a; }
+      .code-file-name { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #888; }
+      .copy-btn { background: none; border: none; cursor: pointer; padding: 2px; color: #888; display: flex; align-items: center; }
+      .copy-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+      .code-window .code-body { padding: 16px 20px; font-size: 13px; }
+      .tabs { display: flex; border-bottom: 1px solid #1a1a1a; }
+      .tab { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 8px 16px; color: #888; border-right: 1px solid #1a1a1a; background: none; border-top: none; border-left: none; border-bottom: none; cursor: pointer; }
+      .tab.active { color: #b4ca65; }
+
+      /* SUPPORT */
+      .support-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; }
+      .support-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto 1fr auto; column-gap: 14px; row-gap: 14px; }
+      .support-card-icon { display: flex; align-self: center; }
+      .support-card-icon svg { width: 24px; height: 24px; stroke: var(--green); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+      .support-card-title { font-size: 16px; font-weight: 600; color: var(--text-primary); align-self: center; }
+      .support-card-body { grid-column: 1 / -1; font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
+      .support-card-body span { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--green); }
+      .support-btn { grid-column: 1 / -1; justify-self: start; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: var(--text-primary); text-decoration: none; border: 1px solid var(--border); padding: 8px 14px; border-radius: 6px; }
+      .support-btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+      /* LICENSE */
+      .license-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 48px; align-items: start; }
+      .license-body { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+      .license-body a { color: var(--green); text-decoration: underline; }
+      .license-badge { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; display: flex; align-items: center; gap: 16px; }
+      .license-badge-icon svg { width: 32px; height: 32px; stroke: var(--green); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+      .license-badge-name { font-size: 15px; font-weight: 600; color: var(--green); margin-bottom: 4px; }
+      .license-badge-sub { font-size: 12px; color: var(--text-secondary); }
+
+      /* FOOTER */
+      .footer { background: var(--surface-deep); border-top: 1px solid var(--border-subtle); padding: 28px 48px; display: flex; align-items: center; justify-content: space-between; }
+      .footer-logo { font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600; color: var(--green); }
+      .footer-logo .tag { color: var(--crimson); font-size: 10px; font-weight: 400; vertical-align: middle; }
+      .footer-copy { font-size: 12px; color: var(--text-secondary); }
+      .footer-copy a { color: var(--text-secondary); text-decoration: none; }
+      .footer-links { display: flex; gap: 20px; list-style: none; }
+      .footer-links a { font-size: 12px; color: var(--text-secondary); text-decoration: none; }
+      .footer-links a:hover { color: var(--text-primary); }
+    </style>
+  </head>
+  <body>
+
+    <div class="page">
+
+      <!-- NAV -->
+      <nav class="nav">
+        <div class="nav-logo">EJS</div>
+        <ul class="nav-center">
+          <li><a href="#about">About</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#install">Get Started</a></li>
+          <li><a href="/docs/">Docs</a></li>
+          <li><a href="#support">Support</a></li>
+        </ul>
+        <div class="nav-right">
+          <button class="theme-toggle" type="button" aria-label="Toggle theme">
+            <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+          <a class="nav-gh" href="https://github.com/mde/ejs">GitHub ↗</a>
+          <a class="nav-cta" href="#install">Get Started</a>
+        </div>
+      </nav>
+
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-grid">
+          <div>
+            <h1 class="hero-title"><span class="delim">&lt;%=</span> <span class="ejs">EJS</span> <span class="delim">%&gt;</span><br>Generate HTML<br>with plain JS.</h1>
+            <p class="hero-body">No new syntax to learn. No reinvention of iteration and control-flow. It's just plain JavaScript.</p>
+            <div class="hero-btns">
+              <a class="btn-primary" href="#install">Get Started →</a>
+            </div>
+          </div>
+          <div class="hero-right">
+            <div class="code-card">
+              <div class="code-file"><span class="code-file-name">template.ejs</span></div>
+              <div class="code-body">
+                <div class="t-cm"><span class="ln">1</span>&lt;!-- user greeting --&gt;</div>
+                <div><span class="ln">2</span><span class="t-tag">&lt;%</span> <span class="t-kw">if</span> (<span class="t-var">user</span>) { <span class="t-tag">%&gt;</span></div>
+                <div><span class="ln">3</span>&nbsp;&nbsp;<span class="t-html">&lt;h2&gt;</span><span class="t-tag">&lt;%=</span> <span class="t-var">user</span>.name <span class="t-tag">%&gt;</span><span class="t-html">&lt;/h2&gt;</span></div>
+                <div><span class="ln">4</span><span class="t-tag">&lt;%</span> } <span class="t-tag">%&gt;</span></div>
+                <div><span class="ln">5</span>&nbsp;</div>
+                <div><span class="ln">6</span><span class="t-html">&lt;ul&gt;</span></div>
+                <div><span class="ln">7</span>&nbsp;&nbsp;<span class="t-tag">&lt;%</span> <span class="t-var">items</span>.<span class="t-kw">forEach</span>(<span class="t-var">item</span> <span class="t-kw">=&gt;</span> { <span class="t-tag">%&gt;</span></div>
+                <div><span class="ln">8</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-html">&lt;li&gt;</span><span class="t-tag">&lt;%=</span> <span class="t-var">item</span> <span class="t-tag">%&gt;</span><span class="t-html">&lt;/li&gt;</span></div>
+                <div><span class="ln">9</span>&nbsp;&nbsp;<span class="t-tag">&lt;%</span> }); <span class="t-tag">%&gt;</span></div>
+                <div><span class="ln">10</span><span class="t-html">&lt;/ul&gt;</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="stats-strip">
+          <div class="stat"><div class="stat-value">20M+</div><div class="stat-label">Weekly downloads</div></div>
+          <div class="stat"><div class="stat-value">7.7k</div><div class="stat-label">GitHub stars</div></div>
+          <div class="stat"><div class="stat-value">0</div><div class="stat-label">Dependencies</div></div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about" class="section">
+        <div class="section-label">About</div>
+        <h2 class="section-title">What is EJS?</h2>
+        <p class="section-intro">What is the "E" for? "Embedded?" Could be. How about "Effective," "Elegant," or just "Easy"? EJS is a simple templating language that lets you generate HTML markup with plain JavaScript. No religiousness about how to organize things. No reinvention of iteration and control-flow.</p>
+        <div class="cards">
+          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div><div class="card-title">Use plain JavaScript</div><div class="card-body">All templating languages grow to be Turing-complete. Just cut out the middle-man and use JS.</div></div>
+          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="card-title">Fast development</div><div class="card-body">Don't waste time figuring out arcane new syntax or how to preprocess your data so it renders right.</div></div>
+          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><div class="card-title">Simple syntax</div><div class="card-body">JavaScript code in simple scriptlet tags. Just write JS that emits the HTML you want.</div></div>
+          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div class="card-title">Speedy execution</div><div class="card-body">EJS caches the intermediate JS functions for fast execution across V8 and other runtimes.</div></div>
+          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div class="card-title">Easy debugging</div><div class="card-body">Errors are plain JavaScript exceptions, with template line-numbers included.</div></div>
+          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="card-title">Active development</div><div class="card-body">Large community, active maintainers. We're happy to answer questions or give help.</div></div>
+        </div>
+        <div class="security-notice">
+          <div class="notice-header"><div class="notice-badge">Security</div><div class="notice-title">A note for security professionals</div></div>
+          <div class="notice-body">Before reporting any security issues, please reference the <a href="https://github.com/mde/ejs/blob/main/SECURITY.md">SECURITY.md</a> for this project.</div>
+          <div class="notice-quote"><p>If you give end-users unfettered access to the EJS render method, you are using EJS in an inherently un-secure way.</p><p>EJS is effectively a JavaScript runtime. If you run the render method without checking inputs yourself, you are responsible for the results.</p></div>
+          <div class="notice-body" style="margin-top:14px;">In short, <span style="color:#bf225a;">do not</span> submit vulnerabilities that include this snippet:</div>
+          <div class="notice-code"><span style="color:#b4ca65;">app</span>.<span style="color:#b4ca65;">get</span>(<span style="color:#90a93a;">'/'</span>, (<span style="color:#f0f0f0;">req, res</span>) <span style="color:#7a9fd4;">=&gt;</span> {<br>&nbsp;&nbsp;<span style="color:#b4ca65;">res</span>.<span style="color:#b4ca65;">render</span>(<span style="color:#90a93a;">'index'</span>, <span style="color:#f0f0f0;">req</span>.query);<br>});</div>
+        </div>
+      </section>
+
+      <!-- FEATURES -->
+      <section id="features" class="section">
+        <div class="features-inner">
+          <div>
+            <div class="section-label">Features</div>
+            <h2 class="section-title">Everything you need, nothing you don't.</h2>
+            <p class="section-intro" style="margin-bottom:0;">EJS ships with a focused, battle-tested feature set built for real projects — not demos.</p>
+            <div class="feature-count">09<span>core features</span></div>
+          </div>
+          <div style="padding-top:4px;">
+            <ul class="feature-list">
+              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Fast compilation and rendering</div></li>
+              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Simple template tags: <code style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#b4ca65;">&lt;% %&gt;</code></div></li>
+              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Custom delimiters</div></li>
+              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Sub-template includes</div></li>
+              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Ships with CLI</div></li>
+              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Server JS and browser support</div></li>
+              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Static caching of intermediate JavaScript</div></li>
+              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Static caching of templates</div></li>
+              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Complies with the <a href="https://expressjs.com/">Express</a> view system</div></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- GET STARTED -->
+      <section id="install" class="section">
+        <div class="section-label">Get Started</div>
+        <h2 class="section-title">Up and running in minutes.</h2>
+        <p class="section-intro">Install EJS, pick your module system, and start generating HTML with plain JavaScript.</p>
+        <div>
+          <div class="block">
+            <div><div class="block-label">01 — Install</div><div class="block-title">Install via npm</div><div class="block-desc">Add EJS to your project with a single command.</div></div>
+            <div class="code-window"><div class="code-file"><span class="code-file-name">terminal</span><button class="copy-btn"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><div class="code-body">npm install ejs</div></div>
+          </div>
+          <div class="block">
+            <div><div class="block-label">02 — Module system</div><div class="block-title">ESM or CJS</div><div class="block-desc">Pick the module system that fits your project.</div></div>
+            <div class="code-window">
+              <div class="tabs">
+                <button class="tab active" data-tab="esm">ESM</button>
+                <button class="tab" data-tab="cjs">CJS</button>
+              </div>
+              <div class="code-body" data-panel="esm"><span class="t-kw">import</span> <span class="t-var">ejs</span> <span class="t-kw">from</span> <span class="t-str">'ejs'</span>;</div>
+              <div class="code-body" data-panel="cjs" hidden><span class="t-kw">const</span> <span class="t-var">ejs</span> = <span class="t-kw">require</span>(<span class="t-str">'ejs'</span>);</div>
+            </div>
+          </div>
+          <div class="block">
+            <div><div class="block-label">03 — Use</div><div class="block-title">Render a template</div><div class="block-desc">Pass EJS a template string and some data. You've got HTML.</div></div>
+            <div class="code-window"><div class="code-file"><span class="code-file-name">render.js</span></div><div class="code-body"><div><span class="t-kw">import</span> <span class="t-var">ejs</span> <span class="t-kw">from</span> <span class="t-str">'ejs'</span>;</div><div><span class="t-kw">let</span> <span class="t-var">people</span> = [<span class="t-str">'geddy'</span>, <span class="t-str">'neil'</span>, <span class="t-str">'alex'</span>];</div><div><span class="t-kw">let</span> <span class="t-var">html</span> = <span class="t-var">ejs</span>.<span class="t-var">render</span>(<span class="t-str">'&lt;%= people.join(", "); %&gt;'</span>, {<span class="t-var">people</span>});</div></div></div>
+          </div>
+          <div class="block">
+            <div><div class="block-label">04 — CLI</div><div class="block-title">Use the command line</div><div class="block-desc">Feed it a template file and a data file, specify an output file.</div></div>
+            <div class="code-window"><div class="code-file"><span class="code-file-name">terminal</span><button class="copy-btn"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><div class="code-body">ejs ./template.ejs -f <span class="t-str">data.json</span> -o ./output.html</div></div>
+          </div>
+          <div class="block">
+            <div><div class="block-label">05 — Browser</div><div class="block-title">Browser support</div><div class="block-desc">Download a browser build and drop it in a script tag.</div></div>
+            <div class="code-window"><div class="code-file"><span class="code-file-name">index.html</span></div><div class="code-body"><div><span class="t-html">&lt;script </span><span class="t-kw">src</span>=<span class="t-str">"ejs.js"</span><span class="t-html">&gt;&lt;/script&gt;</span></div><div><span class="t-html">&lt;script&gt;</span></div><div>&nbsp;&nbsp;<span class="t-kw">let</span> <span class="t-var">html</span> = <span class="t-var">ejs</span>.<span class="t-var">render</span>(<span class="t-str">'&lt;%= people.join(", "); %&gt;'</span>, {<span class="t-var">people</span>});</div><div><span class="t-html">&lt;/script&gt;</span></div></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SUPPORT -->
+      <section id="support" class="section">
+        <div class="section-label">Support</div>
+        <h2 class="section-title">Need help?</h2>
+        <div class="support-grid">
+          <div class="support-card"><div class="support-card-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="support-card-title">Stack Overflow</div><div class="support-card-body">Ask questions about specific problems you've faced. Tag your question with <span>ejs</span> and browse existing answers.</div><a class="support-btn" href="https://stackoverflow.com/questions/tagged/ejs">Ask a question <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></div>
+          <div class="support-card"><div class="support-card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg></div><div class="support-card-title">GitHub Issues</div><div class="support-card-body">The preferred channel for bug reports, feature requests, and pull requests. Check existing issues before opening a new one.</div><a class="support-btn" href="https://github.com/mde/ejs/issues">Open an issue <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></div>
+        </div>
+      </section>
+
+      <!-- LICENSE -->
+      <section id="license" class="section">
+        <div class="section-label">License</div>
+        <h2 class="section-title">Open source.</h2>
+        <div class="license-inner">
+          <div class="license-body">EJS is licensed under the Apache License, version 2.0. You're free to use it in personal and commercial projects. Full details at <a href="https://www.apache.org/licenses/LICENSE-2.0">apache.org/licenses</a>.</div>
+          <div class="license-badge"><div class="license-badge-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><div class="license-badge-name">Apache License 2.0</div><div class="license-badge-sub">Free for personal and commercial use</div></div></div>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="footer">
+        <div class="footer-logo"><span class="tag">&lt;%=</span> EJS <span class="tag">%&gt;</span></div>
+        <div class="footer-copy">© 2026 <a href="https://github.com/mde">Matthew Eernisse</a> · Designed by <a href="https://github.com/hiroeernisse">Hiro Eernisse</a></div>
+        <ul class="footer-links"><li><a href="https://github.com/mde/ejs">GitHub</a></li><li><a href="#license">License</a></li><li><a href="https://github.com/mde/ejs/blob/main/SECURITY.md">Security</a></li></ul>
+      </footer>
+
+    </div>
 
     <script>
-      "use strict";
-
-      // Gross fix for scrollto bug, gotta handle both clicking and scrolling
-      let mutex;
-      const navbar = document.querySelector('.navbar-nav');
-      navbar.addEventListener('click', function (ev) {
-        if (ev.target.tagName === 'A') {
-          // If the clicked item is a link, remove the active class from all items
-          fixNav();
-          // Add the active class to the clicked item
-          const item = ev.target.closest('.nav-item');
-          if (item) {
-            item.classList.add('active');
-          }
-        }
+      document.querySelector('.theme-toggle').addEventListener('click', () => {
+        const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem('theme', next);
       });
-      function fixNav() {
-        const navbar = document.querySelector('.navbar-nav');
-        const menuItems = navbar.querySelectorAll('.nav-item');
-        menuItems.forEach(item => {
-          item.classList.remove('active');
-        });
-      }
-      let previousHash;
-      document.onscroll = function () {
-        // Prevent double invocation on initial load
-        if (mutex) {
-          return;
-        }
-        mutex = true;
 
-        setTimeout(() => {
-          fixNav();
-          // If there is a navigation fragement, highlight the active item
-          const hash = window.location.hash;
-          let selected;
-          if (hash && hash !== previousHash) {
-            previousHash = hash;
-            selected = hash.replace('#', '');
-          }
-          else {
-            // Get the bottom-most named anchor that is visible
-            const anchors = document.querySelectorAll('a[name]');
-            let activeAnchor;
-            anchors.forEach(anchor => {
-              const rect = anchor.getBoundingClientRect();
-              if (rect.bottom <= window.innerHeight) {
-                activeAnchor = anchor;
-              }
-            });
-            if (activeAnchor) {
-              selected = activeAnchor.getAttribute('name');
-            }
-          }
-
-          // Find the nav item that matches the selected anchor
-          const navItems = navbar.querySelectorAll('.nav-item');
-          navItems.forEach(item => {
-            const anchor = item.querySelector('a');
-            if (anchor && anchor.getAttribute('href') === `#${selected}`) {
-              item.classList.add('active');
-            }
+      document.querySelectorAll('.tabs').forEach(tabs => {
+        const container = tabs.parentElement;
+        tabs.addEventListener('click', e => {
+          const tab = e.target.closest('.tab');
+          if (!tab) return;
+          tabs.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          container.querySelectorAll('[data-panel]').forEach(p => {
+            p.hidden = p.dataset.panel !== tab.dataset.tab;
           });
+        });
+      });
 
-          setTimeout(() => {
-            mutex = false;
-          }, 100);
-
-        }, 50);
-      }
-
-      // remove service worker cache
-      if(navigator.serviceWorker){
-        navigator.serviceWorker.getRegistrations().then(function(registrations) {
-          for(let registration of registrations) {
-            registration.unregister()
-          }
-        })
-      }
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js');
