@@ -281,6 +281,25 @@ let html = ejs.render('&lt;%= people.join(", "); %&gt;', {people: people});</cod
             </div>
             <!--//code-block-->
 
+            <h3 class="sub-title text-center">Bundler &amp; runtime compatibility</h3>
+            <p>As of v6, the published package is verified against the following bundlers and alternate runtimes on every release. For Browserify, pass <code>--node</code> so it picks the <code>main</code> entry instead of the prebuilt UMD bundle.</p>
+            <table class="table">
+              <thead>
+                <tr><th>Tool</th><th class="text-center">Supported</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Rollup</td><td class="text-center"><i class="fa fa-check"></i></td></tr>
+                <tr><td>Rolldown</td><td class="text-center"><i class="fa fa-check"></i></td></tr>
+                <tr><td>tsdown</td><td class="text-center"><i class="fa fa-check"></i></td></tr>
+                <tr><td>esbuild</td><td class="text-center"><i class="fa fa-check"></i></td></tr>
+                <tr><td>Webpack</td><td class="text-center"><i class="fa fa-check"></i></td></tr>
+                <tr><td>Vite</td><td class="text-center"><i class="fa fa-check"></i></td></tr>
+                <tr><td>Browserify</td><td class="text-center"><i class="fa fa-check"></i></td></tr>
+                <tr><td>Bun</td><td class="text-center"><i class="fa fa-check"></i></td></tr>
+                <tr><td>Deno</td><td class="text-center"><i class="fa fa-check"></i></td></tr>
+              </tbody>
+            </table>
+
             <h3 class="sub-title text-center">Browser support</h3>
             <p>Download a browser build from <a href="https://github.com/mde/ejs/releases/latest">the latest release</a>, and use it in a script tag.</p>
 
@@ -356,6 +375,7 @@ let html = await ejs.renderFile(filename, data, options);
               <li><code>escape</code> The escaping function used with <code>&lt;%=</code> construct. It is used in rendering. (By default escapes XML).</li>
               <li><code>outputFunctionName</code> Set to a string (e.g., <code>'echo'</code> or <code>'print'</code>) for a function to print output inside scriptlet tags.</li>
               <li><code>async</code> When <code>true</code>, EJS will use an async function for rendering. (Depends on async/await support in the JS runtime.</li>
+              <li><code>unsafePrototypeLocals</code> When <code>true</code>, exposes the prototype chain of the locals object inside templates. Off by default; enabling it disables the v6 prototype-pollution mitigation.</li>
             </ul>
           </div><!--//block-->
           <div class="block">
