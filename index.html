@@ -20,24 +20,23 @@
     </script>
     <style>
       :root {
-        --bg: #f7f1e3;
-        --surface: #fffaeb;
-        --surface-faint: #ede5d0;
-        --surface-deep: #e3d9bc;
-        --border: #d4caa8;
-        --border-subtle: #e3d9bc;
+        --bg: #f3eee2;
+        --surface: #fffcf2;
+        --surface-faint: #f1ebd5;
+        --surface-deep: #e8dfc4;
+        --border: #d9cfae;
+        --border-subtle: #ebe2c8;
         --text-primary: #1a1a1a;
         --text-body: #2a2a2a;
         --text-secondary: #6e6553;
         --text-hover: #1a1a1a;
-        --text-faint: #e3d9bc;
+        --text-faint: #e8dfc4;
         --green: #5a7020;
-        --green-cta-bg: #5a7020;
-        --green-cta-text: #fffaeb;
         --crimson: #bf225a;
         --crimson-hover: #a01d4a;
         --crimson-faint-bg: #f5e0e8;
         --crimson-faint-border: #e8c5d0;
+        --nav-bg: rgba(243, 238, 226, 0.72);
       }
 
       :root[data-theme="dark"] {
@@ -53,51 +52,99 @@
         --text-hover: #ccc;
         --text-faint: #1e1e1e;
         --green: #b4ca65;
-        --green-cta-bg: #b4ca65;
-        --green-cta-text: #111;
         --crimson: #bf225a;
         --crimson-hover: #d4275f;
         --crimson-faint-bg: #1a0d10;
         --crimson-faint-border: #2a1520;
+        --nav-bg: rgba(17, 17, 17, 0.7);
       }
 
-      html { scroll-behavior: smooth; }
+      html { scroll-behavior: smooth; scroll-padding-top: 72px; }
       * { box-sizing: border-box; margin: 0; padding: 0; }
 
-      body { background: var(--bg); }
+      body { background: var(--bg); font-family: 'Inter', sans-serif; color: var(--text-body); }
 
       .page {
         background: var(--bg);
-        font-family: 'Inter', sans-serif;
-        color: var(--text-body);
-        border-radius: 10px;
-        overflow: hidden;
-        max-width: 1280px;
+        max-width: 1120px;
         margin: 0 auto;
       }
 
       /* NAV */
       .nav {
-        height: 52px;
         border-bottom: 1px solid var(--border);
-        padding: 0 48px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: var(--bg);
+        background: var(--nav-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         position: sticky;
         top: 0;
         z-index: 10;
+        box-shadow: 0 1px 2px rgba(110, 101, 83, 0.06), 0 4px 16px rgba(110, 101, 83, 0.08);
       }
-      .nav-logo { font-size: 15px; font-weight: 600; color: var(--green); }
-      .nav-center { display: flex; gap: 2px; list-style: none; }
-      .nav-center a { font-size: 12px; color: var(--text-secondary); text-decoration: none; padding: 6px 12px; border-radius: 6px; }
-      .nav-center a:hover { color: var(--text-hover); background: var(--surface); }
-      .nav-right { display: flex; gap: 8px; align-items: center; }
-      .nav-gh { font-size: 12px; color: var(--text-secondary); text-decoration: none; border: 1px solid var(--border); padding: 5px 12px; border-radius: 6px; }
-      .nav-cta { font-size: 12px; font-weight: 500; color: var(--green-cta-text); background: var(--green-cta-bg); text-decoration: none; padding: 5px 14px; border-radius: 6px; }
-      .theme-toggle { background: none; border: 1px solid var(--border); color: var(--text-secondary); padding: 5px 8px; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; font: inherit; }
-      .theme-toggle:hover { color: var(--text-primary); border-color: var(--text-primary); }
+      .nav-inner {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 48px;
+        height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .nav-logo { font-size: 20px; font-weight: 600; color: var(--green); text-decoration: none; }
+      .nav-center { display: flex; gap: 4px; list-style: none; }
+      .nav-center a { font-size: 14px; color: var(--text-secondary); text-decoration: none; padding: 8px 16px; border-radius: 6px; transition: color 0.15s, background-color 0.15s, box-shadow 0.15s, transform 70ms ease-out; }
+      .nav-center a:hover { color: var(--text-primary); background-color: var(--border); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 1px 2px rgba(110, 101, 83, 0.12); }
+      .nav-center a:active { transform: translateY(2px); box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25); }
+      .nav-right { display: flex; gap: 10px; align-items: center; }
+      .nav-gh {
+        display: inline-flex; align-items: center; gap: 8px;
+        font-size: 14px; font-weight: 500;
+        color: var(--green); text-decoration: none;
+        border: 1px solid var(--green);
+        padding: 7px 14px; border-radius: 6px;
+        background: var(--surface);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.55),
+          0 2px 0 var(--surface-deep),
+          0 3px 1px 0 rgba(110, 101, 83, 0.1);
+        transition: transform 70ms ease-out, box-shadow 70ms ease-out, background 120ms ease;
+      }
+      .nav-gh svg { width: 16px; height: 16px; fill: currentColor; }
+      .nav-gh svg.ext-icon { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+      .nav-gh:hover {
+        background: var(--border);
+      }
+      .nav-gh:active {
+        transform: translateY(2px);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.3),
+          0 0 0 var(--surface-deep),
+          0 1px 0 0 rgba(110, 101, 83, 0.08);
+      }
+      .theme-toggle {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+        padding: 8.5px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        font: inherit;
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.55),
+          0 2px 0 var(--surface-deep),
+          0 3px 1px 0 rgba(110, 101, 83, 0.1);
+        transition: transform 70ms ease-out, box-shadow 70ms ease-out, background 120ms ease;
+      }
+      .theme-toggle:hover { background: var(--border); }
+      .theme-toggle:active {
+        transform: translateY(2px);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.3),
+          0 0 0 var(--surface-deep),
+          0 1px 0 0 rgba(110, 101, 83, 0.08);
+      }
       .theme-toggle svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
       .theme-toggle .icon-moon { display: none; }
       [data-theme="dark"] .theme-toggle .icon-sun { display: none; }
@@ -105,7 +152,7 @@
 
       /* HERO */
       .hero {
-        padding: 64px 48px 56px;
+        padding: 64px 48px 96px;
         border-bottom: 1px solid var(--border);
       }
       .hero-grid {
@@ -115,20 +162,57 @@
         align-items: end;
         margin-bottom: 56px;
       }
-      .hero-title { font-size: 58px; font-weight: 600; line-height: 1.05; letter-spacing: -2px; color: var(--text-primary); margin-bottom: 20px; }
+      .hero-title { font-size: 64px; font-weight: 600; line-height: 1.05; letter-spacing: -2px; color: var(--text-primary); margin-bottom: 24px; }
       .hero-title .ejs { color: var(--green); font-family: 'IBM Plex Mono', monospace; letter-spacing: -2px; }
-      .hero-title .delim { color: var(--crimson); font-family: 'IBM Plex Mono', monospace; font-size: 44px; font-weight: 600; vertical-align: baseline; opacity: 0.7; }
-      .hero-body { font-size: 15px; color: var(--text-secondary); line-height: 1.7; max-width: 400px; margin-bottom: 28px; }
+      .hero-title .delim { color: var(--crimson); font-family: 'IBM Plex Mono', monospace; font-size: 48px; font-weight: 600; vertical-align: baseline; opacity: 0.7; }
+      .hero-body { font-size: 16px; color: var(--text-secondary); line-height: 1.7; max-width: 440px; margin-bottom: 32px; }
       .hero-btns { display: flex; gap: 10px; margin-bottom: 48px; }
-      .btn-primary { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 500; background: var(--crimson); color: #fff; padding: 12px 28px; border-radius: 6px; text-decoration: none; transition: background 0.15s; }
-      .btn-primary:hover { background: var(--crimson-hover); }
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #fff;
+        padding: 14px 30px;
+        border-radius: 6px;
+        text-decoration: none;
+        background: linear-gradient(180deg, #c12660 0%, #b21f56 100%);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.28),
+          inset 0 -1px 0 rgba(0, 0, 0, 0.22),
+          0 2px 0 #5a0a28,
+          0 3px 1px 0 rgba(0, 0, 0, 0.18);
+        transition: transform 70ms ease-out, box-shadow 70ms ease-out, background 120ms ease;
+      }
+      .btn-primary:hover {
+        background: linear-gradient(180deg, #b21f56 0%, #9b1949 100%);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.28),
+          inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+          0 2px 0 #4a0820,
+          0 3px 1px 0 rgba(0, 0, 0, 0.2);
+      }
+      .btn-primary:active {
+        transform: translateY(2px);
+        background: linear-gradient(180deg, #a51c52 0%, #8e1742 100%);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.16),
+          inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+          0 0 0 #5a0a28,
+          0 1px 0 0 rgba(0, 0, 0, 0.12);
+      }
+      .btn-primary:focus-visible {
+        outline: 2px solid rgba(191, 34, 90, 0.45);
+        outline-offset: 3px;
+      }
       .hero-right { align-self: stretch; display: flex; flex-direction: column; justify-content: center; }
 
       /* Code surface — dark in both themes */
-      .code-card { background: #0d0d0d; border: 1px solid #272727; border-radius: 10px; overflow: hidden; }
-      .code-body { padding: 20px 20px 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.8; color: #f0f0f0; }
+      .code-card { background: #0d0d0d; border: 1px solid #272727; border-radius: 10px; overflow: hidden; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 1px 2px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.18); }
+      .code-body { padding: 20px 20px 24px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.8; color: #f0f0f0; }
       .ln { color: #666; margin-right: 14px; font-size: 10px; user-select: none; }
-      .t-tag { color: #bf225a; } .t-var { color: #b4ca65; } .t-kw { color: #7a9fd4; } .t-str { color: #90a93a; } .t-html { color: #888; } .t-cm { color: #666; }
+      .t-tag { color: #bf225a; } .t-var { color: #ff6188; } .t-kw { color: #ab9df2; } .t-str { color: #a9dc76; } .t-path { color: #fc9867; } .t-html { color: #939293; } .t-cm { color: #78dce8; }
 
       .stats-strip { display: grid; grid-template-columns: repeat(3, 1fr); }
       .stat { padding: 0 24px; border-right: 1px solid var(--border-subtle); }
@@ -138,17 +222,17 @@
       .stat-label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em; }
 
       /* ABOUT */
-      .section { padding: 72px 48px; border-bottom: 1px solid var(--border); }
+      .section { padding: 96px 48px; border-bottom: 1px solid var(--border); }
       .section-label { font-size: 11px; font-weight: 600; color: var(--crimson); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 12px; }
       .section-title { font-size: 32px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.8px; margin-bottom: 12px; }
       .section-intro { font-size: 14px; color: var(--text-secondary); line-height: 1.7; max-width: 600px; margin-bottom: 48px; }
       .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 48px; }
-      .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; display: grid; grid-template-columns: auto 1fr; column-gap: 14px; row-gap: 14px; }
+      .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; display: grid; grid-template-columns: auto 1fr; column-gap: 14px; row-gap: 14px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 2px rgba(110, 101, 83, 0.08), 0 8px 20px rgba(110, 101, 83, 0.1); }
       .card-icon { display: flex; align-self: center; }
       .card-icon svg { width: 24px; height: 24px; stroke: var(--green); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
       .card-title { font-size: 16px; font-weight: 600; color: var(--text-primary); align-self: center; }
       .card-body { grid-column: 1 / -1; font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
-      .security-notice { border: 1px solid var(--border); border-left: 3px solid var(--crimson); border-radius: 0 10px 10px 0; background: var(--surface); padding: 28px 32px; }
+      .security-notice { border: 1px solid var(--border); border-left: 3px solid var(--crimson); border-radius: 0 10px 10px 0; background: var(--surface); padding: 28px 32px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 2px rgba(110, 101, 83, 0.08), 0 8px 20px rgba(110, 101, 83, 0.1); }
       .notice-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
       .notice-badge { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--crimson); background: var(--crimson-faint-bg); border: 1px solid var(--crimson-faint-border); padding: 3px 8px; border-radius: 3px; }
       .notice-title { font-size: 17px; font-weight: 600; color: var(--text-primary); }
@@ -160,7 +244,8 @@
       .notice-code { background: #0d0d0d; border: 1px solid #272727; border-radius: 6px; padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.7; margin-top: 14px; color: #f0f0f0; }
 
       /* FEATURES */
-      .features-inner { display: grid; grid-template-columns: 280px 1fr; gap: 48px; align-items: start; }
+      .features-inner { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; align-items: start; }
+      .features-inner > div:nth-child(2) { grid-column: 2 / -1; }
       .feature-count { font-size: 48px; font-weight: 600; color: var(--text-faint); line-height: 1; margin-top: 32px; letter-spacing: -2px; }
       .feature-count span { font-size: 13px; color: var(--text-secondary); letter-spacing: 0; font-weight: 400; display: block; margin-top: 4px; }
       .feature-list { display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; list-style: none; }
@@ -176,10 +261,11 @@
       .block-title { font-size: 17px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
       .block-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
       /* Code window — dark in both themes */
-      .code-window { background: #0d0d0d; border: 1px solid #272727; border-radius: 10px; overflow: hidden; }
+      .code-window { background: #0d0d0d; border: 1px solid #272727; border-radius: 10px; overflow: hidden; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 1px 2px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.18); }
       .code-file { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px; border-bottom: 1px solid #1a1a1a; }
       .code-file-name { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #888; }
-      .copy-btn { background: none; border: none; cursor: pointer; padding: 2px; color: #888; display: flex; align-items: center; }
+      .copy-btn { background: none; border: 1px solid #272727; border-radius: 4px; cursor: pointer; padding: 3px 6px; color: #888; display: flex; align-items: center; transition: color 0.15s, border-color 0.15s; }
+      .copy-btn:hover { color: #b4ca65; border-color: #b4ca65; }
       .copy-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
       .code-window .code-body { padding: 16px 20px; font-size: 13px; }
       .tabs { display: flex; border-bottom: 1px solid #1a1a1a; }
@@ -188,13 +274,36 @@
 
       /* SUPPORT */
       .support-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; }
-      .support-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto 1fr auto; column-gap: 14px; row-gap: 14px; }
+      .support-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto 1fr auto; column-gap: 14px; row-gap: 14px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 2px rgba(110, 101, 83, 0.08), 0 8px 20px rgba(110, 101, 83, 0.1); }
       .support-card-icon { display: flex; align-self: center; }
       .support-card-icon svg { width: 24px; height: 24px; stroke: var(--green); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
       .support-card-title { font-size: 16px; font-weight: 600; color: var(--text-primary); align-self: center; }
       .support-card-body { grid-column: 1 / -1; font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
       .support-card-body span { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--green); }
-      .support-btn { grid-column: 1 / -1; justify-self: start; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: var(--text-primary); text-decoration: none; border: 1px solid var(--border); padding: 8px 14px; border-radius: 6px; }
+      .support-btn {
+        grid-column: 1 / -1; justify-self: start;
+        display: inline-flex; align-items: center; gap: 6px;
+        font-size: 13px; font-weight: 500;
+        color: var(--text-primary); text-decoration: none;
+        border: 1px solid var(--border);
+        padding: 8px 14px; border-radius: 6px;
+        background: var(--surface);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.55),
+          0 2px 0 var(--surface-deep),
+          0 3px 1px 0 rgba(110, 101, 83, 0.1);
+        transition: transform 70ms ease-out, box-shadow 70ms ease-out, background 120ms ease, color 120ms ease, border-color 120ms ease;
+      }
+      .support-btn:hover {
+        background: var(--border);
+      }
+      .support-btn:active {
+        transform: translateY(2px);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.3),
+          0 0 0 var(--surface-deep),
+          0 1px 0 0 rgba(110, 101, 83, 0.08);
+      }
       .support-btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
       /* LICENSE */
@@ -207,7 +316,8 @@
       .license-badge-sub { font-size: 12px; color: var(--text-secondary); }
 
       /* FOOTER */
-      .footer { background: var(--surface-deep); border-top: 1px solid var(--border-subtle); padding: 28px 48px; display: flex; align-items: center; justify-content: space-between; }
+      .footer { background: var(--surface-deep); border-top: 1px solid var(--border-subtle); padding: 28px 0; }
+      .footer-inner { max-width: 1120px; margin: 0 auto; padding: 0 48px; display: flex; align-items: center; justify-content: space-between; }
       .footer-logo { font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600; color: var(--green); }
       .footer-logo .tag { color: var(--crimson); font-size: 10px; font-weight: 400; vertical-align: middle; }
       .footer-copy { font-size: 12px; color: var(--text-secondary); }
@@ -219,11 +329,10 @@
   </head>
   <body>
 
-    <div class="page">
-
-      <!-- NAV -->
-      <nav class="nav">
-        <div class="nav-logo">EJS</div>
+    <!-- NAV -->
+    <nav class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="#hero">EJS</a>
         <ul class="nav-center">
           <li><a href="#about">About</a></li>
           <li><a href="#features">Features</a></li>
@@ -236,13 +345,15 @@
             <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
             <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           </button>
-          <a class="nav-gh" href="https://github.com/mde/ejs">GitHub ↗</a>
-          <a class="nav-cta" href="#install">Get Started</a>
+          <a class="nav-gh" href="https://github.com/mde/ejs" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg> GitHub <svg class="ext-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
         </div>
-      </nav>
+      </div>
+    </nav>
+
+    <div class="page">
 
       <!-- HERO -->
-      <section class="hero">
+      <section class="hero" id="hero">
         <div class="hero-grid">
           <div>
             <h1 class="hero-title"><span class="delim">&lt;%=</span> <span class="ejs">EJS</span> <span class="delim">%&gt;</span><br>Generate HTML<br>with plain JS.</h1>
@@ -291,7 +402,7 @@
         </div>
         <div class="security-notice">
           <div class="notice-header"><div class="notice-badge">Security</div><div class="notice-title">A note for security professionals</div></div>
-          <div class="notice-body">Before reporting any security issues, please reference the <a href="https://github.com/mde/ejs/blob/main/SECURITY.md">SECURITY.md</a> for this project.</div>
+          <div class="notice-body">Before reporting any security issues, please reference the <a href="https://github.com/mde/ejs/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer">SECURITY.md</a> for this project.</div>
           <div class="notice-quote"><p>If you give end-users unfettered access to the EJS render method, you are using EJS in an inherently un-secure way.</p><p>EJS is effectively a JavaScript runtime. If you run the render method without checking inputs yourself, you are responsible for the results.</p></div>
           <div class="notice-body" style="margin-top:14px;">In short, <span style="color:#bf225a;">do not</span> submit vulnerabilities that include this snippet:</div>
           <div class="notice-code"><span style="color:#b4ca65;">app</span>.<span style="color:#b4ca65;">get</span>(<span style="color:#90a93a;">'/'</span>, (<span style="color:#f0f0f0;">req, res</span>) <span style="color:#7a9fd4;">=&gt;</span> {<br>&nbsp;&nbsp;<span style="color:#b4ca65;">res</span>.<span style="color:#b4ca65;">render</span>(<span style="color:#90a93a;">'index'</span>, <span style="color:#f0f0f0;">req</span>.query);<br>});</div>
@@ -305,7 +416,6 @@
             <div class="section-label">Features</div>
             <h2 class="section-title">Everything you need, nothing you don't.</h2>
             <p class="section-intro" style="margin-bottom:0;">EJS ships with a focused, battle-tested feature set built for real projects — not demos.</p>
-            <div class="feature-count">09<span>core features</span></div>
           </div>
           <div style="padding-top:4px;">
             <ul class="feature-list">
@@ -317,7 +427,7 @@
               <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Server JS and browser support</div></li>
               <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Static caching of intermediate JavaScript</div></li>
               <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Static caching of templates</div></li>
-              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Complies with the <a href="https://expressjs.com/">Express</a> view system</div></li>
+              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Complies with the <a href="https://expressjs.com/" target="_blank" rel="noopener noreferrer">Express</a> view system</div></li>
             </ul>
           </div>
         </div>
@@ -331,7 +441,7 @@
         <div>
           <div class="block">
             <div><div class="block-label">01 — Install</div><div class="block-title">Install via npm</div><div class="block-desc">Add EJS to your project with a single command.</div></div>
-            <div class="code-window"><div class="code-file"><span class="code-file-name">terminal</span><button class="copy-btn"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><div class="code-body">npm install ejs</div></div>
+            <div class="code-window"><div class="code-file"><span class="code-file-name">terminal</span><button class="copy-btn"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><div class="code-body"><span class="t-cm">$</span> <span class="t-var">npm</span> install <span class="t-str">ejs</span></div></div>
           </div>
           <div class="block">
             <div><div class="block-label">02 — Module system</div><div class="block-title">ESM or CJS</div><div class="block-desc">Pick the module system that fits your project.</div></div>
@@ -350,7 +460,7 @@
           </div>
           <div class="block">
             <div><div class="block-label">04 — CLI</div><div class="block-title">Use the command line</div><div class="block-desc">Feed it a template file and a data file, specify an output file.</div></div>
-            <div class="code-window"><div class="code-file"><span class="code-file-name">terminal</span><button class="copy-btn"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><div class="code-body">ejs ./template.ejs -f <span class="t-str">data.json</span> -o ./output.html</div></div>
+            <div class="code-window"><div class="code-file"><span class="code-file-name">terminal</span><button class="copy-btn"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><div class="code-body"><span class="t-cm">$</span> <span class="t-var">ejs</span> <span class="t-path">./template.ejs</span> <span class="t-kw">-f</span> <span class="t-str">data.json</span> <span class="t-kw">-o</span> <span class="t-path">./output.html</span></div></div>
           </div>
           <div class="block">
             <div><div class="block-label">05 — Browser</div><div class="block-title">Browser support</div><div class="block-desc">Download a browser build and drop it in a script tag.</div></div>
@@ -364,8 +474,8 @@
         <div class="section-label">Support</div>
         <h2 class="section-title">Need help?</h2>
         <div class="support-grid">
-          <div class="support-card"><div class="support-card-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="support-card-title">Stack Overflow</div><div class="support-card-body">Ask questions about specific problems you've faced. Tag your question with <span>ejs</span> and browse existing answers.</div><a class="support-btn" href="https://stackoverflow.com/questions/tagged/ejs">Ask a question <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></div>
-          <div class="support-card"><div class="support-card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg></div><div class="support-card-title">GitHub Issues</div><div class="support-card-body">The preferred channel for bug reports, feature requests, and pull requests. Check existing issues before opening a new one.</div><a class="support-btn" href="https://github.com/mde/ejs/issues">Open an issue <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></div>
+          <div class="support-card"><div class="support-card-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="support-card-title">Stack Overflow</div><div class="support-card-body">Ask questions about specific problems you've faced. Tag your question with <span>ejs</span> and browse existing answers.</div><a class="support-btn" href="https://stackoverflow.com/questions/tagged/ejs" target="_blank" rel="noopener noreferrer">Ask a question <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></div>
+          <div class="support-card"><div class="support-card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg></div><div class="support-card-title">GitHub Issues</div><div class="support-card-body">The preferred channel for bug reports, feature requests, and pull requests. Check existing issues before opening a new one.</div><a class="support-btn" href="https://github.com/mde/ejs/issues" target="_blank" rel="noopener noreferrer">Open an issue <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></div>
         </div>
       </section>
 
@@ -374,19 +484,21 @@
         <div class="section-label">License</div>
         <h2 class="section-title">Open source.</h2>
         <div class="license-inner">
-          <div class="license-body">EJS is licensed under the Apache License, version 2.0. You're free to use it in personal and commercial projects. Full details at <a href="https://www.apache.org/licenses/LICENSE-2.0">apache.org/licenses</a>.</div>
+          <div class="license-body">EJS is licensed under the Apache License, version 2.0. You're free to use it in personal and commercial projects. Full details at <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener noreferrer">apache.org/licenses</a>.</div>
           <div class="license-badge"><div class="license-badge-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><div class="license-badge-name">Apache License 2.0</div><div class="license-badge-sub">Free for personal and commercial use</div></div></div>
         </div>
       </section>
 
-      <!-- FOOTER -->
-      <footer class="footer">
-        <div class="footer-logo"><span class="tag">&lt;%=</span> EJS <span class="tag">%&gt;</span></div>
-        <div class="footer-copy">© 2026 <a href="https://github.com/mde">Matthew Eernisse</a> · Designed by <a href="https://github.com/hiroeernisse">Hiro Eernisse</a></div>
-        <ul class="footer-links"><li><a href="https://github.com/mde/ejs">GitHub</a></li><li><a href="#license">License</a></li><li><a href="https://github.com/mde/ejs/blob/main/SECURITY.md">Security</a></li></ul>
-      </footer>
-
     </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-logo"><span class="tag">&lt;%=</span> EJS <span class="tag">%&gt;</span></div>
+        <div class="footer-copy">© 2026 <a href="https://github.com/mde" target="_blank" rel="noopener noreferrer">Matthew Eernisse</a> · Designed by <a href="https://github.com/hiroeernisse" target="_blank" rel="noopener noreferrer">Hiro Eernisse</a></div>
+        <ul class="footer-links"><li><a href="https://github.com/mde/ejs" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a href="#license">License</a></li><li><a href="https://github.com/mde/ejs/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer">Security</a></li></ul>
+      </div>
+    </footer>
 
     <script>
       document.querySelector('.theme-toggle').addEventListener('click', () => {
