@@ -10,7 +10,7 @@
     <link rel="manifest" href="/manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600&family=Montserrat:wght@400;500;600;700&display=swap">
     <script>
       (() => {
         const stored = localStorage.getItem('theme');
@@ -20,49 +20,130 @@
     </script>
     <style>
       :root {
-        --bg: #f3eee2;
-        --surface: #fffcf2;
-        --surface-faint: #f1ebd5;
-        --surface-deep: #e8dfc4;
-        --border: #d9cfae;
-        --border-subtle: #ebe2c8;
+        --bg: #f4f5f3;
+        --surface: #fcfdfb;
+        --surface-faint: #ebedea;
+        --surface-deep: #dee0dc;
+        --btn-face: linear-gradient(180deg, #fefffd 0%, #f2f4f0 100%);
+        --surface-hover: linear-gradient(180deg, #f1f3ef 0%, #e8eae6 100%);
+        --btn-highlight: rgba(255, 255, 255, 0.55);
+        --btn-highlight-pressed: rgba(255, 255, 255, 0.3);
+        --btn-drop: rgba(92, 97, 104, 0.12);
+        --btn-drop-pressed: rgba(92, 97, 104, 0.1);
+        --btn-focus: rgba(94, 140, 12, 0.45);
+        --panel-highlight: rgba(255, 255, 255, 0.28);
+        --panel-shadow: rgba(92, 97, 104, 0.12);
+        --panel-shadow-soft: rgba(92, 97, 104, 0.08);
+        --code-panel-shadow: rgba(0, 0, 0, 0.3);
+        --code-panel-shadow-soft: rgba(0, 0, 0, 0.2);
+        --edge-1: #dde0db;
+        --edge-2: #d1d4cf;
+        --edge-3: #c2c6c0;
+        --primary-btn-face: linear-gradient(180deg, #c93066 0%, #b21f56 100%);
+        --primary-btn-hover: linear-gradient(180deg, #be2a5d 0%, #9b1949 100%);
+        --primary-btn-active: linear-gradient(180deg, #a51c52 0%, #8e1742 100%);
+        --primary-edge-1: #a01a4a;
+        --primary-edge-2: #8c1440;
+        --primary-edge-3: #821239;
+        --primary-btn-drop: rgba(0, 0, 0, 0.28);
+        --primary-btn-focus: rgba(191, 34, 90, 0.45);
+        --code-btn-face: linear-gradient(180deg, #353535 0%, #282828 100%);
+        --code-btn-hover: linear-gradient(180deg, #3d3d3d 0%, #303030 100%);
+        --code-btn-active: linear-gradient(180deg, #282828 0%, #202020 100%);
+        --code-edge-1: #161616;
+        --code-edge-2: #101010;
+        --code-edge-3: #0a0a0a;
+        --code-btn-highlight: rgba(255, 255, 255, 0.12);
+        --code-btn-highlight-pressed: rgba(255, 255, 255, 0.08);
+        --code-btn-drop: rgba(0, 0, 0, 0.35);
+        --code-btn-focus: rgba(180, 202, 101, 0.45);
+        --code-bg: #1c1c1c;
+        --embedded-code-bg: var(--code-bg);
+        --border: #d1d4cf;
+        --border-subtle: #e5e7e3;
         --text-primary: #1a1a1a;
-        --text-body: #2a2a2a;
-        --text-secondary: #6e6553;
+        --text-body: #1f1f1f;
+        --text-secondary: #4f535a;
         --text-hover: #1a1a1a;
-        --text-faint: #e8dfc4;
-        --green: #5a7020;
+        --text-faint: #e4e6e2;
+        --green: #9eb44e;
+        --green-hover: #84993e;
+        --green-link: #557d0c;
+        --green-link-hover: #44640a;
         --crimson: #bf225a;
         --crimson-hover: #a01d4a;
         --crimson-faint-bg: #f5e0e8;
         --crimson-faint-border: #e8c5d0;
-        --nav-bg: rgba(243, 238, 226, 0.72);
+        --nav-bg: #fdfefc;
+        --nav-highlight: var(--panel-highlight);
+        --hero-bg: #b4ca65;
+        --hero-ink: #1c2208;
+        --hero-ink-soft: #2e3a18;
+        --hero-divider: rgba(28, 34, 8, 0.2);
+        --hero-delim: var(--crimson);
+        --hero-watermark: rgba(0, 0, 0, 0.06);
+        --hero-hover: rgba(0, 0, 0, 0.07);
+        --hero-press: rgba(0, 0, 0, 0.16);
       }
 
       :root[data-theme="dark"] {
-        --bg: #111;
-        --surface: #1a1a1a;
-        --surface-faint: #0e0e0e;
-        --surface-deep: #0a0a0a;
-        --border: #272727;
-        --border-subtle: #1a1a1a;
-        --text-primary: #f0f0f0;
-        --text-body: #d0d0d0;
-        --text-secondary: #888;
-        --text-hover: #ccc;
-        --text-faint: #1e1e1e;
+        --bg: #101114;
+        --surface: #181a1e;
+        --surface-faint: #0d0e11;
+        --surface-deep: #090a0d;
+        --embedded-code-bg: #0e0e0e;
+        --btn-face: linear-gradient(180deg, #232428 0%, #15161a 100%);
+        --surface-hover: linear-gradient(180deg, #2b2c31 0%, #1d1e22 100%);
+        --btn-highlight: rgba(255, 255, 255, 0.14);
+        --btn-highlight-pressed: rgba(255, 255, 255, 0.08);
+        --btn-drop: rgba(0, 0, 0, 0.35);
+        --btn-drop-pressed: rgba(0, 0, 0, 0.3);
+        --btn-focus: rgba(180, 202, 101, 0.45);
+        --panel-highlight: rgba(255, 255, 255, 0.08);
+        --panel-shadow: rgba(0, 0, 0, 0.32);
+        --panel-shadow-soft: rgba(0, 0, 0, 0.22);
+        --code-panel-shadow: rgba(0, 0, 0, 0.34);
+        --code-panel-shadow-soft: rgba(0, 0, 0, 0.22);
+        --edge-1: #0d0d0d;
+        --edge-2: #080808;
+        --edge-3: #030303;
+        --border: #26282d;
+        --border-subtle: #181a1e;
+        --text-primary: #eef0f3;
+        --text-body: #dee0e4;
+        --text-secondary: #a4a7ae;
+        --text-hover: #cacdd2;
+        --text-faint: #1c1e22;
         --green: #b4ca65;
+        --green-hover: #d2e889;
+        --green-link: #b4ca65;
+        --green-link-hover: #d2e889;
         --crimson: #bf225a;
         --crimson-hover: #d4275f;
         --crimson-faint-bg: #1a0d10;
         --crimson-faint-border: #2a1520;
-        --nav-bg: rgba(17, 17, 17, 0.7);
+        --nav-bg: #181a1e;
+        --nav-highlight: transparent;
+        --hero-bg: #4a6213;
+        --hero-ink: #f2f5ea;
+        --hero-ink-soft: #d6ddc6;
+        --hero-divider: rgba(255, 255, 255, 0.14);
+        --hero-delim: #ff6188;
+        --hero-watermark: rgba(255, 255, 255, 0.05);
+        --hero-hover: rgba(255, 255, 255, 0.09);
+        --hero-press: rgba(0, 0, 0, 0.4);
       }
 
-      html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+      html { scroll-behavior: smooth; scroll-padding-top: 60px; }
       * { box-sizing: border-box; margin: 0; padding: 0; }
 
       body { background: var(--bg); font-family: 'Inter', sans-serif; color: var(--text-body); }
+      .no-transitions, .no-transitions *, .no-transitions *::before, .no-transitions *::after { transition: none !important; }
+
+      .hero-title, .section-title, .card-title, .notice-title, .block-title, .support-card-title, .license-badge-name,
+      .nav-center a, .nav-gh, .btn-primary, .support-btn {
+        font-family: 'Montserrat', sans-serif;
+      }
 
       .page {
         background: var(--bg);
@@ -70,80 +151,196 @@
         margin: 0 auto;
       }
 
+      .nav-gh,
+      .theme-toggle,
+      .support-btn,
+      .btn-primary,
+      .copy-btn {
+        border-radius: 6px;
+        cursor: pointer;
+        transition: transform 70ms ease-out, box-shadow 70ms ease-out, background 120ms ease, color 120ms ease;
+      }
+
+      .support-btn {
+        background: var(--btn-face);
+        box-shadow:
+          inset 0 1px 0 var(--btn-highlight),
+          0 1px 0 var(--edge-1),
+          0 2px 0 var(--edge-2),
+          0 3px 3px var(--btn-drop);
+      }
+
+      .nav-gh,
+      .theme-toggle {
+        background: var(--btn-face);
+        box-shadow:
+          inset 0 1px 0 var(--btn-highlight),
+          0 1px 0 var(--edge-2),
+          0 2px 2px var(--btn-drop);
+      }
+
+      .nav-gh:hover,
+      .theme-toggle:hover,
+      .support-btn:hover {
+        background: var(--surface-hover);
+      }
+
+      .support-btn:active {
+        transform: translateY(2px);
+        box-shadow:
+          inset 0 1px 0 var(--btn-highlight-pressed),
+          0 0 0 var(--edge-2),
+          0 1px 1px var(--btn-drop-pressed);
+      }
+
+      .nav-gh:active,
+      .theme-toggle:active {
+        transform: translateY(1px);
+        box-shadow:
+          inset 0 1px 0 var(--btn-highlight-pressed),
+          0 0 0 var(--edge-2),
+          0 1px 1px var(--btn-drop-pressed);
+      }
+
+      .copy-btn {
+        box-shadow:
+          inset 0 1px 0 var(--button-highlight),
+          0 1px 0 var(--button-edge-1),
+          0 2px 3px var(--button-drop);
+      }
+
+      .copy-btn:active {
+        transform: translateY(1px);
+        box-shadow:
+          inset 0 1px 0 var(--button-highlight-pressed),
+          0 0 0 var(--button-edge-1),
+          0 1px 1px var(--button-drop-pressed);
+      }
+
+      .btn-primary {
+        box-shadow:
+          inset 0 1px 0 var(--button-highlight),
+          0 1px 0 var(--button-edge-1),
+          0 2px 0 var(--button-edge-2),
+          0 3px 0 var(--button-edge-3),
+          0 4px 4px var(--button-drop);
+      }
+
+      .btn-primary:active {
+        transform: translateY(3px);
+        box-shadow:
+          inset 0 1px 0 var(--button-highlight-pressed),
+          0 0 0 var(--button-edge-3),
+          0 1px 1px var(--button-drop-pressed);
+      }
+
+      .nav-center a:focus-visible,
+      .nav-gh:focus-visible,
+      .theme-toggle:focus-visible,
+      .support-btn:focus-visible {
+        outline: 2px solid var(--btn-focus);
+        outline-offset: 3px;
+      }
+
+      .btn-primary:focus-visible,
+      .copy-btn:focus-visible {
+        outline: 2px solid var(--button-focus);
+        outline-offset: 3px;
+      }
+
+      .card,
+      .support-card,
+      .license-badge {
+        border: none;
+        box-shadow:
+          inset 0 1px 0 var(--panel-highlight),
+          inset 0 0 0 1px var(--border),
+          0 2px 6px var(--panel-shadow),
+          0 10px 24px var(--panel-shadow-soft);
+      }
+
+      .security-notice {
+        border-top: none;
+        border-right: none;
+        border-bottom: none;
+        box-shadow:
+          inset 0 1px 0 var(--panel-highlight),
+          inset 0 0 0 1px rgba(191, 34, 90, 0.5),
+          0 2px 6px var(--panel-shadow),
+          0 10px 24px var(--panel-shadow-soft);
+      }
+
+      .code-card,
+      .code-window {
+        border: none;
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.06),
+          inset 0 0 0 1px #272727,
+          0 2px 6px var(--code-panel-shadow),
+          0 10px 24px var(--code-panel-shadow-soft);
+      }
+
       /* NAV */
       .nav {
-        border-bottom: 1px solid var(--border);
-        background: var(--nav-bg);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        border-bottom: none;
+        background-color: var(--hero-bg);
         position: sticky;
         top: 0;
         z-index: 10;
-        box-shadow: 0 1px 2px rgba(110, 101, 83, 0.06), 0 4px 16px rgba(110, 101, 83, 0.08);
+        box-shadow:
+          inset 0 -1px 0 transparent,
+          0 1px 0 transparent,
+          0 1px 2px transparent,
+          0 4px 16px transparent;
+        transition: background-color 0.15s ease, box-shadow 0.15s ease;
+      }
+      .nav.scrolled {
+        background-color: var(--nav-bg);
+        box-shadow:
+          inset 0 -1px 0 var(--nav-highlight),
+          0 1px 0 var(--border),
+          0 1px 2px var(--panel-shadow),
+          0 4px 16px var(--panel-shadow-soft);
       }
       .nav-inner {
         max-width: 1120px;
         margin: 0 auto;
         padding: 0 48px;
-        height: 72px;
+        height: 60px;
         display: flex;
         align-items: center;
         justify-content: space-between;
       }
-      .nav-logo { font-size: 20px; font-weight: 600; color: var(--green); text-decoration: none; }
+      .nav-logo { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 700; color: var(--hero-ink); text-decoration: none; transition: color 0.15s ease; }
+      .nav-logo:hover { color: var(--text-primary); }
+      .nav.scrolled .nav-logo { color: var(--green); }
+      .nav.scrolled .nav-logo:hover { color: var(--green-hover); }
+      .nav-logo:focus-visible { outline: 2px solid var(--btn-focus); outline-offset: 4px; border-radius: 4px; }
       .nav-center { display: flex; gap: 4px; list-style: none; }
-      .nav-center a { font-size: 14px; color: var(--text-secondary); text-decoration: none; padding: 8px 16px; border-radius: 6px; transition: color 0.15s, background-color 0.15s, box-shadow 0.15s, transform 70ms ease-out; }
-      .nav-center a:hover { color: var(--text-primary); background-color: var(--border); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 1px 2px rgba(110, 101, 83, 0.12); }
-      .nav-center a:active { transform: translateY(2px); box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25); }
+      .nav-center a { font-size: 14px; font-weight: 500; color: var(--hero-ink-soft); text-decoration: none; padding: 8px 16px; border-radius: 6px; transition: color 0.15s, background 0.15s, box-shadow 0.15s; }
+      .nav.scrolled .nav-center a { color: var(--text-secondary); }
+      .nav-center a:hover { color: var(--text-primary); background: var(--surface-hover); box-shadow: inset 0 0 0 1px var(--border-subtle); }
+      [data-theme="dark"] .nav-center a:hover { box-shadow: inset 0 0 0 1px var(--border); }
+      .nav-center a:active { color: var(--text-primary); box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.14); }
+      [data-theme="dark"] .nav-center a:active { box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.55); }
+      .nav:not(.scrolled) .nav-center a:hover { color: var(--hero-ink); background: var(--hero-hover); box-shadow: inset 0 0 0 1px var(--hero-divider); }
+      .nav:not(.scrolled) .nav-center a:active { box-shadow: inset 0 1px 3px var(--hero-press); }
       .nav-right { display: flex; gap: 10px; align-items: center; }
       .nav-gh {
         display: inline-flex; align-items: center; gap: 8px;
         font-size: 14px; font-weight: 500;
-        color: var(--green); text-decoration: none;
-        border: 1px solid var(--green);
-        padding: 7px 14px; border-radius: 6px;
-        background: var(--surface);
-        box-shadow:
-          inset 0 1px 0 rgba(255, 255, 255, 0.55),
-          0 2px 0 var(--surface-deep),
-          0 3px 1px 0 rgba(110, 101, 83, 0.1);
-        transition: transform 70ms ease-out, box-shadow 70ms ease-out, background 120ms ease;
+        color: var(--green-link); text-decoration: none;
+        padding: 7px 14px;
       }
       .nav-gh svg { width: 16px; height: 16px; fill: currentColor; }
       .nav-gh svg.ext-icon { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-      .nav-gh:hover {
-        background: var(--border);
-      }
-      .nav-gh:active {
-        transform: translateY(2px);
-        box-shadow:
-          inset 0 1px 0 rgba(255, 255, 255, 0.3),
-          0 0 0 var(--surface-deep),
-          0 1px 0 0 rgba(110, 101, 83, 0.08);
-      }
       .theme-toggle {
-        background: var(--surface);
-        border: 1px solid var(--border);
+        border: none;
         color: var(--text-secondary);
         padding: 8.5px 10px;
-        border-radius: 6px;
-        cursor: pointer;
         display: inline-flex;
         align-items: center;
         font: inherit;
-        box-shadow:
-          inset 0 1px 0 rgba(255, 255, 255, 0.55),
-          0 2px 0 var(--surface-deep),
-          0 3px 1px 0 rgba(110, 101, 83, 0.1);
-        transition: transform 70ms ease-out, box-shadow 70ms ease-out, background 120ms ease;
-      }
-      .theme-toggle:hover { background: var(--border); }
-      .theme-toggle:active {
-        transform: translateY(2px);
-        box-shadow:
-          inset 0 1px 0 rgba(255, 255, 255, 0.3),
-          0 0 0 var(--surface-deep),
-          0 1px 0 0 rgba(110, 101, 83, 0.08);
       }
       .theme-toggle svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
       .theme-toggle .icon-moon { display: none; }
@@ -152,8 +349,32 @@
 
       /* HERO */
       .hero {
-        padding: 64px 48px 96px;
+        position: relative;
+        overflow: hidden;
+        background: var(--hero-bg);
         border-bottom: 1px solid var(--border);
+      }
+      .hero::before {
+        content: "<%=";
+        position: absolute;
+        right: -0.08em;
+        top: 73%;
+        transform: translateY(-50%);
+        font-family: 'IBM Plex Mono', monospace;
+        font-weight: 600;
+        font-size: clamp(220px, 30vw, 420px);
+        line-height: 1;
+        color: var(--hero-watermark);
+        pointer-events: none;
+        user-select: none;
+        z-index: 0;
+      }
+      .hero-inner {
+        position: relative;
+        z-index: 1;
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 88px 48px 96px;
       }
       .hero-grid {
         display: grid;
@@ -163,11 +384,42 @@
         margin-bottom: 56px;
       }
       .hero-title { font-size: 64px; font-weight: 600; line-height: 1.05; letter-spacing: -2px; color: var(--text-primary); margin-bottom: 24px; }
-      .hero-title .ejs { color: var(--green); font-family: 'IBM Plex Mono', monospace; letter-spacing: -2px; }
-      .hero-title .delim { color: var(--crimson); font-family: 'IBM Plex Mono', monospace; font-size: 48px; font-weight: 600; vertical-align: baseline; opacity: 0.7; }
+      .hero-title .ejs { color: var(--green); font-family: 'Montserrat', sans-serif; font-size: 76px; letter-spacing: -2px; }
+      .hero-title .delim { color: var(--hero-delim); font-family: 'IBM Plex Mono', monospace; font-size: 56px; font-weight: 600; vertical-align: baseline; }
       .hero-body { font-size: 16px; color: var(--text-secondary); line-height: 1.7; max-width: 440px; margin-bottom: 32px; }
+      .hero .hero-title { color: var(--hero-ink); }
+      .hero .hero-title .ejs { color: var(--hero-delim); }
+      .hero .hero-title .ejs,
+      .hero .hero-title .delim {
+        text-shadow: 0 1px 0 var(--primary-edge-1);
+      }
+      .hero .hero-body,
+      .hero .stat-label { color: var(--hero-ink-soft); }
+      .hero .stat { border-right-color: var(--hero-divider); }
+      .hero .stat-value {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 42px;
+        font-weight: 700;
+        letter-spacing: -1px;
+        color: var(--hero-delim);
+      }
+      [data-theme="dark"] .hero .code-card {
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.08),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+          0 6px 16px rgba(0, 0, 0, 0.4),
+          0 16px 40px rgba(0, 0, 0, 0.3);
+      }
       .hero-btns { display: flex; gap: 10px; margin-bottom: 48px; }
       .btn-primary {
+        --button-highlight: rgba(255, 255, 255, 0.4);
+        --button-highlight-pressed: rgba(255, 255, 255, 0.25);
+        --button-edge-1: var(--primary-edge-1);
+        --button-edge-2: var(--primary-edge-2);
+        --button-edge-3: var(--primary-edge-3);
+        --button-drop: var(--primary-btn-drop);
+        --button-drop-pressed: rgba(0, 0, 0, 0.25);
+        --button-focus: var(--primary-btn-focus);
         display: inline-flex;
         align-items: center;
         gap: 8px;
@@ -175,46 +427,25 @@
         font-weight: 500;
         color: #fff;
         padding: 14px 30px;
-        border-radius: 6px;
         text-decoration: none;
-        background: linear-gradient(180deg, #c12660 0%, #b21f56 100%);
-        box-shadow:
-          inset 0 1px 0 rgba(255, 255, 255, 0.28),
-          inset 0 -1px 0 rgba(0, 0, 0, 0.22),
-          0 2px 0 #5a0a28,
-          0 3px 1px 0 rgba(0, 0, 0, 0.18);
-        transition: transform 70ms ease-out, box-shadow 70ms ease-out, background 120ms ease;
+        background: var(--primary-btn-face);
       }
       .btn-primary:hover {
-        background: linear-gradient(180deg, #b21f56 0%, #9b1949 100%);
-        box-shadow:
-          inset 0 1px 0 rgba(255, 255, 255, 0.28),
-          inset 0 -1px 0 rgba(0, 0, 0, 0.25),
-          0 2px 0 #4a0820,
-          0 3px 1px 0 rgba(0, 0, 0, 0.2);
+        --button-drop: rgba(0, 0, 0, 0.32);
+        background: var(--primary-btn-hover);
       }
       .btn-primary:active {
-        transform: translateY(2px);
-        background: linear-gradient(180deg, #a51c52 0%, #8e1742 100%);
-        box-shadow:
-          inset 0 1px 0 rgba(255, 255, 255, 0.16),
-          inset 0 -1px 0 rgba(0, 0, 0, 0.2),
-          0 0 0 #5a0a28,
-          0 1px 0 0 rgba(0, 0, 0, 0.12);
-      }
-      .btn-primary:focus-visible {
-        outline: 2px solid rgba(191, 34, 90, 0.45);
-        outline-offset: 3px;
+        background: var(--primary-btn-active);
       }
       .hero-right { align-self: stretch; display: flex; flex-direction: column; justify-content: center; }
 
       /* Code surface — dark in both themes */
-      .code-card { background: #0d0d0d; border: 1px solid #272727; border-radius: 10px; overflow: hidden; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 1px 2px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.18); }
+      .code-card { background: var(--code-bg); border-radius: 10px; overflow: hidden; }
       .code-body { padding: 20px 20px 24px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.8; color: #f0f0f0; }
       .ln { color: #666; margin-right: 14px; font-size: 10px; user-select: none; }
       .t-tag { color: #bf225a; } .t-var { color: #ff6188; } .t-kw { color: #ab9df2; } .t-str { color: #a9dc76; } .t-path { color: #fc9867; } .t-html { color: #939293; } .t-cm { color: #78dce8; }
 
-      .stats-strip { display: grid; grid-template-columns: repeat(3, 1fr); }
+      .stats-strip { display: flex; }
       .stat { padding: 0 24px; border-right: 1px solid var(--border-subtle); }
       .stat:first-child { padding-left: 0; }
       .stat:last-child { border-right: none; padding-right: 0; }
@@ -223,96 +454,112 @@
 
       /* ABOUT */
       .section { padding: 96px 48px; border-bottom: 1px solid var(--border); }
+      .notice-body a,
+      .feature-text a,
+      .license-body a {
+        color: var(--green-link);
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+        transition: color 0.15s, text-decoration-color 0.15s;
+      }
+      .notice-body a:hover,
+      .feature-text a:hover,
+      .license-body a:hover {
+        color: var(--green-link-hover);
+        text-decoration-color: currentColor;
+      }
+      .notice-body a:active,
+      .feature-text a:active,
+      .license-body a:active {
+        color: var(--crimson);
+      }
       .section-label { font-size: 11px; font-weight: 600; color: var(--crimson); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 12px; }
       .section-title { font-size: 32px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.8px; margin-bottom: 12px; }
-      .section-intro { font-size: 14px; color: var(--text-secondary); line-height: 1.7; max-width: 600px; margin-bottom: 48px; }
+      .section-intro { font-size: 16px; color: var(--text-secondary); line-height: 1.7; max-width: 600px; margin-bottom: 48px; }
       .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 48px; }
-      .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; display: grid; grid-template-columns: auto 1fr; column-gap: 14px; row-gap: 14px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 2px rgba(110, 101, 83, 0.08), 0 8px 20px rgba(110, 101, 83, 0.1); }
+      .card { background: var(--surface); border-radius: 10px; padding: 24px; display: grid; grid-template-columns: auto 1fr; column-gap: 16px; row-gap: 18px; }
       .card-icon { display: flex; align-self: center; }
-      .card-icon svg { width: 24px; height: 24px; stroke: var(--green); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-      .card-title { font-size: 16px; font-weight: 600; color: var(--text-primary); align-self: center; }
-      .card-body { grid-column: 1 / -1; font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
-      .security-notice { border: 1px solid var(--border); border-left: 3px solid var(--crimson); border-radius: 0 10px 10px 0; background: var(--surface); padding: 28px 32px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 2px rgba(110, 101, 83, 0.08), 0 8px 20px rgba(110, 101, 83, 0.1); }
+      .card-icon svg { width: 28px; height: 28px; stroke: var(--green); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+      .card-title { font-size: 18px; font-weight: 600; color: var(--text-primary); align-self: center; }
+      .card-body { grid-column: 1 / -1; font-size: 15px; color: var(--text-secondary); line-height: 1.65; }
+      .security-notice { border-left: 3px solid var(--crimson); border-radius: 0 10px 10px 0; background: var(--surface); padding: 28px 32px; }
       .notice-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-      .notice-badge { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--crimson); background: var(--crimson-faint-bg); border: 1px solid var(--crimson-faint-border); padding: 3px 8px; border-radius: 3px; }
-      .notice-title { font-size: 17px; font-weight: 600; color: var(--text-primary); }
-      .notice-body { font-size: 13px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 12px; max-width: 65ch; }
-      .notice-body a { color: var(--green); text-decoration: underline; }
-      .notice-quote { border-left: 2px solid var(--border); padding-left: 16px; margin: 16px 0; max-width: 65ch; }
-      .notice-quote p { font-size: 13px; color: var(--text-secondary); line-height: 1.7; font-style: italic; margin-bottom: 8px; }
+      .notice-icon { width: 22px; height: 22px; flex-shrink: 0; stroke: var(--crimson); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+      .notice-title { font-size: 20px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.2px; }
+      .notice-body { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 12px; max-width: 65ch; }
+      .notice-quote { background: var(--surface-faint); border-radius: 8px; padding: 14px 18px; margin: 16px 0; max-width: 65ch; box-shadow: inset 0 1px 2px rgba(92, 97, 104, 0.15); }
+      .notice-quote p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; font-style: italic; margin-bottom: 8px; }
+      .notice-quote p:last-child { margin-bottom: 0; }
       /* Code snippet inside notice — dark in both themes */
-      .notice-code { background: #0d0d0d; border: 1px solid #272727; border-radius: 6px; padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.7; margin-top: 14px; color: #f0f0f0; }
+      .notice-code { background: var(--embedded-code-bg); border: none; border-radius: 8px; box-shadow: inset 0 0 0 1px #272727; padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.7; margin-top: 14px; color: #f0f0f0; }
 
       /* FEATURES */
       .features-inner { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; align-items: start; }
       .features-inner > div:nth-child(2) { grid-column: 2 / -1; }
       .feature-count { font-size: 48px; font-weight: 600; color: var(--text-faint); line-height: 1; margin-top: 32px; letter-spacing: -2px; }
-      .feature-count span { font-size: 13px; color: var(--text-secondary); letter-spacing: 0; font-weight: 400; display: block; margin-top: 4px; }
+      .feature-count span { font-size: 15px; color: var(--text-secondary); letter-spacing: 0; font-weight: 400; display: block; margin-top: 4px; }
       .feature-list { display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; list-style: none; }
       .feature-item { display: flex; align-items: flex-start; gap: 12px; padding: 18px 0; border-bottom: 1px solid var(--border-subtle); }
       .feature-item:nth-last-child(-n+2) { border-bottom: none; }
       .feature-item svg { width: 16px; height: 16px; stroke: var(--green); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; margin-top: 1px; }
-      .feature-text { font-size: 13px; color: var(--text-body); line-height: 1.5; }
-      .feature-text a { color: var(--green); text-decoration: underline; }
+      .feature-text { font-size: 15px; color: var(--text-body); line-height: 1.5; }
 
       /* GET STARTED */
-      .block { display: grid; grid-template-columns: 220px 1fr; gap: 40px; align-items: start; padding: 36px 0; border-top: 1px solid var(--border-subtle); }
+      .block { display: grid; grid-template-columns: 380px 1fr; gap: 40px; align-items: start; padding: 36px 0; border-top: 1px solid var(--border-subtle); }
       .block-label { font-size: 11px; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
       .block-title { font-size: 17px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
-      .block-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+      .block-desc { font-size: 15px; color: var(--text-secondary); line-height: 1.7; }
       /* Code window — dark in both themes */
-      .code-window { background: #0d0d0d; border: 1px solid #272727; border-radius: 10px; overflow: hidden; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 1px 2px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.18); }
-      .code-file { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px; border-bottom: 1px solid #1a1a1a; }
-      .code-file-name { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #888; }
-      .copy-btn { background: none; border: 1px solid #272727; border-radius: 4px; cursor: pointer; padding: 3px 6px; color: #888; display: flex; align-items: center; transition: color 0.15s, border-color 0.15s; }
-      .copy-btn:hover { color: #b4ca65; border-color: #b4ca65; }
-      .copy-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+      .code-window { background: var(--code-bg); border-radius: 10px; overflow: hidden; }
+      .code-file { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px; border-bottom: 1px solid #2e2e2e; }
+      .code-file-name { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #777; }
+      .copy-btn {
+        --button-highlight: var(--code-btn-highlight);
+        --button-highlight-pressed: var(--code-btn-highlight-pressed);
+        --button-edge-1: var(--code-edge-1);
+        --button-edge-2: var(--code-edge-2);
+        --button-edge-3: var(--code-edge-3);
+        --button-drop: var(--code-btn-drop);
+        --button-drop-pressed: rgba(0, 0, 0, 0.3);
+        --button-focus: var(--code-btn-focus);
+        display: inline-flex; align-items: center; gap: 5px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.02em; color: #aaa; padding: 4px 9px; border: none; background: var(--code-btn-face);
+      }
+      .copy-btn:hover { color: #d0d0d0; background: var(--code-btn-hover); }
+      .copy-btn:active { background: var(--code-btn-active); }
+      .copy-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
       .code-window .code-body { padding: 16px 20px; font-size: 13px; }
-      .tabs { display: flex; border-bottom: 1px solid #1a1a1a; }
-      .tab { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 8px 16px; color: #888; border-right: 1px solid #1a1a1a; background: none; border-top: none; border-left: none; border-bottom: none; cursor: pointer; }
+      .tabs { display: flex; border-bottom: 1px solid #2e2e2e; }
+      .tab {
+        font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 8px 16px; color: #b0b0b0; border-right: 1px solid #2e2e2e; border-top: none; border-left: none; border-bottom: none; background: none; cursor: pointer; transition: background 120ms ease, color 120ms ease;
+      }
+      .tab:hover { background: #242424; color: #d0d0d0; }
       .tab.active { color: #b4ca65; }
+      .tab:focus-visible { outline: 2px solid var(--code-btn-focus); outline-offset: -2px; }
 
       /* SUPPORT */
       .support-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; }
-      .support-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto 1fr auto; column-gap: 14px; row-gap: 14px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 2px rgba(110, 101, 83, 0.08), 0 8px 20px rgba(110, 101, 83, 0.1); }
+      .support-card { background: var(--surface); border-radius: 10px; padding: 24px; display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto 1fr auto; column-gap: 16px; row-gap: 18px; }
       .support-card-icon { display: flex; align-self: center; }
-      .support-card-icon svg { width: 24px; height: 24px; stroke: var(--green); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-      .support-card-title { font-size: 16px; font-weight: 600; color: var(--text-primary); align-self: center; }
-      .support-card-body { grid-column: 1 / -1; font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
-      .support-card-body span { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--green); }
+      .support-card-icon svg { width: 28px; height: 28px; stroke: var(--green); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+      .support-card-title { font-size: 18px; font-weight: 600; color: var(--text-primary); align-self: center; }
+      .support-card-body { grid-column: 1 / -1; font-size: 15px; color: var(--text-secondary); line-height: 1.65; }
+      .support-card-body span { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--green-link); }
       .support-btn {
         grid-column: 1 / -1; justify-self: start;
         display: inline-flex; align-items: center; gap: 6px;
         font-size: 13px; font-weight: 500;
         color: var(--text-primary); text-decoration: none;
-        border: 1px solid var(--border);
-        padding: 8px 14px; border-radius: 6px;
-        background: var(--surface);
-        box-shadow:
-          inset 0 1px 0 rgba(255, 255, 255, 0.55),
-          0 2px 0 var(--surface-deep),
-          0 3px 1px 0 rgba(110, 101, 83, 0.1);
-        transition: transform 70ms ease-out, box-shadow 70ms ease-out, background 120ms ease, color 120ms ease, border-color 120ms ease;
-      }
-      .support-btn:hover {
-        background: var(--border);
-      }
-      .support-btn:active {
-        transform: translateY(2px);
-        box-shadow:
-          inset 0 1px 0 rgba(255, 255, 255, 0.3),
-          0 0 0 var(--surface-deep),
-          0 1px 0 0 rgba(110, 101, 83, 0.08);
+        padding: 8px 14px;
       }
       .support-btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
       /* LICENSE */
       .license-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 48px; align-items: start; }
-      .license-body { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
-      .license-body a { color: var(--green); text-decoration: underline; }
-      .license-badge { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; display: flex; align-items: center; gap: 16px; }
+      .license-body { font-size: 15px; color: var(--text-secondary); line-height: 1.7; }
+      .license-badge { background: var(--surface); border-radius: 10px; padding: 24px; display: flex; align-items: center; gap: 16px; }
       .license-badge-icon svg { width: 32px; height: 32px; stroke: var(--green); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-      .license-badge-name { font-size: 15px; font-weight: 600; color: var(--green); margin-bottom: 4px; }
+      .license-badge-name { font-size: 15px; font-weight: 600; color: var(--green-link); margin-bottom: 4px; }
       .license-badge-sub { font-size: 12px; color: var(--text-secondary); }
 
       /* FOOTER */
@@ -321,10 +568,11 @@
       .footer-logo { font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600; color: var(--green); }
       .footer-logo .tag { color: var(--crimson); font-size: 10px; font-weight: 400; vertical-align: middle; }
       .footer-copy { font-size: 12px; color: var(--text-secondary); }
-      .footer-copy a { color: var(--text-secondary); text-decoration: none; }
+      .footer-copy a { color: var(--text-secondary); text-decoration: none; transition: color 0.15s; }
       .footer-links { display: flex; gap: 20px; list-style: none; }
-      .footer-links a { font-size: 12px; color: var(--text-secondary); text-decoration: none; }
-      .footer-links a:hover { color: var(--text-primary); }
+      .footer-links a { font-size: 12px; color: var(--text-secondary); text-decoration: none; transition: color 0.15s; }
+      .footer-copy a:hover, .footer-links a:hover { color: var(--text-primary); }
+      .footer-copy a:active, .footer-links a:active { color: var(--green-link); }
     </style>
   </head>
   <body>
@@ -350,10 +598,9 @@
       </div>
     </nav>
 
-    <div class="page">
-
-      <!-- HERO -->
-      <section class="hero" id="hero">
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="hero-inner">
         <div class="hero-grid">
           <div>
             <h1 class="hero-title"><span class="delim">&lt;%=</span> <span class="ejs">EJS</span> <span class="delim">%&gt;</span><br>Generate HTML<br>with plain JS.</h1>
@@ -385,7 +632,10 @@
           <div class="stat"><div class="stat-value">7.7k</div><div class="stat-label">GitHub stars</div></div>
           <div class="stat"><div class="stat-value">0</div><div class="stat-label">Dependencies</div></div>
         </div>
-      </section>
+      </div>
+    </section>
+
+    <div class="page">
 
       <!-- ABOUT -->
       <section id="about" class="section">
@@ -393,15 +643,15 @@
         <h2 class="section-title">What is EJS?</h2>
         <p class="section-intro">What is the "E" for? "Embedded?" Could be. How about "Effective," "Elegant," or just "Easy"? EJS is a simple templating language that lets you generate HTML markup with plain JavaScript. No religiousness about how to organize things. No reinvention of iteration and control-flow.</p>
         <div class="cards">
-          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div><div class="card-title">Use plain JavaScript</div><div class="card-body">All templating languages grow to be Turing-complete. Just cut out the middle-man and use JS.</div></div>
+          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><div class="card-title">Use plain JavaScript</div><div class="card-body">All templating languages grow to be Turing-complete. Just cut out the middle-man and use JS.</div></div>
           <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="card-title">Fast development</div><div class="card-body">Don't waste time figuring out arcane new syntax or how to preprocess your data so it renders right.</div></div>
-          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><div class="card-title">Simple syntax</div><div class="card-body">JavaScript code in simple scriptlet tags. Just write JS that emits the HTML you want.</div></div>
-          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div class="card-title">Speedy execution</div><div class="card-body">EJS caches the intermediate JS functions for fast execution across V8 and other runtimes.</div></div>
-          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div class="card-title">Easy debugging</div><div class="card-body">Errors are plain JavaScript exceptions, with template line-numbers included.</div></div>
-          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="card-title">Active development</div><div class="card-body">Large community, active maintainers. We're happy to answer questions or give help.</div></div>
+          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div><div class="card-title">Simple syntax</div><div class="card-body">JavaScript code in simple scriptlet tags. Just write JS that emits the HTML you want.</div></div>
+          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 4.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></div><div class="card-title">Speedy execution</div><div class="card-body">EJS caches the intermediate JS functions for fast execution across V8 and other runtimes.</div></div>
+          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></div><div class="card-title">Easy debugging</div><div class="card-body">Errors are plain JavaScript exceptions, with template line-numbers included.</div></div>
+          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M9 3h6"/><path d="M14 3v6l5.5 9.5a1 1 0 0 1-.87 1.5H5.37a1 1 0 0 1-.87-1.5L10 9V3"/><path d="M7 15h10"/></svg></div><div class="card-title">Active development</div><div class="card-body">Large community, active maintainers. We're happy to answer questions or give help.</div></div>
         </div>
         <div class="security-notice">
-          <div class="notice-header"><div class="notice-badge">Security</div><div class="notice-title">A note for security professionals</div></div>
+          <div class="notice-header"><svg class="notice-icon" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><div class="notice-title">A note for security professionals</div></div>
           <div class="notice-body">Before reporting any security issues, please reference the <a href="https://github.com/mde/ejs/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer">SECURITY.md</a> for this project.</div>
           <div class="notice-quote"><p>If you give end-users unfettered access to the EJS render method, you are using EJS in an inherently un-secure way.</p><p>EJS is effectively a JavaScript runtime. If you run the render method without checking inputs yourself, you are responsible for the results.</p></div>
           <div class="notice-body" style="margin-top:14px;">In short, <span style="color:#bf225a;">do not</span> submit vulnerabilities that include this snippet:</div>
@@ -420,7 +670,7 @@
           <div style="padding-top:4px;">
             <ul class="feature-list">
               <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Fast compilation and rendering</div></li>
-              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Simple template tags: <code style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#b4ca65;">&lt;% %&gt;</code></div></li>
+              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Simple template tags: <code style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--green-link);">&lt;% %&gt;</code></div></li>
               <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Custom delimiters</div></li>
               <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Sub-template includes</div></li>
               <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Ships with CLI</div></li>
@@ -440,11 +690,11 @@
         <p class="section-intro">Install EJS, pick your module system, and start generating HTML with plain JavaScript.</p>
         <div>
           <div class="block">
-            <div><div class="block-label">01 — Install</div><div class="block-title">Install via npm</div><div class="block-desc">Add EJS to your project with a single command.</div></div>
-            <div class="code-window"><div class="code-file"><span class="code-file-name">terminal</span><button class="copy-btn"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><div class="code-body"><span class="t-cm">$</span> <span class="t-var">npm</span> install <span class="t-str">ejs</span></div></div>
+            <div><div class="block-title">Install via npm</div><div class="block-desc">Add EJS to your project with a single command.</div></div>
+            <div class="code-window"><div class="code-file"><span class="code-file-name">terminal</span><button class="copy-btn"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><div class="code-body"><span class="t-cm">$</span> <span class="t-var">npm</span> install <span class="t-str">ejs</span></div></div>
           </div>
           <div class="block">
-            <div><div class="block-label">02 — Module system</div><div class="block-title">ESM or CJS</div><div class="block-desc">Pick the module system that fits your project.</div></div>
+            <div><div class="block-title">ESM or CJS</div><div class="block-desc">Pick the module system that fits your project.</div></div>
             <div class="code-window">
               <div class="tabs">
                 <button class="tab active" data-tab="esm">ESM</button>
@@ -455,15 +705,15 @@
             </div>
           </div>
           <div class="block">
-            <div><div class="block-label">03 — Use</div><div class="block-title">Render a template</div><div class="block-desc">Pass EJS a template string and some data. You've got HTML.</div></div>
+            <div><div class="block-title">Render a template</div><div class="block-desc">Pass EJS a template string and some data. You've got HTML.</div></div>
             <div class="code-window"><div class="code-file"><span class="code-file-name">render.js</span></div><div class="code-body"><div><span class="t-kw">import</span> <span class="t-var">ejs</span> <span class="t-kw">from</span> <span class="t-str">'ejs'</span>;</div><div><span class="t-kw">let</span> <span class="t-var">people</span> = [<span class="t-str">'geddy'</span>, <span class="t-str">'neil'</span>, <span class="t-str">'alex'</span>];</div><div><span class="t-kw">let</span> <span class="t-var">html</span> = <span class="t-var">ejs</span>.<span class="t-var">render</span>(<span class="t-str">'&lt;%= people.join(", "); %&gt;'</span>, {<span class="t-var">people</span>});</div></div></div>
           </div>
           <div class="block">
-            <div><div class="block-label">04 — CLI</div><div class="block-title">Use the command line</div><div class="block-desc">Feed it a template file and a data file, specify an output file.</div></div>
-            <div class="code-window"><div class="code-file"><span class="code-file-name">terminal</span><button class="copy-btn"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><div class="code-body"><span class="t-cm">$</span> <span class="t-var">ejs</span> <span class="t-path">./template.ejs</span> <span class="t-kw">-f</span> <span class="t-str">data.json</span> <span class="t-kw">-o</span> <span class="t-path">./output.html</span></div></div>
+            <div><div class="block-title">Use the command line</div><div class="block-desc">Feed it a template file and a data file, specify an output file.</div></div>
+            <div class="code-window"><div class="code-file"><span class="code-file-name">terminal</span><button class="copy-btn"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><div class="code-body"><span class="t-cm">$</span> <span class="t-var">ejs</span> <span class="t-path">./template.ejs</span> <span class="t-kw">-f</span> <span class="t-str">data.json</span> <span class="t-kw">-o</span> <span class="t-path">./output.html</span></div></div>
           </div>
           <div class="block">
-            <div><div class="block-label">05 — Browser</div><div class="block-title">Browser support</div><div class="block-desc">Download a browser build and drop it in a script tag.</div></div>
+            <div><div class="block-title">Browser support</div><div class="block-desc">Download a browser build and drop it in a script tag.</div></div>
             <div class="code-window"><div class="code-file"><span class="code-file-name">index.html</span></div><div class="code-body"><div><span class="t-html">&lt;script </span><span class="t-kw">src</span>=<span class="t-str">"ejs.js"</span><span class="t-html">&gt;&lt;/script&gt;</span></div><div><span class="t-html">&lt;script&gt;</span></div><div>&nbsp;&nbsp;<span class="t-kw">let</span> <span class="t-var">html</span> = <span class="t-var">ejs</span>.<span class="t-var">render</span>(<span class="t-str">'&lt;%= people.join(", "); %&gt;'</span>, {<span class="t-var">people</span>});</div><div><span class="t-html">&lt;/script&gt;</span></div></div></div>
           </div>
         </div>
@@ -502,10 +752,18 @@
 
     <script>
       document.querySelector('.theme-toggle').addEventListener('click', () => {
-        const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-        document.documentElement.dataset.theme = next;
+        const root = document.documentElement;
+        root.classList.add('no-transitions');
+        const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
         localStorage.setItem('theme', next);
+        requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove('no-transitions')));
       });
+
+      const nav = document.querySelector('.nav');
+      const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
 
       document.querySelectorAll('.tabs').forEach(tabs => {
         const container = tabs.parentElement;
