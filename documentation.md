@@ -157,6 +157,21 @@ In document order:
 Append-only. Newest first. Entries marked _(rationale unconfirmed)_ are my inference
 from the diff and commit message — correct them and I'll update.
 
+### 2026-05-30 — Grain-textured hero, Compare section, scroll-spy nav
+- **What:** Evolved the solid green hero into a layered surface — a radial-light +
+  linear gradient (`--hero-surface`) with a soft-light noise-grain overlay
+  (`.hero::after`, `--hero-grain-opacity`) — and pulled it up under the nav
+  (`margin-top: -60px`, transparent nav until `.scrolled`). Added the **Compare**
+  section ("Why EJS": Handlebars/Pug/Mustache vs. EJS, tabbed), a **scroll-spy nav**
+  that highlights the active section, and an **install pill** in the hero. Replaced the
+  hero's side-by-side code card with a single centered headline.
+- **Why:** Builds on the bold/modern direction — the grain and gradient add texture and
+  depth so the green hero reads as crafted rather than flat, and the nav blend makes the
+  top of the page feel like one designed surface. The Compare section makes the "it's
+  just JavaScript" pitch concrete by showing it head-to-head against other template
+  languages. _(Compare/scroll-spy rationale partly inferred — correct if off.)_
+- **Commit:** working-tree edits from 2026-05-29, committed 2026-05-30.
+
 ### 2026-05-30 — Green hero, cooler palette, nav-into-hero blend
 - **What:** Introduced a green gradient hero band with a noise-grain overlay and an
   oversized `<%=` watermark; shifted the whole light palette from warm cream to a cool
