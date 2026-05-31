@@ -1,0 +1,207 @@
+/*
+  EJS docs theme — maps Starlight's design tokens onto the landing page's
+  palette (cream/green/crimson) so /docs/ feels like a seamless continuation
+  of /. Fonts: Inter (body), Montserrat (headings/UI), IBM Plex Mono (code).
+  Code surfaces stay dark in both themes, matching the landing page.
+*/
+
+/* ---------- Fonts ---------- */
+:root {
+  --sl-font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --sl-font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Brand colors shared across themes */
+  --ejs-crimson: #bf225a;
+}
+
+/* ---------- Dark theme (Starlight default :root) ---------- */
+:root {
+  /* Gray scale tuned to the landing page's dark surfaces */
+  --sl-color-white: #eef0f3;
+  --sl-color-gray-1: #dee0e4;
+  --sl-color-gray-2: #c4c7cd;
+  --sl-color-gray-3: #a4a7ae;
+  --sl-color-gray-4: #6b6e75;
+  --sl-color-gray-5: #26282d;
+  --sl-color-gray-6: #1c1e22;
+  --sl-color-gray-7: #15161a;
+  --sl-color-black: #101114;
+
+  /* Accent = EJS green */
+  --sl-color-accent-low: #2a330f;
+  --sl-color-accent: #5a7020;
+  --sl-color-accent-high: #b4ca65;
+
+  --sl-color-text: #dee0e4;
+  --sl-color-text-accent: #b4ca65;
+  --sl-color-bg: #101114;
+  --sl-color-bg-nav: #181a1e;
+  --sl-color-bg-sidebar: #181a1e;
+  --sl-color-bg-inline-code: #0e0e0e;
+  --sl-color-hairline-light: #26282d;
+  --sl-color-hairline: #26282d;
+  --sl-color-hairline-shade: #0a0a0d;
+
+  --ejs-hero-bg: #4a6213;
+  --ejs-hero-ink: #f2f5ea;
+  --ejs-inline-code-text: #b4ca65;
+}
+
+/* ---------- Light theme (cream) ---------- */
+:root[data-theme='light'] {
+  --sl-color-white: #1a1a1a;
+  --sl-color-gray-1: #1f1f1f;
+  --sl-color-gray-2: #2a2a2a;
+  --sl-color-gray-3: #4f535a;
+  --sl-color-gray-4: #6e7178;
+  --sl-color-gray-5: #d1d4cf;
+  --sl-color-gray-6: #e5e7e3;
+  --sl-color-gray-7: #ebedea;
+
+  --sl-color-accent-low: #e6ecd2;
+  --sl-color-accent: #557d0c;
+  --sl-color-accent-high: #3c5a08;
+
+  --sl-color-text: #1f1f1f;
+  --sl-color-text-accent: #557d0c;
+  --sl-color-bg: #f4f5f3;
+  --sl-color-bg-nav: #fdfefc;
+  --sl-color-bg-sidebar: #fcfdfb;
+  --sl-color-bg-inline-code: #ebedea;
+  --sl-color-hairline-light: #d1d4cf;
+  --sl-color-hairline: #d1d4cf;
+  --sl-color-hairline-shade: #dee0dc;
+
+  --ejs-hero-bg: #b4ca65;
+  --ejs-hero-ink: #1c2208;
+  --ejs-inline-code-text: #557d0c;
+}
+
+/* ---------- Landing-nav parity tokens ----------
+   The docs top bar reproduces the landing nav in its resting (scrolled) state:
+   a surface bar — NOT the green hero band, which on the landing only exists
+   because a green hero sits behind it. These are lifted verbatim from
+   index.html so the two navs are the same bar, not an approximation. The
+   surface color itself reuses --sl-color-bg-nav (identical hex), and
+   --border / --text-secondary / --text-primary / --green-link map onto
+   --sl-color-hairline / --sl-color-gray-3 / --sl-color-white /
+   --sl-color-text-accent, which already hold the landing's exact values. */
+:root {
+  --ejs-nav-highlight: transparent;
+  --ejs-border-subtle: #181a1e;
+  --ejs-panel-shadow: rgba(0, 0, 0, 0.32);
+  --ejs-panel-shadow-soft: rgba(0, 0, 0, 0.22);
+  --ejs-btn-face: linear-gradient(180deg, #232428 0%, #15161a 100%);
+  --ejs-surface-hover: linear-gradient(180deg, #2b2c31 0%, #1d1e22 100%);
+  --ejs-btn-highlight: rgba(255, 255, 255, 0.14);
+  --ejs-btn-highlight-pressed: rgba(255, 255, 255, 0.08);
+  --ejs-btn-drop: rgba(0, 0, 0, 0.35);
+  --ejs-btn-drop-pressed: rgba(0, 0, 0, 0.3);
+  --ejs-btn-focus: rgba(180, 202, 101, 0.45);
+  --ejs-edge: #080808;
+  --ejs-green: #b4ca65;
+  --ejs-green-hover: #d2e889;
+  --ejs-hero-ink-soft: #d6ddc6;
+}
+
+:root[data-theme='light'] {
+  --ejs-nav-highlight: rgba(255, 255, 255, 0.28);
+  --ejs-border-subtle: #e5e7e3;
+  --ejs-panel-shadow: rgba(92, 97, 104, 0.12);
+  --ejs-panel-shadow-soft: rgba(92, 97, 104, 0.08);
+  --ejs-btn-face: linear-gradient(180deg, #fefffd 0%, #f2f4f0 100%);
+  --ejs-surface-hover: linear-gradient(180deg, #f1f3ef 0%, #e8eae6 100%);
+  --ejs-btn-highlight: rgba(255, 255, 255, 0.55);
+  --ejs-btn-highlight-pressed: rgba(255, 255, 255, 0.3);
+  --ejs-btn-drop: rgba(92, 97, 104, 0.12);
+  --ejs-btn-drop-pressed: rgba(92, 97, 104, 0.1);
+  --ejs-btn-focus: rgba(94, 140, 12, 0.45);
+  --ejs-edge: #d1d4cf;
+  --ejs-green: #9eb44e;
+  --ejs-green-hover: #84993e;
+  --ejs-hero-ink-soft: #2e3a18;
+}
+
+/* ---------- Instant theme switch (matches the landing page) ---------- */
+/* The toggle adds `.no-transitions` to <html> for one frame so flipping
+   light/dark doesn't animate every colored surface. */
+.no-transitions,
+.no-transitions *,
+.no-transitions *::before,
+.no-transitions *::after {
+  transition: none !important;
+}
+
+/* ---------- Headings & UI chrome use Montserrat ---------- */
+.site-title,
+.sl-markdown-content h1,
+.sl-markdown-content h2,
+.sl-markdown-content h3,
+.sl-markdown-content h4,
+.sl-markdown-content h5,
+.sl-markdown-content h6,
+.content-panel h1,
+h1#_top {
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: -0.5px;
+}
+
+.site-title {
+  font-weight: 700;
+}
+
+/* ---------- Top nav: the bottom edge is drawn by .site-nav's box-shadow
+   (matching the landing's scrolled nav), so suppress Starlight's own header
+   border to avoid a doubled hairline. ---------- */
+header.header {
+  border-bottom: none;
+}
+
+/* ---------- Inline code: brand green, monospace ---------- */
+.sl-markdown-content code:not(:where(.expressive-code *)) {
+  color: var(--ejs-inline-code-text);
+  font-family: var(--sl-font-mono);
+  font-size: 0.875em;
+  border: 1px solid var(--sl-color-hairline);
+}
+
+/* ---------- Links pick up the green accent ---------- */
+.sl-markdown-content a {
+  color: var(--sl-color-text-accent);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+/* ---------- EJS delimiters glow crimson inside code blocks ---------- */
+/* Shiki tags the <% %> punctuation; nudge it toward the brand crimson. */
+.expressive-code .ec-line .ejs-delim {
+  color: var(--ejs-crimson);
+}
+
+/* ---------- Splash hero (landing page) ---------- */
+.hero {
+  padding-block: 2rem;
+}
+.hero h1 {
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: -1px;
+}
+.hero .tagline {
+  color: var(--sl-color-gray-3);
+}
+
+/* Primary call-to-action button → crimson, matching the landing page */
+.hero .actions a[data-variant='primary'] {
+  background: linear-gradient(180deg, #c93066 0%, #b21f56 100%);
+  border-color: #a01a4a;
+  color: #fff;
+}
+.hero .actions a[data-variant='primary']:hover {
+  background: linear-gradient(180deg, #be2a5d 0%, #9b1949 100%);
+}
+
+/* The hero image (EJS mark) shouldn't be cramped */
+.hero img {
+  max-width: 11rem;
+  margin-inline: auto;
+}

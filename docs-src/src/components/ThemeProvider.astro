@@ -1,0 +1,18 @@
+---
+// Pre-paint theme resolver, overriding Starlight's default. It reads the SAME
+// `theme` localStorage key and writes the SAME `data-theme` attribute as the
+// landing page (index.html), so a light/dark choice on / carries straight into
+// /docs/ and back. Inlined to avoid FOUC.
+---
+
+<script is:inline>
+	(() => {
+		const stored = localStorage.getItem('theme');
+		const theme =
+			stored || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+		document.documentElement.dataset.theme = theme;
+		// Back-compat stub: Starlight's type defs reference this global. Our custom
+		// ThemeSelect manages its own icon, so the picker updater is a no-op.
+		window.StarlightThemeProvider = { updatePickers() {} };
+	})();
+</script>

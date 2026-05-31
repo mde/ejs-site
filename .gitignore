@@ -1,1 +1,6 @@
 .DS_Store
+
+# Starlight docs build tooling (source lives in docs-src/, output in docs/)
+docs-src/node_modules/
+docs-src/.astro/
+docs-src/dist/
