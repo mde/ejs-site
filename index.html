@@ -84,6 +84,10 @@
         --hero-watermark: rgba(0, 0, 0, 0.06);
         --hero-hover: rgba(0, 0, 0, 0.07);
         --hero-press: rgba(0, 0, 0, 0.16);
+        --hero-surface:
+          radial-gradient(95% 78% at 24% 30%, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0) 60%),
+          linear-gradient(180deg, #b4ca65 0%, #b4ca65 32%, #a6bc57 100%);
+        --hero-grain-opacity: 0.38;
       }
 
       :root[data-theme="dark"] {
@@ -124,7 +128,7 @@
         --crimson-faint-border: #2a1520;
         --nav-bg: #181a1e;
         --nav-highlight: transparent;
-        --hero-bg: #4a6213;
+        --hero-bg: #15171b;
         --hero-ink: #f2f5ea;
         --hero-ink-soft: #d6ddc6;
         --hero-divider: rgba(255, 255, 255, 0.14);
@@ -132,6 +136,10 @@
         --hero-watermark: rgba(255, 255, 255, 0.05);
         --hero-hover: rgba(255, 255, 255, 0.09);
         --hero-press: rgba(0, 0, 0, 0.4);
+        --hero-surface:
+          radial-gradient(95% 78% at 24% 30%, rgba(180, 202, 101, 0.07) 0%, rgba(180, 202, 101, 0) 60%),
+          linear-gradient(180deg, #15171b 0%, #15171b 32%, #0f1115 100%);
+        --hero-grain-opacity: 0.45;
       }
 
       html { scroll-behavior: smooth; scroll-padding-top: 60px; }
@@ -283,7 +291,7 @@
       /* NAV */
       .nav {
         border-bottom: none;
-        background-color: var(--hero-bg);
+        background-color: transparent;
         position: sticky;
         top: 0;
         z-index: 10;
@@ -312,19 +320,19 @@
         justify-content: space-between;
       }
       .nav-logo { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 700; color: var(--hero-ink); text-decoration: none; transition: color 0.15s ease; }
-      .nav-logo:hover { color: var(--text-primary); }
       .nav.scrolled .nav-logo { color: var(--green); }
       .nav.scrolled .nav-logo:hover { color: var(--green-hover); }
       .nav-logo:focus-visible { outline: 2px solid var(--btn-focus); outline-offset: 4px; border-radius: 4px; }
       .nav-center { display: flex; gap: 4px; list-style: none; }
       .nav-center a { font-size: 14px; font-weight: 500; color: var(--hero-ink-soft); text-decoration: none; padding: 8px 16px; border-radius: 6px; transition: color 0.15s, background 0.15s, box-shadow 0.15s; }
-      .nav.scrolled .nav-center a { color: var(--text-secondary); }
       .nav-center a:hover { color: var(--text-primary); background: var(--surface-hover); box-shadow: inset 0 0 0 1px var(--border-subtle); }
       [data-theme="dark"] .nav-center a:hover { box-shadow: inset 0 0 0 1px var(--border); }
       .nav-center a:active { color: var(--text-primary); box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.14); }
       [data-theme="dark"] .nav-center a:active { box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.55); }
       .nav:not(.scrolled) .nav-center a:hover { color: var(--hero-ink); background: var(--hero-hover); box-shadow: inset 0 0 0 1px var(--hero-divider); }
       .nav:not(.scrolled) .nav-center a:active { box-shadow: inset 0 1px 3px var(--hero-press); }
+      .nav-center a.active { color: var(--green-link); background: var(--surface-hover); box-shadow: inset 0 0 0 1px var(--border-subtle); }
+      [data-theme="dark"] .nav-center a.active { box-shadow: inset 0 0 0 1px var(--border); }
       .nav-right { display: flex; gap: 10px; align-items: center; }
       .nav-gh {
         display: inline-flex; align-items: center; gap: 8px;
@@ -351,8 +359,20 @@
       .hero {
         position: relative;
         overflow: hidden;
-        background: var(--hero-bg);
+        margin-top: -60px;
+        background-color: var(--hero-bg);
+        background-image: var(--hero-surface);
         border-bottom: 1px solid var(--border);
+      }
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: var(--hero-grain-opacity);
+        mix-blend-mode: soft-light;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       }
       .hero::before {
         content: "<%=";
@@ -374,19 +394,16 @@
         z-index: 1;
         max-width: 1120px;
         margin: 0 auto;
-        padding: 88px 48px 96px;
+        padding: 148px 48px 96px;
       }
-      .hero-grid {
-        display: grid;
-        grid-template-columns: 1fr 420px;
-        gap: 48px;
-        align-items: end;
-        margin-bottom: 56px;
-      }
-      .hero-title { font-size: 64px; font-weight: 600; line-height: 1.05; letter-spacing: -2px; color: var(--text-primary); margin-bottom: 24px; }
-      .hero-title .ejs { color: var(--green); font-family: 'Montserrat', sans-serif; font-size: 76px; letter-spacing: -2px; }
-      .hero-title .delim { color: var(--hero-delim); font-family: 'IBM Plex Mono', monospace; font-size: 56px; font-weight: 600; vertical-align: baseline; }
-      .hero-body { font-size: 16px; color: var(--text-secondary); line-height: 1.7; max-width: 440px; margin-bottom: 32px; }
+      .install-pill { display: inline-flex; align-items: center; gap: 4px; background: var(--code-bg); border-radius: 6px; padding: 13px 7px 13px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #f0f0f0; }
+      .install-pill code { background: none; padding: 0; font: inherit; color: inherit; }
+      .install-pill .copy-btn { background: none; padding: 6px; color: #888; }
+      .install-pill .copy-btn:hover { background: var(--code-btn-hover); color: #d0d0d0; }
+      .hero-title { font-size: clamp(48px, 7vw, 88px); font-weight: 600; line-height: 1.04; letter-spacing: -3px; color: var(--text-primary); margin-bottom: 28px; }
+      .hero-title .ejs { color: var(--green); font-family: 'Montserrat', sans-serif; font-size: 1.18em; letter-spacing: -0.03em; }
+      .hero-title .delim { color: var(--hero-delim); font-family: 'IBM Plex Mono', monospace; font-size: 0.82em; font-weight: 600; vertical-align: baseline; }
+      .hero-body { font-size: 19px; color: var(--text-secondary); line-height: 1.65; max-width: 620px; margin-bottom: 36px; }
       .hero .hero-title { color: var(--hero-ink); }
       .hero .hero-title .ejs { color: var(--hero-delim); }
       .hero .hero-title .ejs,
@@ -403,14 +420,7 @@
         letter-spacing: -1px;
         color: var(--hero-delim);
       }
-      [data-theme="dark"] .hero .code-card {
-        box-shadow:
-          inset 0 1px 0 rgba(255, 255, 255, 0.08),
-          inset 0 0 0 1px rgba(255, 255, 255, 0.14),
-          0 6px 16px rgba(0, 0, 0, 0.4),
-          0 16px 40px rgba(0, 0, 0, 0.3);
-      }
-      .hero-btns { display: flex; gap: 10px; margin-bottom: 48px; }
+      .hero-btns { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 48px; }
       .btn-primary {
         --button-highlight: rgba(255, 255, 255, 0.4);
         --button-highlight-pressed: rgba(255, 255, 255, 0.25);
@@ -437,7 +447,6 @@
       .btn-primary:active {
         background: var(--primary-btn-active);
       }
-      .hero-right { align-self: stretch; display: flex; flex-direction: column; justify-content: center; }
 
       /* Code surface — dark in both themes */
       .code-card { background: var(--code-bg); border-radius: 10px; overflow: hidden; }
@@ -537,6 +546,19 @@
       .tab.active { color: #b4ca65; }
       .tab:focus-visible { outline: 2px solid var(--code-btn-focus); outline-offset: -2px; }
 
+      /* COMPARE */
+      .compare-tabs { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--surface); margin-bottom: 28px; }
+      .compare-tabs .tab { color: var(--text-secondary); border-right: 1px solid var(--border); }
+      .compare-tabs .tab:last-child { border-right: none; }
+      .compare-tabs .tab:hover { background: var(--surface-faint); color: var(--text-primary); }
+      .compare-tabs .tab.active { color: #fff; background: var(--crimson); }
+      .compare-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 28px; align-items: start; }
+      .compare-arrow { align-self: center; font-family: 'IBM Plex Mono', monospace; font-size: 28px; color: var(--text-secondary); }
+      .compare-cap { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 12px; }
+      .compare-cap-good { color: var(--green-link); }
+      .compare-note { font-size: 14px; line-height: 1.6; color: var(--text-secondary); margin-top: 14px; max-width: 42ch; }
+      .compare-note-good { color: var(--green-link); }
+
       /* SUPPORT */
       .support-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; }
       .support-card { background: var(--surface); border-radius: 10px; padding: 24px; display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto 1fr auto; column-gap: 16px; row-gap: 18px; }
@@ -582,6 +604,7 @@
       <div class="nav-inner">
         <a class="nav-logo" href="#hero">EJS</a>
         <ul class="nav-center">
+          <li><a href="#compare">Why EJS</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#features">Features</a></li>
           <li><a href="#install">Get Started</a></li>
@@ -601,31 +624,11 @@
     <!-- HERO -->
     <section class="hero" id="hero">
       <div class="hero-inner">
-        <div class="hero-grid">
-          <div>
-            <h1 class="hero-title"><span class="delim">&lt;%=</span> <span class="ejs">EJS</span> <span class="delim">%&gt;</span><br>Generate HTML<br>with plain JS.</h1>
-            <p class="hero-body">No new syntax to learn. No reinvention of iteration and control-flow. It's just plain JavaScript.</p>
-            <div class="hero-btns">
-              <a class="btn-primary" href="#install">Get Started →</a>
-            </div>
-          </div>
-          <div class="hero-right">
-            <div class="code-card">
-              <div class="code-file"><span class="code-file-name">template.ejs</span></div>
-              <div class="code-body">
-                <div class="t-cm"><span class="ln">1</span>&lt;!-- user greeting --&gt;</div>
-                <div><span class="ln">2</span><span class="t-tag">&lt;%</span> <span class="t-kw">if</span> (<span class="t-var">user</span>) { <span class="t-tag">%&gt;</span></div>
-                <div><span class="ln">3</span>&nbsp;&nbsp;<span class="t-html">&lt;h2&gt;</span><span class="t-tag">&lt;%=</span> <span class="t-var">user</span>.name <span class="t-tag">%&gt;</span><span class="t-html">&lt;/h2&gt;</span></div>
-                <div><span class="ln">4</span><span class="t-tag">&lt;%</span> } <span class="t-tag">%&gt;</span></div>
-                <div><span class="ln">5</span>&nbsp;</div>
-                <div><span class="ln">6</span><span class="t-html">&lt;ul&gt;</span></div>
-                <div><span class="ln">7</span>&nbsp;&nbsp;<span class="t-tag">&lt;%</span> <span class="t-var">items</span>.<span class="t-kw">forEach</span>(<span class="t-var">item</span> <span class="t-kw">=&gt;</span> { <span class="t-tag">%&gt;</span></div>
-                <div><span class="ln">8</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-html">&lt;li&gt;</span><span class="t-tag">&lt;%=</span> <span class="t-var">item</span> <span class="t-tag">%&gt;</span><span class="t-html">&lt;/li&gt;</span></div>
-                <div><span class="ln">9</span>&nbsp;&nbsp;<span class="t-tag">&lt;%</span> }); <span class="t-tag">%&gt;</span></div>
-                <div><span class="ln">10</span><span class="t-html">&lt;/ul&gt;</span></div>
-              </div>
-            </div>
-          </div>
+        <h1 class="hero-title"><span class="delim">&lt;%=</span> <span class="ejs">EJS</span> <span class="delim">%&gt;</span><br>Generate HTML with plain JS.</h1>
+        <p class="hero-body">No new syntax, no special directives. Write the JavaScript you already know, right inside your HTML.</p>
+        <div class="hero-btns">
+          <a class="btn-primary" href="#install">Get Started →</a>
+          <div class="install-pill"><code><span class="t-cm">$</span> <span class="t-var">npm</span> install <span class="t-str">ejs</span></code><button class="copy-btn" aria-label="Copy install command"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div>
         </div>
         <div class="stats-strip">
           <div class="stat"><div class="stat-value">20M+</div><div class="stat-label">Weekly downloads</div></div>
@@ -636,6 +639,90 @@
     </section>
 
     <div class="page">
+
+      <!-- COMPARE -->
+      <section id="compare" class="section">
+        <div class="section-label">Why EJS</div>
+        <h2 class="section-title">Stop learning template syntax.</h2>
+        <p class="section-intro">Every other templating language invents its own dialect for loops, conditionals, and partials. EJS just uses JavaScript — the language you already write every day.</p>
+        <div class="compare">
+          <div class="tabs compare-tabs">
+            <button class="tab active" data-tab="handlebars">Handlebars</button>
+            <button class="tab" data-tab="pug">Pug</button>
+            <button class="tab" data-tab="mustache">Mustache</button>
+          </div>
+          <div class="compare-grid">
+            <div class="compare-col">
+              <div class="compare-cap">The old way</div>
+              <div data-panel="handlebars">
+                <div class="code-window">
+                  <div class="code-file"><span class="code-file-name">greeting.hbs</span></div>
+                  <div class="code-body">
+                    <div><span class="t-tag">{{</span><span class="t-kw">#if</span> <span class="t-var">user</span><span class="t-tag">}}</span></div>
+                    <div>&nbsp;&nbsp;<span class="t-html">&lt;h2&gt;</span><span class="t-tag">{{</span><span class="t-var">user.name</span><span class="t-tag">}}</span><span class="t-html">&lt;/h2&gt;</span></div>
+                    <div><span class="t-tag">{{</span><span class="t-kw">/if</span><span class="t-tag">}}</span></div>
+                    <div><span class="t-html">&lt;ul&gt;</span></div>
+                    <div>&nbsp;&nbsp;<span class="t-tag">{{</span><span class="t-kw">#each</span> <span class="t-var">items</span><span class="t-tag">}}</span></div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-html">&lt;li&gt;</span><span class="t-tag">{{</span><span class="t-kw">this</span><span class="t-tag">}}</span><span class="t-html">&lt;/li&gt;</span></div>
+                    <div>&nbsp;&nbsp;<span class="t-tag">{{</span><span class="t-kw">/each</span><span class="t-tag">}}</span></div>
+                    <div><span class="t-html">&lt;/ul&gt;</span></div>
+                  </div>
+                </div>
+                <p class="compare-note">Logic-less by design — so you write custom helpers for anything real.</p>
+              </div>
+              <div data-panel="pug" hidden>
+                <div class="code-window">
+                  <div class="code-file"><span class="code-file-name">greeting.pug</span></div>
+                  <div class="code-body">
+                    <div><span class="t-kw">if</span> <span class="t-var">user</span></div>
+                    <div>&nbsp;&nbsp;<span class="t-html">h2</span>= <span class="t-var">user.name</span></div>
+                    <div><span class="t-html">ul</span></div>
+                    <div>&nbsp;&nbsp;<span class="t-kw">each</span> <span class="t-var">item</span> <span class="t-kw">in</span> <span class="t-var">items</span></div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-html">li</span>= <span class="t-var">item</span></div>
+                  </div>
+                </div>
+                <p class="compare-note">A whole new whitespace-significant language to learn.</p>
+              </div>
+              <div data-panel="mustache" hidden>
+                <div class="code-window">
+                  <div class="code-file"><span class="code-file-name">greeting.mustache</span></div>
+                  <div class="code-body">
+                    <div><span class="t-tag">{{</span><span class="t-kw">#user</span><span class="t-tag">}}</span></div>
+                    <div>&nbsp;&nbsp;<span class="t-html">&lt;h2&gt;</span><span class="t-tag">{{</span><span class="t-var">name</span><span class="t-tag">}}</span><span class="t-html">&lt;/h2&gt;</span></div>
+                    <div><span class="t-tag">{{</span><span class="t-kw">/user</span><span class="t-tag">}}</span></div>
+                    <div><span class="t-html">&lt;ul&gt;</span></div>
+                    <div>&nbsp;&nbsp;<span class="t-tag">{{</span><span class="t-kw">#items</span><span class="t-tag">}}</span></div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-html">&lt;li&gt;</span><span class="t-tag">{{</span><span class="t-var">.</span><span class="t-tag">}}</span><span class="t-html">&lt;/li&gt;</span></div>
+                    <div>&nbsp;&nbsp;<span class="t-tag">{{</span><span class="t-kw">/items</span><span class="t-tag">}}</span></div>
+                    <div><span class="t-html">&lt;/ul&gt;</span></div>
+                  </div>
+                </div>
+                <p class="compare-note">So minimal you can't even loop with an index without contortions.</p>
+              </div>
+            </div>
+            <div class="compare-arrow" aria-hidden="true">→</div>
+            <div class="compare-col">
+              <div class="compare-cap compare-cap-good">The EJS way</div>
+              <div>
+                <div class="code-window">
+                  <div class="code-file"><span class="code-file-name">greeting.ejs</span></div>
+                  <div class="code-body">
+                    <div><span class="t-tag">&lt;%</span> <span class="t-kw">if</span> (<span class="t-var">user</span>) { <span class="t-tag">%&gt;</span></div>
+                    <div>&nbsp;&nbsp;<span class="t-html">&lt;h2&gt;</span><span class="t-tag">&lt;%=</span> <span class="t-var">user</span>.name <span class="t-tag">%&gt;</span><span class="t-html">&lt;/h2&gt;</span></div>
+                    <div><span class="t-tag">&lt;%</span> } <span class="t-tag">%&gt;</span></div>
+                    <div><span class="t-html">&lt;ul&gt;</span></div>
+                    <div>&nbsp;&nbsp;<span class="t-tag">&lt;%</span> <span class="t-var">items</span>.<span class="t-kw">forEach</span>(<span class="t-var">item</span> <span class="t-kw">=&gt;</span> { <span class="t-tag">%&gt;</span></div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-html">&lt;li&gt;</span><span class="t-tag">&lt;%=</span> <span class="t-var">item</span> <span class="t-tag">%&gt;</span><span class="t-html">&lt;/li&gt;</span></div>
+                    <div>&nbsp;&nbsp;<span class="t-tag">&lt;%</span> }); <span class="t-tag">%&gt;</span></div>
+                    <div><span class="t-html">&lt;/ul&gt;</span></div>
+                  </div>
+                </div>
+                <p class="compare-note compare-note-good">It's just JavaScript. You already know this.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <!-- ABOUT -->
       <section id="about" class="section">
@@ -761,9 +848,28 @@
       });
 
       const nav = document.querySelector('.nav');
-      const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
+      const spyLinks = [...document.querySelectorAll('.nav-center a[href^="#"]')];
+      const spySections = spyLinks.map(a => document.getElementById(a.hash.slice(1))).filter(Boolean);
+      let lockedHash = null;
+      const setActive = hash => spyLinks.forEach(a => a.classList.toggle('active', a.hash === hash));
+      const onScroll = () => {
+        nav.classList.toggle('scrolled', window.scrollY > 8);
+        const line = window.scrollY + 80;
+        let current = null;
+        for (const sec of spySections) {
+          if (sec.offsetTop <= line && (!current || sec.offsetTop > current.offsetTop)) current = sec;
+        }
+        const hash = current ? '#' + current.id : '';
+        if (lockedHash) {
+          if (hash === lockedHash) lockedHash = null;
+          return;
+        }
+        setActive(hash);
+      };
       onScroll();
       window.addEventListener('scroll', onScroll, { passive: true });
+      spyLinks.forEach(a => a.addEventListener('click', () => { lockedHash = a.hash; setActive(a.hash); }));
+      ['wheel', 'touchstart', 'keydown'].forEach(ev => window.addEventListener(ev, () => { lockedHash = null; }, { passive: true }));
 
       document.querySelectorAll('.tabs').forEach(tabs => {
         const container = tabs.parentElement;
