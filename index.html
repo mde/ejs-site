@@ -234,14 +234,6 @@
           0 4px 4px var(--button-drop);
       }
 
-      .btn-primary:active {
-        transform: translateY(3px);
-        box-shadow:
-          inset 0 1px 0 var(--button-highlight-pressed),
-          0 0 0 var(--button-edge-3),
-          0 1px 1px var(--button-drop-pressed);
-      }
-
       .nav-center a:focus-visible,
       .nav-gh:focus-visible,
       .theme-toggle:focus-visible,
@@ -256,7 +248,7 @@
         outline-offset: 3px;
       }
 
-      .card,
+      .benefit-card,
       .support-card,
       .license-badge {
         border: none;
@@ -396,10 +388,6 @@
         margin: 0 auto;
         padding: 148px 48px 96px;
       }
-      .install-pill { display: inline-flex; align-items: center; gap: 4px; background: var(--code-bg); border-radius: 6px; padding: 13px 7px 13px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #f0f0f0; }
-      .install-pill code { background: none; padding: 0; font: inherit; color: inherit; }
-      .install-pill .copy-btn { background: none; padding: 6px; color: #888; }
-      .install-pill .copy-btn:hover { background: var(--code-btn-hover); color: #d0d0d0; }
       .hero-title { font-size: clamp(48px, 7vw, 88px); font-weight: 600; line-height: 1.04; letter-spacing: -3px; color: var(--text-primary); margin-bottom: 28px; }
       .hero-title .ejs { color: var(--green); font-family: 'Montserrat', sans-serif; font-size: 1.18em; letter-spacing: -0.03em; }
       .hero-title .delim { color: var(--hero-delim); font-family: 'IBM Plex Mono', monospace; font-size: 0.82em; font-weight: 600; vertical-align: baseline; }
@@ -415,12 +403,12 @@
       .hero .stat { border-right-color: var(--hero-divider); }
       .hero .stat-value {
         font-family: 'Montserrat', sans-serif;
-        font-size: 42px;
+        font-size: 48px;
         font-weight: 700;
         letter-spacing: -1px;
         color: var(--hero-delim);
       }
-      .hero-btns { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 48px; }
+      .hero-row { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 40px; }
       .btn-primary {
         --button-highlight: rgba(255, 255, 255, 0.4);
         --button-highlight-pressed: rgba(255, 255, 255, 0.25);
@@ -433,19 +421,28 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        font-size: 16px;
+        font-size: 20px;
         font-weight: 500;
         color: #fff;
-        padding: 14px 30px;
+        padding: 20px 46px;
+        border-radius: 10px;
         text-decoration: none;
         background: var(--primary-btn-face);
       }
       .btn-primary:hover {
+        --button-highlight: rgba(255, 255, 255, 0.55);
         --button-drop: rgba(0, 0, 0, 0.32);
         background: var(--primary-btn-hover);
       }
+      .btn-arrow { display: inline-block; transition: transform 150ms ease-out; }
+      .btn-primary:hover .btn-arrow { transform: translateX(4px); }
       .btn-primary:active {
         background: var(--primary-btn-active);
+        transform: translateY(3px);
+        box-shadow:
+          inset 0 1px 0 var(--button-highlight-pressed),
+          0 0 0 var(--button-edge-3),
+          0 1px 1px var(--button-drop-pressed);
       }
 
       /* Code surface — dark in both themes */
@@ -454,17 +451,17 @@
       .ln { color: #666; margin-right: 14px; font-size: 10px; user-select: none; }
       .t-tag { color: #bf225a; } .t-var { color: #ff6188; } .t-kw { color: #ab9df2; } .t-str { color: #a9dc76; } .t-path { color: #fc9867; } .t-html { color: #939293; } .t-cm { color: #78dce8; }
 
-      .stats-strip { display: flex; }
-      .stat { padding: 0 24px; border-right: 1px solid var(--border-subtle); }
+      .stats-strip { display: flex; width: 620px; max-width: 100%; } /* matches .hero-body max-width */
+      .stat { flex: 1; padding: 0 30px; border-right: 1px solid var(--border-subtle); }
       .stat:first-child { padding-left: 0; }
       .stat:last-child { border-right: none; padding-right: 0; }
       .stat-value { font-size: 30px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.5px; line-height: 1.1; margin-bottom: 8px; }
-      .stat-label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em; }
+      .stat-label { font-size: 13px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em; }
 
       /* ABOUT */
       .section { padding: 96px 48px; border-bottom: 1px solid var(--border); }
       .notice-body a,
-      .feature-text a,
+      .card-feat a,
       .license-body a {
         color: var(--green-link);
         text-decoration: underline;
@@ -473,25 +470,51 @@
         transition: color 0.15s, text-decoration-color 0.15s;
       }
       .notice-body a:hover,
-      .feature-text a:hover,
+      .card-feat a:hover,
       .license-body a:hover {
         color: var(--green-link-hover);
         text-decoration-color: currentColor;
       }
       .notice-body a:active,
-      .feature-text a:active,
+      .card-feat a:active,
       .license-body a:active {
         color: var(--crimson);
       }
       .section-label { font-size: 11px; font-weight: 600; color: var(--crimson); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 12px; }
       .section-title { font-size: 32px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.8px; margin-bottom: 12px; }
       .section-intro { font-size: 16px; color: var(--text-secondary); line-height: 1.7; max-width: 600px; margin-bottom: 48px; }
-      .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 48px; }
-      .card { background: var(--surface); border-radius: 10px; padding: 24px; display: grid; grid-template-columns: auto 1fr; column-gap: 16px; row-gap: 18px; }
-      .card-icon { display: flex; align-self: center; }
-      .card-icon svg { width: 28px; height: 28px; stroke: var(--green); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-      .card-title { font-size: 18px; font-weight: 600; color: var(--text-primary); align-self: center; }
-      .card-body { grid-column: 1 / -1; font-size: 15px; color: var(--text-secondary); line-height: 1.65; }
+      /* Benefits — a grid of cards, all visible at once. */
+      .benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 48px; }
+      .benefit-card { background: var(--surface); border-radius: 12px; padding: 28px 28px 26px; display: flex; flex-direction: column; gap: 12px; }
+      .card-head { display: flex; align-items: center; gap: 14px; }
+      /* Raised "physical chip" — same skeuomorphic vocabulary as the page's buttons:
+         inset top highlight, stacked hard bevel edges, soft drop shadow. */
+      .card-icon {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 44px; height: 44px; flex-shrink: 0; border-radius: 12px;
+        background: linear-gradient(180deg, #dde8b8 0%, #cbda98 100%);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.6),
+          inset 0 0 0 1px rgba(158, 180, 78, 0.5),
+          0 1px 0 #b3c67b,
+          0 2px 0 #a5b86b;
+      }
+      .card-icon svg { width: 23px; height: 23px; stroke: var(--green-link); fill: none; stroke-width: 2.25; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.55)); }
+      [data-theme="dark"] .card-icon {
+        background: linear-gradient(180deg, #424e25 0%, #333c1b 100%);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.14),
+          inset 0 0 0 1px rgba(180, 202, 101, 0.22),
+          0 1px 0 #222a12,
+          0 2px 0 #181d0d;
+      }
+      [data-theme="dark"] .card-icon svg { filter: drop-shadow(0 1px 0.5px rgba(0, 0, 0, 0.5)); }
+      .card-title { font-size: 18px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.3px; }
+      .card-body { font-size: 14.5px; color: var(--text-secondary); line-height: 1.65; }
+      .card-feats { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin-top: auto; padding-top: 6px; }
+      .card-feat { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-body); background: var(--surface-faint); border-radius: 999px; padding: 6px 12px; box-shadow: inset 0 0 0 1px var(--border-subtle); }
+      .card-feat svg { width: 13px; height: 13px; stroke: var(--green); fill: none; stroke-width: 2.25; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+      .card-feat code { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--green-link); background: none; padding: 0; }
       .security-notice { border-left: 3px solid var(--crimson); border-radius: 0 10px 10px 0; background: var(--surface); padding: 28px 32px; }
       .notice-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
       .notice-icon { width: 22px; height: 22px; flex-shrink: 0; stroke: var(--crimson); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
@@ -502,17 +525,6 @@
       .notice-quote p:last-child { margin-bottom: 0; }
       /* Code snippet inside notice — dark in both themes */
       .notice-code { background: var(--embedded-code-bg); border: none; border-radius: 8px; box-shadow: inset 0 0 0 1px #272727; padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.7; margin-top: 14px; color: #f0f0f0; }
-
-      /* FEATURES */
-      .features-inner { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; align-items: start; }
-      .features-inner > div:nth-child(2) { grid-column: 2 / -1; }
-      .feature-count { font-size: 48px; font-weight: 600; color: var(--text-faint); line-height: 1; margin-top: 32px; letter-spacing: -2px; }
-      .feature-count span { font-size: 15px; color: var(--text-secondary); letter-spacing: 0; font-weight: 400; display: block; margin-top: 4px; }
-      .feature-list { display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; list-style: none; }
-      .feature-item { display: flex; align-items: flex-start; gap: 12px; padding: 18px 0; border-bottom: 1px solid var(--border-subtle); }
-      .feature-item:nth-last-child(-n+2) { border-bottom: none; }
-      .feature-item svg { width: 16px; height: 16px; stroke: var(--green); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; margin-top: 1px; }
-      .feature-text { font-size: 15px; color: var(--text-body); line-height: 1.5; }
 
       /* GET STARTED */
       .block { display: grid; grid-template-columns: 380px 1fr; gap: 40px; align-items: start; padding: 36px 0; border-top: 1px solid var(--border-subtle); }
@@ -536,6 +548,7 @@
       }
       .copy-btn:hover { color: #d0d0d0; background: var(--code-btn-hover); }
       .copy-btn:active { background: var(--code-btn-active); }
+      .copy-btn.copied { color: #b4ca65; }
       .copy-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
       .code-window .code-body { padding: 16px 20px; font-size: 13px; }
       .tabs { display: flex; border-bottom: 1px solid #2e2e2e; }
@@ -606,7 +619,6 @@
         <ul class="nav-center">
           <li><a href="#compare">Why EJS</a></li>
           <li><a href="#about">About</a></li>
-          <li><a href="#features">Features</a></li>
           <li><a href="#install">Get Started</a></li>
           <li><a href="/docs/">Docs</a></li>
           <li><a href="#support">Support</a></li>
@@ -626,14 +638,13 @@
       <div class="hero-inner">
         <h1 class="hero-title"><span class="delim">&lt;%=</span> <span class="ejs">EJS</span> <span class="delim">%&gt;</span><br>Generate HTML with plain JS.</h1>
         <p class="hero-body">No new syntax, no special directives. Write the JavaScript you already know, right inside your HTML.</p>
-        <div class="hero-btns">
-          <a class="btn-primary" href="#install">Get Started →</a>
-          <div class="install-pill"><code><span class="t-cm">$</span> <span class="t-var">npm</span> install <span class="t-str">ejs</span></code><button class="copy-btn" aria-label="Copy install command"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div>
-        </div>
-        <div class="stats-strip">
-          <div class="stat"><div class="stat-value">20M+</div><div class="stat-label">Weekly downloads</div></div>
-          <div class="stat"><div class="stat-value">7.7k</div><div class="stat-label">GitHub stars</div></div>
-          <div class="stat"><div class="stat-value">0</div><div class="stat-label">Dependencies</div></div>
+        <div class="hero-row">
+          <div class="stats-strip">
+            <div class="stat"><div class="stat-value">20M+</div><div class="stat-label">Weekly downloads</div></div>
+            <div class="stat"><div class="stat-value">7.7k</div><div class="stat-label">GitHub stars</div></div>
+            <div class="stat"><div class="stat-value">0</div><div class="stat-label">Dependencies</div></div>
+          </div>
+          <a class="btn-primary" href="#install">Get Started <span class="btn-arrow" aria-hidden="true">→</span></a>
         </div>
       </div>
     </section>
@@ -729,13 +740,48 @@
         <div class="section-label">About</div>
         <h2 class="section-title">What is EJS?</h2>
         <p class="section-intro">What is the "E" for? "Embedded?" Could be. How about "Effective," "Elegant," or just "Easy"? EJS is a simple templating language that lets you generate HTML markup with plain JavaScript. No religiousness about how to organize things. No reinvention of iteration and control-flow.</p>
-        <div class="cards">
-          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><div class="card-title">Use plain JavaScript</div><div class="card-body">All templating languages grow to be Turing-complete. Just cut out the middle-man and use JS.</div></div>
-          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="card-title">Fast development</div><div class="card-body">Don't waste time figuring out arcane new syntax or how to preprocess your data so it renders right.</div></div>
-          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div><div class="card-title">Simple syntax</div><div class="card-body">JavaScript code in simple scriptlet tags. Just write JS that emits the HTML you want.</div></div>
-          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 4.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></div><div class="card-title">Speedy execution</div><div class="card-body">EJS caches the intermediate JS functions for fast execution across V8 and other runtimes.</div></div>
-          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></div><div class="card-title">Easy debugging</div><div class="card-body">Errors are plain JavaScript exceptions, with template line-numbers included.</div></div>
-          <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M9 3h6"/><path d="M14 3v6l5.5 9.5a1 1 0 0 1-.87 1.5H5.37a1 1 0 0 1-.87-1.5L10 9V3"/><path d="M7 15h10"/></svg></div><div class="card-title">Active development</div><div class="card-body">Large community, active maintainers. We're happy to answer questions or give help.</div></div>
+        <div class="benefits-grid" aria-label="Why developers choose EJS">
+          <div class="benefit-card">
+            <div class="card-head"><span class="card-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span><h3 class="card-title">Use plain JavaScript</h3></div>
+            <p class="card-body">All templating languages grow to be Turing-complete. Just cut out the middle-man and use the JavaScript you already know.</p>
+            <ul class="card-feats">
+              <li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Server &amp; browser</li>
+              <li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><a href="https://expressjs.com/" target="_blank" rel="noopener noreferrer">Express</a>&nbsp;view engine</li>
+            </ul>
+          </div>
+          <div class="benefit-card">
+            <div class="card-head"><span class="card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><h3 class="card-title">Fast development</h3></div>
+            <p class="card-body">Don't waste time figuring out arcane new syntax or how to preprocess your data so it renders right.</p>
+            <ul class="card-feats">
+              <li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Sub-template includes</li>
+              <li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Bundled CLI</li>
+            </ul>
+          </div>
+          <div class="benefit-card">
+            <div class="card-head"><span class="card-icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span><h3 class="card-title">Simple syntax</h3></div>
+            <p class="card-body">JavaScript code in simple scriptlet tags. Just write JS that emits the HTML you want.</p>
+            <ul class="card-feats">
+              <li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><code>&lt;% %&gt;</code>&nbsp;tags</li>
+              <li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Custom delimiters</li>
+            </ul>
+          </div>
+          <div class="benefit-card">
+            <div class="card-head"><span class="card-icon"><svg viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 4.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></span><h3 class="card-title">Speedy execution</h3></div>
+            <p class="card-body">EJS caches the intermediate JS functions for fast execution across V8 and other runtimes.</p>
+            <ul class="card-feats">
+              <li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Fast compile &amp; render</li>
+              <li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Caches compiled JS</li>
+              <li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Caches templates</li>
+            </ul>
+          </div>
+          <div class="benefit-card">
+            <div class="card-head"><span class="card-icon"><svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></span><h3 class="card-title">Easy debugging</h3></div>
+            <p class="card-body">Errors are plain JavaScript exceptions, with template line-numbers included — no opaque template stack traces to decode.</p>
+          </div>
+          <div class="benefit-card">
+            <div class="card-head"><span class="card-icon"><svg viewBox="0 0 24 24"><path d="M9 3h6"/><path d="M14 3v6l5.5 9.5a1 1 0 0 1-.87 1.5H5.37a1 1 0 0 1-.87-1.5L10 9V3"/><path d="M7 15h10"/></svg></span><h3 class="card-title">Active development</h3></div>
+            <p class="card-body">Large community, active maintainers. We're happy to answer questions or give help.</p>
+          </div>
         </div>
         <div class="security-notice">
           <div class="notice-header"><svg class="notice-icon" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><div class="notice-title">A note for security professionals</div></div>
@@ -743,30 +789,6 @@
           <div class="notice-quote"><p>If you give end-users unfettered access to the EJS render method, you are using EJS in an inherently un-secure way.</p><p>EJS is effectively a JavaScript runtime. If you run the render method without checking inputs yourself, you are responsible for the results.</p></div>
           <div class="notice-body" style="margin-top:14px;">In short, <span style="color:#bf225a;">do not</span> submit vulnerabilities that include this snippet:</div>
           <div class="notice-code"><span style="color:#b4ca65;">app</span>.<span style="color:#b4ca65;">get</span>(<span style="color:#90a93a;">'/'</span>, (<span style="color:#f0f0f0;">req, res</span>) <span style="color:#7a9fd4;">=&gt;</span> {<br>&nbsp;&nbsp;<span style="color:#b4ca65;">res</span>.<span style="color:#b4ca65;">render</span>(<span style="color:#90a93a;">'index'</span>, <span style="color:#f0f0f0;">req</span>.query);<br>});</div>
-        </div>
-      </section>
-
-      <!-- FEATURES -->
-      <section id="features" class="section">
-        <div class="features-inner">
-          <div>
-            <div class="section-label">Features</div>
-            <h2 class="section-title">Everything you need, nothing you don't.</h2>
-            <p class="section-intro" style="margin-bottom:0;">EJS ships with a focused, battle-tested feature set built for real projects — not demos.</p>
-          </div>
-          <div style="padding-top:4px;">
-            <ul class="feature-list">
-              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Fast compilation and rendering</div></li>
-              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Simple template tags: <code style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--green-link);">&lt;% %&gt;</code></div></li>
-              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Custom delimiters</div></li>
-              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Sub-template includes</div></li>
-              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Ships with CLI</div></li>
-              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Server JS and browser support</div></li>
-              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Static caching of intermediate JavaScript</div></li>
-              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Static caching of templates</div></li>
-              <li class="feature-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div class="feature-text">Complies with the <a href="https://expressjs.com/" target="_blank" rel="noopener noreferrer">Express</a> view system</div></li>
-            </ul>
-          </div>
         </div>
       </section>
 
@@ -881,6 +903,65 @@
           container.querySelectorAll('[data-panel]').forEach(p => {
             p.hidden = p.dataset.panel !== tab.dataset.tab;
           });
+        });
+      });
+
+      // Copy buttons: terminal code windows
+      let liveRegion;
+      const announce = msg => {
+        if (!liveRegion) {
+          liveRegion = document.createElement('div');
+          liveRegion.setAttribute('aria-live', 'polite');
+          liveRegion.style.cssText = 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;';
+          document.body.appendChild(liveRegion);
+        }
+        liveRegion.textContent = '';
+        // Re-set on next frame so repeated copies of the same text are re-announced
+        requestAnimationFrame(() => { liveRegion.textContent = msg; });
+      };
+
+      const codeText = el => {
+        const divs = el.querySelectorAll(':scope > div');
+        const lines = divs.length ? [...divs].map(d => d.textContent) : [el.textContent];
+        return lines.map(l => l.trim().replace(/^\$\s+/, '')).join('\n');
+      };
+
+      const showCopied = btn => {
+        const label = btn.querySelector('span');
+        btn.classList.add('copied');
+        if (label) {
+          if (label.dataset.copyLabel === undefined) label.dataset.copyLabel = label.textContent;
+          label.textContent = 'Copied';
+        }
+        announce('Copied to clipboard');
+        clearTimeout(btn._copyTimer);
+        btn._copyTimer = setTimeout(() => {
+          btn.classList.remove('copied');
+          if (label && label.dataset.copyLabel !== undefined) label.textContent = label.dataset.copyLabel;
+        }, 1600);
+      };
+
+      const copyText = async text => {
+        if (navigator.clipboard && window.isSecureContext) {
+          try { await navigator.clipboard.writeText(text); return true; } catch { /* fall through */ }
+        }
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
+        document.body.appendChild(ta);
+        ta.select();
+        let ok = false;
+        try { ok = document.execCommand('copy'); } catch { ok = false; }
+        ta.remove();
+        return ok;
+      };
+
+      document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const win = btn.closest('.code-window');
+          const src = win && win.querySelector('.code-body');
+          if (!src) return;
+          if (await copyText(codeText(src))) showCopied(btn);
         });
       });
 
