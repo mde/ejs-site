@@ -29,6 +29,10 @@ export default defineConfig({
 	base: '/docs/',
 	outDir: '../docs',
 	trailingSlash: 'always',
+	// No docs landing page — send /docs/ straight to Getting Started.
+	redirects: {
+		'/': '/docs/getting-started/',
+	},
 	// All site imagery is SVG — skip sharp optimization and serve as-is.
 	image: { service: passthroughImageService() },
 	integrations: [
@@ -36,12 +40,17 @@ export default defineConfig({
 			title: 'EJS Docs',
 			description:
 				'Documentation for EJS — a simple templating language that lets you generate HTML markup with plain JavaScript.',
+			// No clickable anchor links beside headings.
+			markdown: { headingLinks: false },
+			pagefind: false,
 			logo: {
 				src: './src/assets/ejs-logo.svg',
 				replacesTitle: false,
 			},
 			components: {
 				Header: './src/components/Header.astro',
+				// Search lives at the top of the sidebar, not in the nav.
+				Sidebar: './src/components/Sidebar.astro',
 				// Share the landing page's `theme` localStorage key and a matching
 				// sun/moon toggle so light/dark stays in sync across / and /docs/.
 				ThemeProvider: './src/components/ThemeProvider.astro',
@@ -95,6 +104,8 @@ export default defineConfig({
 						editorTabBarBackground: '#161616',
 						terminalBackground: '#1c1c1c',
 						terminalTitlebarBackground: '#161616',
+						// No macOS "traffic-light" window buttons on terminal frames.
+						terminalTitlebarDotsOpacity: '0',
 					},
 				},
 			},

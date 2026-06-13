@@ -1,11 +1,5 @@
 ---
-import config from 'virtual:starlight/user-config';
-
-import Search from 'virtual:starlight/components/Search';
 import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
-
-const shouldRenderSearch =
-	config.pagefind || config.components.Search !== '@astrojs/starlight/components/Search.astro';
 ---
 
 <nav class="site-nav" aria-label="Site navigation">
@@ -20,7 +14,6 @@ const shouldRenderSearch =
 			<li><a href="/#support">Support</a></li>
 		</ul>
 		<div class="nav-right">
-			{shouldRenderSearch && <Search />}
 			<ThemeSelect />
 			<a
 				class="nav-gh"
@@ -53,7 +46,11 @@ const shouldRenderSearch =
 		   surface bar whose color matches both the landing and the docs chrome,
 		   with the same layered bottom edge. */
 		.site-nav {
-			height: 100%;
+			/* Fill the full --sl-nav-height: the header pads by --sl-nav-pad-y top
+			   and bottom, so height:100% (the content box) would leave the bar a
+			   short band. Add the padding back and the negative margin below pulls
+			   it edge-to-edge, matching the landing nav's 60px. */
+			height: calc(100% + 2 * var(--sl-nav-pad-y));
 			margin: calc(-1 * var(--sl-nav-pad-y)) calc(-1 * var(--sl-nav-pad-x));
 			background-color: var(--sl-color-bg-nav);
 			box-shadow:
@@ -104,8 +101,11 @@ const shouldRenderSearch =
 		}
 
 		.nav-center a {
-			display: block;
-			padding: 8px 16px;
+			display: inline-flex;
+			align-items: center;
+			box-sizing: border-box;
+			height: 31px;
+			padding: 0 16px;
 			border-radius: 6px;
 			color: var(--ejs-hero-ink-soft);
 			font-size: 14px;
@@ -141,14 +141,15 @@ const shouldRenderSearch =
 			gap: 10px;
 		}
 
-		/* GitHub button + Search share the landing's layered "physical button"
-		   treatment (--btn-face gradient, inset highlight, stacked edge, drop). */
-		.nav-gh,
-		.nav-right :global(site-search button[data-open-modal]) {
+		/* GitHub button gets the landing's layered "physical button" treatment
+		   (--btn-face gradient, inset highlight, stacked edge, drop). */
+		.nav-gh {
 			display: inline-flex;
 			align-items: center;
 			gap: 8px;
-			padding: 7px 14px;
+			box-sizing: border-box;
+			height: 31px;
+			padding: 0 14px;
 			border: none;
 			border-radius: 6px;
 			background: var(--ejs-btn-face);
@@ -174,8 +175,7 @@ const shouldRenderSearch =
 			color: var(--sl-color-accent-high);
 		}
 
-		.nav-gh:active,
-		.nav-right :global(site-search button[data-open-modal]:active) {
+		.nav-gh:active {
 			transform: translateY(1px);
 			box-shadow:
 				inset 0 1px 0 var(--ejs-btn-highlight-pressed),
@@ -183,8 +183,7 @@ const shouldRenderSearch =
 				0 1px 1px var(--ejs-btn-drop-pressed);
 		}
 
-		.nav-gh:focus-visible,
-		.nav-right :global(site-search button[data-open-modal]:focus-visible) {
+		.nav-gh:focus-visible {
 			outline: 2px solid var(--ejs-btn-focus);
 			outline-offset: 3px;
 		}
@@ -203,19 +202,6 @@ const shouldRenderSearch =
 			stroke-width: 2;
 			stroke-linecap: round;
 			stroke-linejoin: round;
-		}
-
-		.nav-right :global(site-search button[data-open-modal]) {
-			padding: 7px 12px;
-			color: var(--sl-color-gray-3);
-		}
-
-		.nav-right :global(site-search button[data-open-modal]:hover) {
-			background: var(--ejs-surface-hover);
-		}
-
-		.nav-right :global(site-search button[data-open-modal] > kbd) {
-			display: none;
 		}
 
 		@media (max-width: 54rem) {
@@ -239,11 +225,6 @@ const shouldRenderSearch =
 			}
 
 			.nav-gh {
-				display: none;
-			}
-
-			/* Search collapses to its icon on narrow screens. */
-			.nav-right :global(site-search button[data-open-modal] > span) {
 				display: none;
 			}
 		}

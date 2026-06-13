@@ -12,6 +12,18 @@
 
   /* Brand colors shared across themes */
   --ejs-crimson: #bf225a;
+
+  /* Copy-button "physical button" tokens — mirror the landing page. Code
+     surfaces stay dark in both themes, so these are fixed (not theme-scoped). */
+  --code-btn-face: linear-gradient(180deg, #353535 0%, #282828 100%);
+  --code-btn-hover: linear-gradient(180deg, #3d3d3d 0%, #303030 100%);
+  --code-btn-active: linear-gradient(180deg, #282828 0%, #202020 100%);
+  --code-edge-1: #161616;
+  --code-btn-highlight: rgba(255, 255, 255, 0.12);
+  --code-btn-highlight-pressed: rgba(255, 255, 255, 0.08);
+  --code-btn-drop: rgba(0, 0, 0, 0.35);
+  --code-btn-drop-pressed: rgba(0, 0, 0, 0.3);
+  --code-btn-focus: rgba(180, 202, 101, 0.45);
 }
 
 /* ---------- Dark theme (Starlight default :root) ---------- */
@@ -98,6 +110,7 @@
   --ejs-btn-drop: rgba(0, 0, 0, 0.35);
   --ejs-btn-drop-pressed: rgba(0, 0, 0, 0.3);
   --ejs-btn-focus: rgba(180, 202, 101, 0.45);
+  --ejs-edge-1: #0d0d0d;
   --ejs-edge: #080808;
   --ejs-green: #b4ca65;
   --ejs-green-hover: #d2e889;
@@ -116,9 +129,10 @@
   --ejs-btn-drop: rgba(92, 97, 104, 0.12);
   --ejs-btn-drop-pressed: rgba(92, 97, 104, 0.1);
   --ejs-btn-focus: rgba(94, 140, 12, 0.45);
+  --ejs-edge-1: #dde0db;
   --ejs-edge: #d1d4cf;
   --ejs-green: #9eb44e;
-  --ejs-green-hover: #84993e;
+  --ejs-green-hover: #44640a;
   --ejs-hero-ink-soft: #2e3a18;
 }
 
@@ -146,8 +160,26 @@ h1#_top {
   letter-spacing: -0.5px;
 }
 
+h1#_top {
+  padding-top: 1.5rem;
+}
+
+#starlight__on-this-page {
+  padding-top: 1rem;
+}
+
 .site-title {
   font-weight: 700;
+}
+
+/* ---------- Remove hairline and gap between the h1 panel and the content panel ---------- */
+.content-panel + .content-panel {
+  border-top: none;
+  padding-top: 0;
+}
+
+.content-panel:has(h1#_top) {
+  padding-bottom: var(--sl-content-gap-y);
 }
 
 /* ---------- Top nav: the bottom edge is drawn by .site-nav's box-shadow
@@ -170,12 +202,206 @@ header.header {
   color: var(--sl-color-text-accent);
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
+  transition: color 0.15s, text-decoration-color 0.15s;
+}
+
+.sl-markdown-content a:hover {
+  color: var(--ejs-green-hover);
+  text-decoration-color: currentColor;
+}
+
+.sl-markdown-content a:active {
+  color: var(--ejs-crimson);
 }
 
 /* ---------- EJS delimiters glow crimson inside code blocks ---------- */
 /* Shiki tags the <% %> punctuation; nudge it toward the brand crimson. */
 .expressive-code .ec-line .ejs-delim {
   color: var(--ejs-crimson);
+}
+
+/* ---------- Terminal frames: no macOS title bar ---------- */
+/* The window buttons are already hidden; drop the empty title bar too so
+   terminal blocks are just the code surface. The `figure` qualifier raises
+   specificity above Expressive Code's own `.header` rule, which is bundled
+   into a stylesheet that loads after this one. */
+.expressive-code figure.frame.is-terminal .header {
+  display: none;
+}
+
+/* Expressive Code squares off the top of terminal `pre`/`code` and shifts the
+   copy button down by the title-bar height, expecting the header to sit above.
+   With the header gone, restore the rounded top corners + top border, and reset
+   the copy-button spacing to the same value plain (header-less) frames use. The
+   `figure` qualifier keeps specificity above EC's own rules. */
+.expressive-code figure.frame.is-terminal pre,
+.expressive-code figure.frame.is-terminal code {
+  border-top: var(--ec-brdWd) solid var(--ec-brdCol);
+  border-top-left-radius: calc(var(--ec-brdRad) + var(--ec-brdWd));
+  border-top-right-radius: calc(var(--ec-brdRad) + var(--ec-brdWd));
+}
+/* Vertically center the copy button in the terminal frame, rather than pinning
+   it to the top — reads better for short, single-line commands. */
+.expressive-code figure.frame.is-terminal .copy {
+  inset-block: 0;
+  align-items: center;
+}
+.expressive-code figure.frame.is-terminal .copy button {
+  align-self: center;
+}
+
+/* Copy button only on terminal frames — commands are meant to be run as-is.
+   Editor/code frames are illustrative examples, so drop their copy button. */
+.expressive-code figure.frame:not(.is-terminal) .copy {
+  display: none;
+}
+
+/* ---------- Copy button: match the landing page's physical button ---------- */
+/* Expressive Code ships a flat icon-only button; restyle it as the same dark
+   gradient "physical button" used on the landing page. All selectors carry the
+   `.expressive-code` prefix to outrank EC's own rules regardless of load order. */
+.expressive-code .copy button {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 6px;
+  background: var(--code-btn-face);
+  opacity: 1;
+  box-shadow:
+    inset 0 1px 0 var(--code-btn-highlight),
+    0 1px 0 var(--code-edge-1),
+    0 2px 3px var(--code-btn-drop);
+  transition: transform 70ms ease-out, box-shadow 70ms ease-out,
+    background 120ms ease;
+}
+/* EC layers a translucent fill `<div>` and a border pseudo over the button;
+   drop both so only the gradient face shows. */
+.expressive-code .copy button div {
+  display: none;
+}
+.expressive-code .copy button::before {
+  display: none;
+}
+/* Icon tint — idle grey, brightening on hover, matching the landing page. */
+.expressive-code .copy button::after {
+  background-color: #aaa;
+}
+.expressive-code .copy button:hover {
+  background: var(--code-btn-hover);
+  opacity: 1;
+}
+.expressive-code .copy button:hover::after {
+  background-color: #d0d0d0;
+}
+.expressive-code .copy button:active {
+  transform: translateY(1px);
+  background: var(--code-btn-active);
+  box-shadow:
+    inset 0 1px 0 var(--code-btn-highlight-pressed),
+    0 0 0 var(--code-edge-1),
+    0 1px 1px var(--code-btn-drop-pressed);
+}
+.expressive-code .copy button:focus-visible {
+  outline: 2px solid var(--code-btn-focus);
+  outline-offset: 2px;
+}
+
+/* ---------- Prev/Next pagination buttons ---------- */
+/* Match the nav bar's physical-button treatment: gradient face, layered
+   edge/drop shadows, surface-hover on hover, translateY press on active. */
+.pagination-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.pagination-links a[rel='next'] {
+  margin-inline-start: auto;
+  padding-inline-end: 1rem;
+}
+
+.pagination-links a[rel='prev'] {
+  padding-inline-start: 1rem;
+}
+
+:root .pagination-links a {
+  width: auto;
+  flex-basis: auto;
+  flex-grow: 0;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 8px;
+  padding: 0.6rem 1.5rem;
+  background: var(--ejs-btn-face);
+  color: var(--sl-color-gray-2);
+  box-shadow:
+    inset 0 1px 0 var(--ejs-btn-highlight),
+    0 1px 0 var(--ejs-edge-1),
+    0 2px 0 var(--ejs-edge),
+    0 3px 6px var(--ejs-btn-drop);
+  transition: transform 70ms ease-out, box-shadow 70ms ease-out, background 120ms ease,
+    color 120ms ease, border-color 120ms ease;
+}
+
+:root .pagination-links a:hover {
+  background: var(--ejs-surface-hover);
+  box-shadow:
+    inset 0 0 0 1px var(--ejs-border-subtle),
+    0 1px 0 var(--ejs-edge),
+    0 2px 3px var(--ejs-btn-drop);
+  color: var(--sl-color-white);
+}
+
+:root:not([data-theme='light']) .pagination-links a:hover {
+  box-shadow:
+    inset 0 0 0 1px var(--sl-color-hairline),
+    0 1px 0 var(--ejs-edge),
+    0 2px 3px var(--ejs-btn-drop);
+}
+
+:root .pagination-links a:hover > svg {
+  color: var(--ejs-green-hover);
+}
+
+:root .pagination-links a:active {
+  transform: translateY(2px);
+  box-shadow:
+    inset 0 1px 0 var(--ejs-btn-highlight-pressed),
+    0 0 0 var(--ejs-edge),
+    0 1px 2px var(--ejs-btn-drop-pressed);
+}
+
+:root .pagination-links a:active > svg {
+  color: var(--ejs-green);
+}
+
+:root .pagination-links .link-title {
+  font-size: var(--sl-text-lg);
+}
+
+:root .pagination-links a > svg {
+  color: var(--sl-color-text-accent);
+  flex-shrink: 0;
+}
+
+:root[data-theme='light'] .pagination-links a {
+  box-shadow:
+    inset 0 1px 0 var(--ejs-btn-highlight),
+    0 1px 0 var(--ejs-edge-1),
+    0 2px 0 var(--ejs-edge),
+    0 3px 6px rgba(92, 97, 104, 0.22);
+}
+
+:root[data-theme='light'] .pagination-links a:active {
+  box-shadow:
+    inset 0 1px 0 var(--ejs-btn-highlight-pressed),
+    0 0 0 var(--ejs-edge),
+    0 1px 2px rgba(92, 97, 104, 0.14);
+}
+
+/* ---------- Asides: no left bar ---------- */
+/* The tinted background already signals the callout; drop Starlight's colored
+   left border. This rule is unlayered, so it wins over the layered default. */
+.starlight-aside {
+  border-inline-start: none;
+  border-radius: 0.5rem;
 }
 
 /* ---------- Splash hero (landing page) ---------- */
