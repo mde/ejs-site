@@ -25,6 +25,7 @@ const shikiLangs = [...toArray(jsGrammars), ...toArray(htmlGrammars), ejsLang].f
 // serves it as plain static files.
 // https://astro.build/config
 export default defineConfig({
+	devToolbar: { enabled: false },
 	site: 'https://ejs.co',
 	base: '/docs/',
 	outDir: '../docs',

@@ -83,8 +83,9 @@ access to the render method without validating inputs yourself, you are using
 EJS in an inherently insecure way. Never do this:
 
 ```js
+// ⚠️ don't pass untrusted input directly
 app.get('/', (req, res) => {
-  res.render('index', req.query); // ⚠️ don't pass untrusted input straight in
+  res.render('index', req.query);
 });
 ```
 

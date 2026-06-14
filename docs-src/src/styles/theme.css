@@ -114,6 +114,7 @@
   --ejs-edge: #080808;
   --ejs-green: #b4ca65;
   --ejs-green-hover: #d2e889;
+  --ejs-green-active: #e8f7b0;
   --ejs-hero-ink-soft: #d6ddc6;
 }
 
@@ -133,6 +134,7 @@
   --ejs-edge: #d1d4cf;
   --ejs-green: #9eb44e;
   --ejs-green-hover: #44640a;
+  --ejs-green-active: #2a3d05;
   --ejs-hero-ink-soft: #2e3a18;
 }
 
@@ -160,6 +162,11 @@ h1#_top {
   letter-spacing: -0.5px;
 }
 
+/* Loosen Starlight's 1.5em gap above headings that follow non-headings. */
+.sl-markdown-content :not(h1, h2, h3, h4, h5, h6) + :is(h2, h3, h4, h5, h6) {
+  margin-top: 3rem;
+}
+
 h1#_top {
   padding-top: 1.5rem;
 }
@@ -168,8 +175,22 @@ h1#_top {
   padding-top: 1rem;
 }
 
+starlight-toc a {
+  padding-block: 0.45rem;
+}
+
 .site-title {
   font-weight: 700;
+}
+
+/* Sidebar section labels ("Start Here", "Guide", "Reference") */
+.group-label {
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Increase content panel vertical padding beyond Starlight's default 1.5rem. */
+.content-panel {
+  padding-block: 4rem;
 }
 
 /* ---------- Remove hairline and gap between the h1 panel and the content panel ---------- */
@@ -211,13 +232,19 @@ header.header {
 }
 
 .sl-markdown-content a:active {
-  color: var(--ejs-crimson);
+  color: var(--ejs-green-active);
 }
 
 /* ---------- EJS delimiters glow crimson inside code blocks ---------- */
 /* Shiki tags the <% %> punctuation; nudge it toward the brand crimson. */
 .expressive-code .ec-line .ejs-delim {
   color: var(--ejs-crimson);
+}
+
+/* ---------- Copy tooltip: tone down EC's bright green "Copied!" ---------- */
+.expressive-code {
+  --ec-frm-tooltipSuccessBg: #2e2e2e;
+  --ec-frm-tooltipSuccessFg: #c8c8c8;
 }
 
 /* ---------- Terminal frames: no macOS title bar ---------- */
@@ -248,6 +275,17 @@ header.header {
 }
 .expressive-code figure.frame.is-terminal .copy button {
   align-self: center;
+}
+
+/* Multi-line terminal blocks: top-align the button at the same distance from
+   the top as centering gives on a single-line block. The padding-top calc
+   replicates (figure_height_1line - button_height) / 2 using EC's own tokens. */
+.expressive-code figure.frame.is-terminal:has(.ec-line + .ec-line) .copy {
+  align-items: flex-start;
+  padding-top: calc(var(--ec-brdWd) + var(--ec-codePadBlk) + (var(--ec-codeLineHt) * var(--ec-codeFontSize) - 1.75rem) / 2);
+}
+.expressive-code figure.frame.is-terminal:has(.ec-line + .ec-line) .copy button {
+  align-self: flex-start;
 }
 
 /* Copy button only on terminal frames — commands are meant to be run as-is.
@@ -305,6 +343,19 @@ header.header {
   outline-offset: 2px;
 }
 
+/* ---------- Page footer: Edit page + Prev/Next on one row ---------- */
+footer.sl-flex {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2.5rem;
+  gap: 1rem;
+}
+
+footer.sl-flex .meta {
+  margin-top: 0;
+}
+
 /* ---------- Prev/Next pagination buttons ---------- */
 /* Match the nav bar's physical-button treatment: gradient face, layered
    edge/drop shadows, surface-hover on hover, translateY press on active. */
@@ -357,7 +408,7 @@ header.header {
 }
 
 :root .pagination-links a:hover > svg {
-  color: var(--ejs-green-hover);
+  color: currentColor;
 }
 
 :root .pagination-links a:active {
@@ -369,7 +420,7 @@ header.header {
 }
 
 :root .pagination-links a:active > svg {
-  color: var(--ejs-green);
+  color: currentColor;
 }
 
 :root .pagination-links .link-title {
@@ -377,8 +428,17 @@ header.header {
 }
 
 :root .pagination-links a > svg {
-  color: var(--sl-color-text-accent);
+  color: currentColor;
   flex-shrink: 0;
+  transition: transform 150ms ease-out;
+}
+
+:root .pagination-links a[rel='next']:hover > svg {
+  transform: translateX(4px);
+}
+
+:root .pagination-links a[rel='prev']:hover > svg {
+  transform: translateX(-4px);
 }
 
 :root[data-theme='light'] .pagination-links a {
@@ -394,6 +454,22 @@ header.header {
     inset 0 1px 0 var(--ejs-btn-highlight-pressed),
     0 0 0 var(--ejs-edge),
     0 1px 2px rgba(92, 97, 104, 0.14);
+}
+
+/* ---------- Tables ---------- */
+/* Give header cells a tinted panel background so they read as labels, not data. */
+.sl-markdown-content th {
+  background: var(--sl-color-gray-7);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--sl-color-gray-2);
+  text-transform: uppercase;
+}
+
+.sl-markdown-content thead {
+  border-bottom: 1px solid var(--sl-color-hairline);
 }
 
 /* ---------- Asides: no left bar ---------- */
