@@ -82,7 +82,8 @@
         --hero-ink-soft: #2e3a18;
         --hero-divider: rgba(28, 34, 8, 0.2);
         --hero-delim: var(--crimson);
-        --hero-watermark: rgba(0, 0, 0, 0.06);
+        --hero-watermark: #b4ca65;
+        --hero-watermark-edge: #a4ba58;
         --hero-hover: rgba(0, 0, 0, 0.07);
         --hero-press: rgba(0, 0, 0, 0.16);
         --hero-surface:
@@ -135,7 +136,8 @@
         --hero-ink-soft: #d6ddc6;
         --hero-divider: rgba(255, 255, 255, 0.14);
         --hero-delim: #ff6188;
-        --hero-watermark: rgba(255, 255, 255, 0.05);
+        --hero-watermark: #15171b;
+        --hero-watermark-edge: #111318;
         --hero-hover: rgba(255, 255, 255, 0.09);
         --hero-press: rgba(0, 0, 0, 0.4);
         --hero-surface:
@@ -369,12 +371,33 @@
       .hero::before {
         content: "<%=";
         position: absolute;
-        right: -0.08em;
-        top: 73%;
-        transform: translateY(-50%);
+        right: -0.18em;
+        top: 56%;
+        transform: perspective(800px) rotateX(20deg) rotateY(-18deg) rotateZ(4deg) translateY(-50%);
+        text-shadow:
+          1px 1px 0 var(--hero-watermark-edge),
+          2px 2px 0 var(--hero-watermark-edge),
+          3px 3px 0 var(--hero-watermark-edge),
+          4px 4px 0 var(--hero-watermark-edge),
+          5px 5px 0 var(--hero-watermark-edge),
+          6px 6px 0 var(--hero-watermark-edge),
+          7px 7px 0 var(--hero-watermark-edge),
+          8px 8px 0 var(--hero-watermark-edge),
+          9px 9px 0 var(--hero-watermark-edge),
+          10px 10px 0 var(--hero-watermark-edge),
+          11px 11px 0 var(--hero-watermark-edge),
+          12px 12px 0 var(--hero-watermark-edge),
+          13px 13px 0 var(--hero-watermark-edge),
+          14px 14px 0 var(--hero-watermark-edge),
+          15px 15px 0 var(--hero-watermark-edge),
+          16px 16px 0 var(--hero-watermark-edge),
+          17px 17px 0 var(--hero-watermark-edge),
+          18px 18px 0 var(--hero-watermark-edge),
+          19px 19px 0 var(--hero-watermark-edge),
+          20px 20px 0 var(--hero-watermark-edge);
         font-family: 'IBM Plex Mono', monospace;
         font-weight: 600;
-        font-size: clamp(220px, 30vw, 420px);
+        font-size: clamp(340px, 45vw, 620px);
         line-height: 1;
         color: var(--hero-watermark);
         pointer-events: none;
@@ -392,11 +415,11 @@
       .hero-title .ejs { color: var(--green); font-family: 'Montserrat', sans-serif; font-size: 1.18em; letter-spacing: -0.03em; }
       .hero-title .delim { color: var(--hero-delim); font-family: 'IBM Plex Mono', monospace; font-size: 0.82em; font-weight: 600; vertical-align: baseline; }
       .hero-body { font-size: 19px; color: var(--text-prose); line-height: 1.65; max-width: 620px; margin-bottom: 36px; }
-      .hero-cta { display: inline-flex; flex-direction: column; align-items: stretch; gap: 20px; }
+      .hero-cta { display: inline-flex; flex-direction: column; align-items: stretch; gap: 20px; min-width: 280px; }
       .hero-code.code-window { padding: 0; }
-      .hero-code .code-body { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 16px; line-height: 1; }
+      .hero-code .code-body { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 18px; line-height: 1; font-size: 15px; }
       .hero-code .copy-btn { background: none; border: none; padding: 8px; flex-shrink: 0; cursor: pointer; }
-      .hero-code .copy-btn svg { width: 14px; height: 14px; stroke: #aaa; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; display: block; }
+      .hero-code .copy-btn svg { width: 16px; height: 16px; stroke: #aaa; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; display: block; }
       .hero-code .copy-btn:hover svg { stroke: #d0d0d0; }
       .hero-code .copy-btn .icon-check { display: none; }
       .hero-code .copy-btn.copied .icon-copy { display: none; }
@@ -418,7 +441,7 @@
         letter-spacing: -1px;
         color: var(--hero-delim);
       }
-      .hero-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 40px; }
+      .hero-row { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 40px; }
       .btn-primary {
         --button-highlight: rgba(255, 255, 255, 0.4);
         --button-highlight-pressed: rgba(255, 255, 255, 0.25);
@@ -430,6 +453,7 @@
         --button-focus: var(--primary-btn-focus);
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 8px;
         font-size: 20px;
         font-weight: 500;
@@ -679,8 +703,8 @@
             <div class="stat"><div class="stat-value">0</div><div class="stat-label">Dependencies</div></div>
           </div>
           <div class="hero-cta">
-            <a class="btn-primary" href="#install">Get Started <span class="btn-arrow" aria-hidden="true">→</span></a>
             <div class="code-window hero-code"><div class="code-body"><span><span class="t-cm">$</span> <span class="t-var">npm</span> install <span class="t-str">ejs</span></span><button class="copy-btn" aria-label="Copy to clipboard"><svg class="icon-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button></div></div>
+            <a class="btn-primary" href="#install">Get Started <span class="btn-arrow" aria-hidden="true">→</span></a>
           </div>
         </div>
       </div>
