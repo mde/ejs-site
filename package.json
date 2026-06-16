@@ -8,6 +8,9 @@
     "less": "^2.3.1"
   },
   "scripts": {
+    "docs:dev": "npm --prefix docs-src run dev",
+    "docs:build": "npm --prefix docs-src run build",
+    "docs:preview": "npm --prefix docs-src run preview",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "mde@fleegix.org",

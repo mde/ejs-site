@@ -1,0 +1,111 @@
+---
+// A sun/moon toggle that replaces Starlight's three-way theme <select>. It
+// mirrors the landing page's `.theme-toggle` exactly — same icons, same `theme`
+// localStorage key, same `data-theme` flip — so the two pages stay in sync.
+// Used both in the merged Header (desktop) and Starlight's mobile menu footer.
+---
+
+<ejs-theme-toggle>
+	<button class="theme-toggle" type="button" aria-label="Toggle light/dark theme">
+		<svg class="icon-sun" viewBox="0 0 24 24"
+			><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line
+				x1="12"
+				y1="21"
+				x2="12"
+				y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line
+				x1="18.36"
+				y1="18.36"
+				x2="19.78"
+				y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line
+				x1="21"
+				y1="12"
+				x2="23"
+				y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line
+				x1="18.36"
+				y1="5.64"
+				x2="19.78"
+				y2="4.22"></line></svg
+		>
+		<svg class="icon-moon" viewBox="0 0 24 24"
+			><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg
+		>
+	</button>
+</ejs-theme-toggle>
+
+<script>
+	class EjsThemeToggle extends HTMLElement {
+		constructor() {
+			super();
+			this.querySelector('button')?.addEventListener('click', () => {
+				const root = document.documentElement;
+				root.classList.add('no-transitions');
+				const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+				root.dataset.theme = next;
+				localStorage.setItem('theme', next);
+				requestAnimationFrame(() =>
+					requestAnimationFrame(() => root.classList.remove('no-transitions'))
+				);
+			});
+		}
+	}
+	customElements.define('ejs-theme-toggle', EjsThemeToggle);
+</script>
+
+<style>
+	/* Same layered "physical button" as the landing page's `.theme-toggle`. */
+	.theme-toggle {
+		display: inline-flex;
+		align-items: center;
+		padding: 8.5px 10px;
+		border: none;
+		border-radius: 6px;
+		background: var(--ejs-btn-face);
+		color: var(--sl-color-gray-3);
+		cursor: pointer;
+		box-shadow:
+			inset 0 1px 0 var(--ejs-btn-highlight),
+			0 1px 0 var(--ejs-edge),
+			0 2px 2px var(--ejs-btn-drop);
+		transition: transform 70ms ease-out, box-shadow 70ms ease-out,
+			background 120ms ease, color 120ms ease;
+	}
+
+	.theme-toggle:hover {
+		background: var(--ejs-surface-hover);
+	}
+
+	.theme-toggle:active {
+		transform: translateY(1px);
+		box-shadow:
+			inset 0 1px 0 var(--ejs-btn-highlight-pressed),
+			0 0 0 var(--ejs-edge),
+			0 1px 1px var(--ejs-btn-drop-pressed);
+	}
+
+	.theme-toggle:focus-visible {
+		outline: 2px solid var(--ejs-btn-focus);
+		outline-offset: 3px;
+	}
+
+	.theme-toggle svg {
+		width: 14px;
+		height: 14px;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 2;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	.theme-toggle .icon-moon {
+		display: none;
+	}
+
+	:global(:root[data-theme='dark']) .theme-toggle .icon-sun {
+		display: none;
+	}
+
+	:global(:root[data-theme='dark']) .theme-toggle .icon-moon {
+		display: inline;
+	}
+</style>

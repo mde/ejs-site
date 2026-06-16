@@ -1,0 +1,242 @@
+---
+import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
+---
+
+<nav class="site-nav" aria-label="Site navigation">
+	<div class="site-nav-inner">
+		<a class="nav-logo" href="/">EJS</a>
+		<ul class="nav-center">
+			<li><a href="/#compare">Why EJS</a></li>
+			<li><a href="/#about">About</a></li>
+			<li><a href="/#features">Features</a></li>
+			<li><a href="/#install">Get Started</a></li>
+			<li><a href="/docs/getting-started/" aria-current="page">Docs</a></li>
+			<li><a href="/#support">Support</a></li>
+		</ul>
+		<div class="nav-right">
+			<ThemeSelect />
+			<a
+				class="nav-gh"
+				href="https://github.com/mde/ejs"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				<svg viewBox="0 0 24 24" aria-hidden="true"
+					><path
+						d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+					></path></svg
+				>
+				GitHub
+				<svg class="ext-icon" viewBox="0 0 24 24" aria-hidden="true"
+					><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline
+						points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg
+				>
+			</a>
+		</div>
+	</div>
+</nav>
+
+<style>
+	@layer starlight.core {
+		:global(:root) {
+			--sl-nav-height: 60px;
+		}
+
+		/* Mirrors the landing nav in its resting (`.nav.scrolled`) state: a
+		   surface bar whose color matches both the landing and the docs chrome,
+		   with the same layered bottom edge. */
+		.site-nav {
+			/* Fill the full --sl-nav-height: the header pads by --sl-nav-pad-y top
+			   and bottom, so height:100% (the content box) would leave the bar a
+			   short band. Add the padding back and the negative margin below pulls
+			   it edge-to-edge, matching the landing nav's 60px. */
+			height: calc(100% + 2 * var(--sl-nav-pad-y));
+			margin: calc(-1 * var(--sl-nav-pad-y)) calc(-1 * var(--sl-nav-pad-x));
+			background-color: var(--sl-color-bg-nav);
+			box-shadow:
+				inset 0 -1px 0 var(--ejs-nav-highlight),
+				0 1px 0 var(--sl-color-hairline),
+				0 1px 2px var(--ejs-panel-shadow),
+				0 4px 16px var(--ejs-panel-shadow-soft);
+		}
+
+		.site-nav-inner {
+			max-width: 1120px;
+			height: 100%;
+			margin: 0 auto;
+			padding: 0 48px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 20px;
+		}
+
+		.nav-logo,
+		.nav-center a,
+		.nav-gh {
+			font-family: 'Montserrat', sans-serif;
+		}
+
+		.nav-logo {
+			flex-shrink: 0;
+			color: var(--ejs-green);
+			font-size: 24px;
+			font-weight: 700;
+			text-decoration: none;
+			transition: color 0.15s ease;
+		}
+
+		.nav-logo:hover,
+		.nav-logo:focus-visible {
+			color: var(--ejs-green-hover);
+		}
+
+		.nav-center {
+			display: flex;
+			gap: 4px;
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			min-width: 0;
+		}
+
+		.nav-center a {
+			display: inline-flex;
+			align-items: center;
+			box-sizing: border-box;
+			height: 31px;
+			padding: 0 16px;
+			border-radius: 6px;
+			color: var(--ejs-hero-ink-soft);
+			font-size: 14px;
+			font-weight: 500;
+			text-decoration: none;
+			transition: color 0.15s, background 0.15s, box-shadow 0.15s;
+		}
+
+		.nav-center a:hover,
+		.nav-center a:focus-visible {
+			color: var(--sl-color-white);
+			background: var(--ejs-surface-hover);
+			box-shadow: inset 0 0 0 1px var(--ejs-border-subtle);
+		}
+
+		/* Active page mirrors the landing's `.nav-center a.active`: green text on
+		   the same surface-hover fill, not white. */
+		.nav-center a[aria-current='page'] {
+			color: var(--sl-color-text-accent);
+			background: var(--ejs-surface-hover);
+			box-shadow: inset 0 0 0 1px var(--ejs-border-subtle);
+		}
+
+		.nav-center a:active {
+			color: var(--sl-color-white);
+			box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.14);
+		}
+
+		.nav-right {
+			flex-shrink: 0;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		/* GitHub button gets the landing's layered "physical button" treatment
+		   (--btn-face gradient, inset highlight, stacked edge, drop). */
+		.nav-gh {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			box-sizing: border-box;
+			height: 31px;
+			padding: 0 14px;
+			border: none;
+			border-radius: 6px;
+			background: var(--ejs-btn-face);
+			font-family: 'Montserrat', sans-serif;
+			font-size: 14px;
+			font-weight: 500;
+			text-decoration: none;
+			box-shadow:
+				inset 0 1px 0 var(--ejs-btn-highlight),
+				0 1px 0 var(--ejs-edge),
+				0 2px 2px var(--ejs-btn-drop);
+			transition: transform 70ms ease-out, box-shadow 70ms ease-out,
+				background 120ms ease, color 120ms ease;
+		}
+
+		.nav-gh {
+			color: var(--sl-color-text-accent);
+		}
+
+		.nav-gh:hover,
+		.nav-gh:focus-visible {
+			background: var(--ejs-surface-hover);
+			color: var(--sl-color-accent-high);
+		}
+
+		.nav-gh:active {
+			transform: translateY(1px);
+			box-shadow:
+				inset 0 1px 0 var(--ejs-btn-highlight-pressed),
+				0 0 0 var(--ejs-edge),
+				0 1px 1px var(--ejs-btn-drop-pressed);
+		}
+
+		.nav-gh:focus-visible {
+			outline: 2px solid var(--ejs-btn-focus);
+			outline-offset: 3px;
+		}
+
+		.nav-gh svg {
+			width: 16px;
+			height: 16px;
+			fill: currentColor;
+		}
+
+		.nav-gh svg.ext-icon {
+			width: 11px;
+			height: 11px;
+			fill: none;
+			stroke: currentColor;
+			stroke-width: 2;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+		}
+
+		@media (max-width: 54rem) {
+			.site-nav-inner {
+				padding: 0 16px;
+			}
+
+			.nav-center {
+				gap: 0;
+				overflow-x: auto;
+				scrollbar-width: none;
+			}
+
+			.nav-center::-webkit-scrollbar {
+				display: none;
+			}
+
+			.nav-center a {
+				padding-inline: 10px;
+				white-space: nowrap;
+			}
+
+			.nav-gh {
+				display: none;
+			}
+		}
+
+		@media (max-width: 38rem) {
+			.site-nav-inner {
+				gap: 10px;
+			}
+
+			.nav-logo {
+				font-size: 20px;
+			}
+		}
+	}
+</style>

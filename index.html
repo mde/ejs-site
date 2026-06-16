@@ -315,7 +315,7 @@
       .nav.scrolled .nav-logo:hover { color: var(--green-hover); }
       .nav-logo:focus-visible { outline: 2px solid var(--btn-focus); outline-offset: 4px; border-radius: 4px; }
       .nav-center { display: flex; gap: 4px; list-style: none; }
-      .nav-center a { font-size: 14px; font-weight: 500; color: var(--hero-ink-soft); text-decoration: none; padding: 8px 16px; border-radius: 6px; transition: color 0.15s, background 0.15s, box-shadow 0.15s; }
+      .nav-center a { display: inline-flex; align-items: center; box-sizing: border-box; height: 31px; font-size: 14px; font-weight: 500; color: var(--hero-ink-soft); text-decoration: none; padding: 0 16px; border-radius: 6px; transition: color 0.15s, background 0.15s, box-shadow 0.15s; }
       .nav-center a:hover { color: var(--text-primary); background: var(--surface-hover); box-shadow: inset 0 0 0 1px var(--border-subtle); }
       [data-theme="dark"] .nav-center a:hover { box-shadow: inset 0 0 0 1px var(--border); }
       .nav-center a:active { color: var(--text-primary); box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.14); }
@@ -327,9 +327,10 @@
       .nav-right { display: flex; gap: 10px; align-items: center; }
       .nav-gh {
         display: inline-flex; align-items: center; gap: 8px;
+        box-sizing: border-box; height: 31px;
         font-size: 14px; font-weight: 500;
         color: var(--green-link); text-decoration: none;
-        padding: 7px 14px;
+        padding: 0 14px;
       }
       .nav-gh svg { width: 16px; height: 16px; fill: currentColor; }
       .nav-gh svg.ext-icon { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
@@ -653,7 +654,7 @@
           <li><a href="#compare">Why EJS</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#install">Get Started</a></li>
-          <li><a href="/docs/">Docs</a></li>
+          <li><a href="/docs/getting-started/">Docs</a></li>
           <li><a href="#support">Support</a></li>
         </ul>
         <div class="nav-right">

@@ -1,0 +1,510 @@
+/*
+  EJS docs theme — maps Starlight's design tokens onto the landing page's
+  palette (cream/green/crimson) so /docs/ feels like a seamless continuation
+  of /. Fonts: Inter (body), Montserrat (headings/UI), IBM Plex Mono (code).
+  Code surfaces stay dark in both themes, matching the landing page.
+*/
+
+/* ---------- Fonts ---------- */
+:root {
+  --sl-font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --sl-font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Brand colors shared across themes */
+  --ejs-crimson: #bf225a;
+
+  /* Copy-button "physical button" tokens — mirror the landing page. Code
+     surfaces stay dark in both themes, so these are fixed (not theme-scoped). */
+  --code-btn-face: linear-gradient(180deg, #353535 0%, #282828 100%);
+  --code-btn-hover: linear-gradient(180deg, #3d3d3d 0%, #303030 100%);
+  --code-btn-active: linear-gradient(180deg, #282828 0%, #202020 100%);
+  --code-edge-1: #161616;
+  --code-btn-highlight: rgba(255, 255, 255, 0.12);
+  --code-btn-highlight-pressed: rgba(255, 255, 255, 0.08);
+  --code-btn-drop: rgba(0, 0, 0, 0.35);
+  --code-btn-drop-pressed: rgba(0, 0, 0, 0.3);
+  --code-btn-focus: rgba(180, 202, 101, 0.45);
+}
+
+/* ---------- Dark theme (Starlight default :root) ---------- */
+:root {
+  /* Gray scale tuned to the landing page's dark surfaces */
+  --sl-color-white: #eef0f3;
+  --sl-color-gray-1: #dee0e4;
+  --sl-color-gray-2: #c4c7cd;
+  --sl-color-gray-3: #a4a7ae;
+  --sl-color-gray-4: #6b6e75;
+  --sl-color-gray-5: #26282d;
+  --sl-color-gray-6: #1c1e22;
+  --sl-color-gray-7: #15161a;
+  --sl-color-black: #101114;
+
+  /* Accent = EJS green */
+  --sl-color-accent-low: #2a330f;
+  --sl-color-accent: #5a7020;
+  --sl-color-accent-high: #b4ca65;
+
+  --sl-color-text: #dee0e4;
+  --sl-color-text-accent: #b4ca65;
+  --sl-color-bg: #101114;
+  --sl-color-bg-nav: #181a1e;
+  --sl-color-bg-sidebar: #181a1e;
+  --sl-color-bg-inline-code: #0e0e0e;
+  --sl-color-hairline-light: #26282d;
+  --sl-color-hairline: #26282d;
+  --sl-color-hairline-shade: #0a0a0d;
+
+  --ejs-hero-bg: #4a6213;
+  --ejs-hero-ink: #f2f5ea;
+  --ejs-inline-code-text: #b4ca65;
+}
+
+/* ---------- Light theme (cream) ---------- */
+:root[data-theme='light'] {
+  --sl-color-white: #1a1a1a;
+  --sl-color-gray-1: #1f1f1f;
+  --sl-color-gray-2: #2a2a2a;
+  --sl-color-gray-3: #4f535a;
+  --sl-color-gray-4: #6e7178;
+  --sl-color-gray-5: #d1d4cf;
+  --sl-color-gray-6: #e5e7e3;
+  --sl-color-gray-7: #ebedea;
+
+  --sl-color-accent-low: #e6ecd2;
+  --sl-color-accent: #557d0c;
+  --sl-color-accent-high: #3c5a08;
+
+  --sl-color-text: #1f1f1f;
+  --sl-color-text-accent: #557d0c;
+  --sl-color-bg: #f4f5f3;
+  --sl-color-bg-nav: #fdfefc;
+  --sl-color-bg-sidebar: #fcfdfb;
+  --sl-color-bg-inline-code: #ebedea;
+  --sl-color-hairline-light: #d1d4cf;
+  --sl-color-hairline: #d1d4cf;
+  --sl-color-hairline-shade: #dee0dc;
+
+  --ejs-hero-bg: #b4ca65;
+  --ejs-hero-ink: #1c2208;
+  --ejs-inline-code-text: #557d0c;
+}
+
+/* ---------- Landing-nav parity tokens ----------
+   The docs top bar reproduces the landing nav in its resting (scrolled) state:
+   a surface bar — NOT the green hero band, which on the landing only exists
+   because a green hero sits behind it. These are lifted verbatim from
+   index.html so the two navs are the same bar, not an approximation. The
+   surface color itself reuses --sl-color-bg-nav (identical hex), and
+   --border / --text-secondary / --text-primary / --green-link map onto
+   --sl-color-hairline / --sl-color-gray-3 / --sl-color-white /
+   --sl-color-text-accent, which already hold the landing's exact values. */
+:root {
+  --ejs-nav-highlight: transparent;
+  --ejs-border-subtle: #181a1e;
+  --ejs-panel-shadow: rgba(0, 0, 0, 0.32);
+  --ejs-panel-shadow-soft: rgba(0, 0, 0, 0.22);
+  --ejs-btn-face: linear-gradient(180deg, #232428 0%, #15161a 100%);
+  --ejs-surface-hover: linear-gradient(180deg, #2b2c31 0%, #1d1e22 100%);
+  --ejs-btn-highlight: rgba(255, 255, 255, 0.14);
+  --ejs-btn-highlight-pressed: rgba(255, 255, 255, 0.08);
+  --ejs-btn-drop: rgba(0, 0, 0, 0.35);
+  --ejs-btn-drop-pressed: rgba(0, 0, 0, 0.3);
+  --ejs-btn-focus: rgba(180, 202, 101, 0.45);
+  --ejs-edge-1: #0d0d0d;
+  --ejs-edge: #080808;
+  --ejs-green: #b4ca65;
+  --ejs-green-hover: #d2e889;
+  --ejs-green-active: #e8f7b0;
+  --ejs-hero-ink-soft: #d6ddc6;
+}
+
+:root[data-theme='light'] {
+  --ejs-nav-highlight: rgba(255, 255, 255, 0.28);
+  --ejs-border-subtle: #e5e7e3;
+  --ejs-panel-shadow: rgba(92, 97, 104, 0.12);
+  --ejs-panel-shadow-soft: rgba(92, 97, 104, 0.08);
+  --ejs-btn-face: linear-gradient(180deg, #fefffd 0%, #f2f4f0 100%);
+  --ejs-surface-hover: linear-gradient(180deg, #f1f3ef 0%, #e8eae6 100%);
+  --ejs-btn-highlight: rgba(255, 255, 255, 0.55);
+  --ejs-btn-highlight-pressed: rgba(255, 255, 255, 0.3);
+  --ejs-btn-drop: rgba(92, 97, 104, 0.12);
+  --ejs-btn-drop-pressed: rgba(92, 97, 104, 0.1);
+  --ejs-btn-focus: rgba(94, 140, 12, 0.45);
+  --ejs-edge-1: #dde0db;
+  --ejs-edge: #d1d4cf;
+  --ejs-green: #9eb44e;
+  --ejs-green-hover: #44640a;
+  --ejs-green-active: #2a3d05;
+  --ejs-hero-ink-soft: #2e3a18;
+}
+
+/* ---------- Instant theme switch (matches the landing page) ---------- */
+/* The toggle adds `.no-transitions` to <html> for one frame so flipping
+   light/dark doesn't animate every colored surface. */
+.no-transitions,
+.no-transitions *,
+.no-transitions *::before,
+.no-transitions *::after {
+  transition: none !important;
+}
+
+/* ---------- Headings & UI chrome use Montserrat ---------- */
+.site-title,
+.sl-markdown-content h1,
+.sl-markdown-content h2,
+.sl-markdown-content h3,
+.sl-markdown-content h4,
+.sl-markdown-content h5,
+.sl-markdown-content h6,
+.content-panel h1,
+h1#_top {
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: -0.5px;
+}
+
+/* Loosen Starlight's 1.5em gap above headings that follow non-headings. */
+.sl-markdown-content :not(h1, h2, h3, h4, h5, h6) + :is(h2, h3, h4, h5, h6) {
+  margin-top: 3rem;
+}
+
+h1#_top {
+  padding-top: 1.5rem;
+}
+
+#starlight__on-this-page {
+  padding-top: 1rem;
+}
+
+starlight-toc a {
+  padding-block: 0.45rem;
+}
+
+.site-title {
+  font-weight: 700;
+}
+
+/* Sidebar section labels ("Start Here", "Guide", "Reference") */
+.group-label {
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Increase content panel vertical padding beyond Starlight's default 1.5rem. */
+.content-panel {
+  padding-block: 4rem;
+}
+
+/* ---------- Remove hairline and gap between the h1 panel and the content panel ---------- */
+.content-panel + .content-panel {
+  border-top: none;
+  padding-top: 0;
+}
+
+.content-panel:has(h1#_top) {
+  padding-top: 2rem;
+  padding-bottom: var(--sl-content-gap-y);
+}
+
+/* ---------- Top nav: the bottom edge is drawn by .site-nav's box-shadow
+   (matching the landing's scrolled nav), so suppress Starlight's own header
+   border to avoid a doubled hairline. ---------- */
+header.header {
+  border-bottom: none;
+}
+
+/* ---------- Inline code: brand green, monospace ---------- */
+.sl-markdown-content code:not(:where(.expressive-code *)) {
+  color: var(--ejs-inline-code-text);
+  font-family: var(--sl-font-mono);
+  font-size: 0.875em;
+  border: 1px solid var(--sl-color-hairline);
+}
+
+/* ---------- Links pick up the green accent ---------- */
+.sl-markdown-content a {
+  color: var(--sl-color-text-accent);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 0.15s, text-decoration-color 0.15s;
+}
+
+.sl-markdown-content a:hover {
+  color: var(--ejs-green-hover);
+  text-decoration-color: currentColor;
+}
+
+.sl-markdown-content a:active {
+  color: var(--ejs-green-active);
+}
+
+/* ---------- EJS delimiters glow crimson inside code blocks ---------- */
+/* Shiki tags the <% %> punctuation; nudge it toward the brand crimson. */
+.expressive-code .ec-line .ejs-delim {
+  color: var(--ejs-crimson);
+}
+
+/* ---------- Copy tooltip: tone down EC's bright green "Copied!" ---------- */
+.expressive-code {
+  --ec-frm-tooltipSuccessBg: #2e2e2e;
+  --ec-frm-tooltipSuccessFg: #c8c8c8;
+}
+
+/* ---------- Terminal frames: no macOS title bar ---------- */
+/* The window buttons are already hidden; drop the empty title bar too so
+   terminal blocks are just the code surface. The `figure` qualifier raises
+   specificity above Expressive Code's own `.header` rule, which is bundled
+   into a stylesheet that loads after this one. */
+.expressive-code figure.frame.is-terminal .header {
+  display: none;
+}
+
+/* Expressive Code squares off the top of terminal `pre`/`code` and shifts the
+   copy button down by the title-bar height, expecting the header to sit above.
+   With the header gone, restore the rounded top corners + top border, and reset
+   the copy-button spacing to the same value plain (header-less) frames use. The
+   `figure` qualifier keeps specificity above EC's own rules. */
+.expressive-code figure.frame.is-terminal pre,
+.expressive-code figure.frame.is-terminal code {
+  border-top: var(--ec-brdWd) solid var(--ec-brdCol);
+  border-top-left-radius: calc(var(--ec-brdRad) + var(--ec-brdWd));
+  border-top-right-radius: calc(var(--ec-brdRad) + var(--ec-brdWd));
+}
+/* Vertically center the copy button in the terminal frame, rather than pinning
+   it to the top — reads better for short, single-line commands. */
+.expressive-code figure.frame.is-terminal .copy {
+  inset-block: 0;
+  align-items: center;
+}
+.expressive-code figure.frame.is-terminal .copy button {
+  align-self: center;
+}
+
+/* Multi-line terminal blocks: top-align the button at the same distance from
+   the top as centering gives on a single-line block. The padding-top calc
+   replicates (figure_height_1line - button_height) / 2 using EC's own tokens. */
+.expressive-code figure.frame.is-terminal:has(.ec-line + .ec-line) .copy {
+  align-items: flex-start;
+  padding-top: calc(var(--ec-brdWd) + var(--ec-codePadBlk) + (var(--ec-codeLineHt) * var(--ec-codeFontSize) - 1.75rem) / 2);
+}
+.expressive-code figure.frame.is-terminal:has(.ec-line + .ec-line) .copy button {
+  align-self: flex-start;
+}
+
+/* Copy button only on terminal frames — commands are meant to be run as-is.
+   Editor/code frames are illustrative examples, so drop their copy button. */
+.expressive-code figure.frame:not(.is-terminal) .copy {
+  display: none;
+}
+
+/* ---------- Copy button: match the landing page's physical button ---------- */
+/* Expressive Code ships a flat icon-only button; restyle it as the same dark
+   gradient "physical button" used on the landing page. All selectors carry the
+   `.expressive-code` prefix to outrank EC's own rules regardless of load order. */
+.expressive-code .copy button {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 6px;
+  background: var(--code-btn-face);
+  opacity: 1;
+  box-shadow:
+    inset 0 1px 0 var(--code-btn-highlight),
+    0 1px 0 var(--code-edge-1),
+    0 2px 3px var(--code-btn-drop);
+  transition: transform 70ms ease-out, box-shadow 70ms ease-out,
+    background 120ms ease;
+}
+/* EC layers a translucent fill `<div>` and a border pseudo over the button;
+   drop both so only the gradient face shows. */
+.expressive-code .copy button div {
+  display: none;
+}
+.expressive-code .copy button::before {
+  display: none;
+}
+/* Icon tint — idle grey, brightening on hover, matching the landing page. */
+.expressive-code .copy button::after {
+  background-color: #aaa;
+}
+.expressive-code .copy button:hover {
+  background: var(--code-btn-hover);
+  opacity: 1;
+}
+.expressive-code .copy button:hover::after {
+  background-color: #d0d0d0;
+}
+.expressive-code .copy button:active {
+  transform: translateY(1px);
+  background: var(--code-btn-active);
+  box-shadow:
+    inset 0 1px 0 var(--code-btn-highlight-pressed),
+    0 0 0 var(--code-edge-1),
+    0 1px 1px var(--code-btn-drop-pressed);
+}
+.expressive-code .copy button:focus-visible {
+  outline: 2px solid var(--code-btn-focus);
+  outline-offset: 2px;
+}
+
+/* ---------- Page footer: Edit page + Prev/Next on one row ---------- */
+footer.sl-flex {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2.5rem;
+  gap: 1rem;
+}
+
+footer.sl-flex .meta {
+  margin-top: 0;
+}
+
+/* ---------- Prev/Next pagination buttons ---------- */
+/* Match the nav bar's physical-button treatment: gradient face, layered
+   edge/drop shadows, surface-hover on hover, translateY press on active. */
+.pagination-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.pagination-links a[rel='next'] {
+  margin-inline-start: auto;
+  padding-inline-end: 1rem;
+}
+
+.pagination-links a[rel='prev'] {
+  padding-inline-start: 1rem;
+}
+
+:root .pagination-links a {
+  width: auto;
+  flex-basis: auto;
+  flex-grow: 0;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 8px;
+  padding: 0.6rem 1.5rem;
+  background: var(--ejs-btn-face);
+  color: var(--sl-color-gray-2);
+  box-shadow:
+    inset 0 1px 0 var(--ejs-btn-highlight),
+    0 1px 0 var(--ejs-edge-1),
+    0 2px 0 var(--ejs-edge),
+    0 3px 6px var(--ejs-btn-drop);
+  transition: transform 70ms ease-out, box-shadow 70ms ease-out, background 120ms ease,
+    color 120ms ease, border-color 120ms ease;
+}
+
+:root .pagination-links a:hover {
+  background: var(--ejs-surface-hover);
+  box-shadow:
+    inset 0 0 0 1px var(--ejs-border-subtle),
+    0 1px 0 var(--ejs-edge),
+    0 2px 3px var(--ejs-btn-drop);
+  color: var(--sl-color-white);
+}
+
+:root:not([data-theme='light']) .pagination-links a:hover {
+  box-shadow:
+    inset 0 0 0 1px var(--sl-color-hairline),
+    0 1px 0 var(--ejs-edge),
+    0 2px 3px var(--ejs-btn-drop);
+}
+
+:root .pagination-links a:hover > svg {
+  color: currentColor;
+}
+
+:root .pagination-links a:active {
+  transform: translateY(2px);
+  box-shadow:
+    inset 0 1px 0 var(--ejs-btn-highlight-pressed),
+    0 0 0 var(--ejs-edge),
+    0 1px 2px var(--ejs-btn-drop-pressed);
+}
+
+:root .pagination-links a:active > svg {
+  color: currentColor;
+}
+
+:root .pagination-links .link-title {
+  font-size: var(--sl-text-lg);
+}
+
+:root .pagination-links a > svg {
+  color: currentColor;
+  flex-shrink: 0;
+  transition: transform 150ms ease-out;
+}
+
+:root .pagination-links a[rel='next']:hover > svg {
+  transform: translateX(4px);
+}
+
+:root .pagination-links a[rel='prev']:hover > svg {
+  transform: translateX(-4px);
+}
+
+:root[data-theme='light'] .pagination-links a {
+  box-shadow:
+    inset 0 1px 0 var(--ejs-btn-highlight),
+    0 1px 0 var(--ejs-edge-1),
+    0 2px 0 var(--ejs-edge),
+    0 3px 6px rgba(92, 97, 104, 0.22);
+}
+
+:root[data-theme='light'] .pagination-links a:active {
+  box-shadow:
+    inset 0 1px 0 var(--ejs-btn-highlight-pressed),
+    0 0 0 var(--ejs-edge),
+    0 1px 2px rgba(92, 97, 104, 0.14);
+}
+
+/* ---------- Tables ---------- */
+/* Give header cells a tinted panel background so they read as labels, not data. */
+.sl-markdown-content th {
+  background: var(--sl-color-gray-7);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--sl-color-gray-2);
+  text-transform: uppercase;
+}
+
+.sl-markdown-content thead {
+  border-bottom: 1px solid var(--sl-color-hairline);
+}
+
+/* ---------- Asides: no left bar ---------- */
+/* The tinted background already signals the callout; drop Starlight's colored
+   left border. This rule is unlayered, so it wins over the layered default. */
+.starlight-aside {
+  border-inline-start: none;
+  border-radius: 0.5rem;
+}
+
+/* ---------- Splash hero (landing page) ---------- */
+.hero {
+  padding-block: 2rem;
+}
+.hero h1 {
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: -1px;
+}
+.hero .tagline {
+  color: var(--sl-color-gray-3);
+}
+
+/* Primary call-to-action button → crimson, matching the landing page */
+.hero .actions a[data-variant='primary'] {
+  background: linear-gradient(180deg, #c93066 0%, #b21f56 100%);
+  border-color: #a01a4a;
+  color: #fff;
+}
+.hero .actions a[data-variant='primary']:hover {
+  background: linear-gradient(180deg, #be2a5d 0%, #9b1949 100%);
+}
+
+/* The hero image (EJS mark) shouldn't be cramped */
+.hero img {
+  max-width: 11rem;
+  margin-inline: auto;
+}
