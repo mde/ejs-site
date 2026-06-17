@@ -81,14 +81,14 @@
         --hero-ink: #1c2208;
         --hero-ink-soft: #2e3a18;
         --hero-divider: rgba(28, 34, 8, 0.2);
-        --hero-delim: var(--crimson);
-        --hero-watermark: #b4ca65;
-        --hero-watermark-edge: #a4ba58;
+        --hero-delim: #d32563;
+        --hero-watermark: #a5bb59;
+        --hero-watermark-edge: #97ac4e;
         --hero-hover: rgba(0, 0, 0, 0.07);
         --hero-press: rgba(0, 0, 0, 0.16);
         --hero-surface:
-          radial-gradient(95% 78% at 24% 30%, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0) 60%),
-          linear-gradient(180deg, #b4ca65 0%, #b4ca65 32%, #a6bc57 100%);
+          radial-gradient(95% 78% at 24% 30%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 60%),
+          linear-gradient(180deg, #a8be5a 0%, #a8be5a 32%, #9aaf4c 100%);
         --hero-grain-opacity: 1;
         --body-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       }
@@ -167,6 +167,7 @@
       .nav-gh,
       .theme-toggle,
       .support-btn,
+      .card-cta,
       .btn-primary,
       .copy-btn {
         border-radius: 3px;
@@ -315,6 +316,7 @@
       }
       .nav-logo { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 700; color: var(--crimson); text-decoration: none; transition: color 0.15s ease; }
       .nav-delim { font-family: 'IBM Plex Mono', monospace; font-size: 0.72em; font-weight: 600; opacity: 0.55; }
+      :root:not([data-theme="dark"]) .nav:not(.scrolled) .nav-logo { color: var(--hero-delim); }
       :root[data-theme="dark"] .nav-logo { color: #e8557f; }
       .nav.scrolled .nav-logo { color: #96b040; }
       [data-theme="dark"] .nav.scrolled .nav-logo { color: var(--green); }
@@ -446,6 +448,7 @@
         font-weight: 700;
         letter-spacing: -1px;
         color: var(--hero-delim);
+
       }
       .hero-row { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 40px; }
       .btn-primary {
@@ -495,7 +498,7 @@
       .stat { flex: 1; padding: 0 30px; border-right: 1px solid var(--border-subtle); }
       .stat:first-child { padding-left: 0; }
       .stat:last-child { border-right: none; padding-right: 0; }
-      .stat-value { font-size: 30px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.5px; line-height: 1.1; margin-bottom: 8px; }
+      .stat-value { font-size: 38px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.5px; line-height: 1.1; margin-bottom: 8px; }
       .stat-label { font-size: 13px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em; }
 
       /* ABOUT */
@@ -569,10 +572,11 @@
         100% { filter: brightness(1); }
       }
       .expand-card .card-body { margin-top: 16px; }
-      .expand-card .card-feats { margin-top: 14px; padding-top: 0; }
-      .card-cta { display: inline-flex; align-items: center; gap: 5px; align-self: flex-start; margin-top: auto; padding-top: 28px; font-size: 15.5px; font-weight: 500; color: var(--green-link); text-decoration: none; }
-      .card-cta:hover { color: var(--green-link-hover); }
-      .card-cta svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform 150ms ease-out; }
+      .expand-card .card-feats { margin-top: 22px; padding-top: 0; padding-bottom: 14px; }
+      .card-cta { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; margin-top: auto; padding: 7px 13px; font-size: 14px; font-weight: 500; color: var(--green-link); text-decoration: none; box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1px var(--border), 0 1px 3px var(--panel-shadow); }
+      .card-cta:hover { background: var(--surface-hover); color: var(--green-link-hover); }
+      .card-cta:active { transform: translateY(2px); box-shadow: inset 0 1px 0 var(--btn-highlight-pressed), inset 0 0 0 1px var(--border), 0 1px 1px var(--panel-shadow); }
+      .card-cta svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform 150ms ease-out; }
       .card-cta:hover svg { transform: translateX(3px); }
 
       .security-notice { border-radius: 6px; background: var(--surface); padding: 28px 32px; }
