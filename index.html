@@ -376,8 +376,8 @@
       .hero::before {
         content: "<%=";
         position: absolute;
-        right: -0.18em;
-        top: 56%;
+        right: -0.26em;
+        top: 51%;
         transform: perspective(800px) rotateX(20deg) rotateY(-18deg) rotateZ(4deg) translateY(-50%);
         text-shadow:
           1px 1px 0 var(--hero-watermark-edge),
@@ -402,7 +402,7 @@
           20px 20px 0 var(--hero-watermark-edge);
         font-family: 'IBM Plex Mono', monospace;
         font-weight: 600;
-        font-size: clamp(340px, 45vw, 620px);
+        font-size: clamp(380px, 49vw, 680px);
         line-height: 1;
         color: var(--hero-watermark);
         pointer-events: none;
@@ -421,8 +421,9 @@
       .hero-title .delim { color: var(--hero-delim); font-family: 'IBM Plex Mono', monospace; font-size: 0.82em; font-weight: 600; vertical-align: baseline; }
       .hero-body { font-size: 19px; color: var(--text-prose); line-height: 1.65; max-width: 620px; margin-bottom: 20px; }
       .hero-cta { display: inline-flex; flex-direction: column; align-items: stretch; gap: 20px; min-width: 280px; }
+      .hero-cta .btn-primary { padding: 20px 28px; }
       .hero-code.code-window { padding: 0; }
-      .hero-code .code-body { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 18px; line-height: 1; font-size: 15px; }
+      .hero-code.code-window .code-body { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 18px; line-height: 1; font-size: 16px; }
       .hero-code .copy-btn { background: none; border: none; padding: 8px; flex-shrink: 0; cursor: pointer; }
       .hero-code .copy-btn svg { width: 16px; height: 16px; stroke: #aaa; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; display: block; }
       .hero-code .copy-btn:hover svg { stroke: #d0d0d0; }

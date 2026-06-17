@@ -4,14 +4,13 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 
 <nav class="site-nav" aria-label="Site navigation">
 	<div class="site-nav-inner">
-		<a class="nav-logo" href="/">EJS</a>
+		<a class="nav-logo" href="/"><span class="nav-delim">&lt;%=</span> EJS <span class="nav-delim">%&gt;</span></a>
 		<ul class="nav-center">
 			<li><a href="/#compare">Why EJS</a></li>
 			<li><a href="/#about">About</a></li>
-			<li><a href="/#features">Features</a></li>
 			<li><a href="/#install">Get Started</a></li>
-			<li><a href="/docs/getting-started/" aria-current="page">Docs</a></li>
 			<li><a href="/#support">Support</a></li>
+			<li><a href="/docs/getting-started/" aria-current="page">Docs</a></li>
 		</ul>
 		<div class="nav-right">
 			<ThemeSelect />
@@ -89,6 +88,13 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 		.nav-logo:hover,
 		.nav-logo:focus-visible {
 			color: var(--ejs-green-hover);
+		}
+
+		.nav-delim {
+			font-family: 'IBM Plex Mono', monospace;
+			font-size: 0.72em;
+			font-weight: 600;
+			opacity: 0.55;
 		}
 
 		.nav-center {
