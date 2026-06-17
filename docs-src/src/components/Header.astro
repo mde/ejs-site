@@ -112,7 +112,7 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 			box-sizing: border-box;
 			height: 31px;
 			padding: 0 16px;
-			border-radius: 6px;
+			border-radius: 3px;
 			color: var(--ejs-hero-ink-soft);
 			font-size: 14px;
 			font-weight: 500;
@@ -127,12 +127,11 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 			box-shadow: inset 0 0 0 1px var(--ejs-border-subtle);
 		}
 
-		/* Active page mirrors the landing's `.nav-center a.active`: green text on
-		   the same surface-hover fill, not white. */
+		/* Active page mirrors the landing's `.nav-center a.active`: green text at
+		   the heavier weight, with no fill or edge. */
 		.nav-center a[aria-current='page'] {
 			color: var(--sl-color-text-accent);
-			background: var(--ejs-surface-hover);
-			box-shadow: inset 0 0 0 1px var(--ejs-border-subtle);
+			font-weight: 600;
 		}
 
 		.nav-center a:active {
@@ -157,7 +156,7 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 			height: 31px;
 			padding: 0 14px;
 			border: none;
-			border-radius: 6px;
+			border-radius: 3px;
 			background: var(--ejs-btn-face);
 			font-family: 'Montserrat', sans-serif;
 			font-size: 14px;

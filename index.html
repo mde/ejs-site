@@ -947,28 +947,58 @@
       });
 
       const nav = document.querySelector('.nav');
+      const navLogo = document.querySelector('.nav-logo');
       const spyLinks = [...document.querySelectorAll('.nav-center a[href^="#"]')];
       const spySections = spyLinks.map(a => document.getElementById(a.hash.slice(1))).filter(Boolean);
-      let lockedHash = null;
       const setActive = hash => spyLinks.forEach(a => a.classList.toggle('active', a.hash === hash));
-      const onScroll = () => {
-        nav.classList.toggle('scrolled', window.scrollY > 8);
+      const computeActive = () => {
         const line = window.scrollY + 80;
         let current = null;
         for (const sec of spySections) {
           if (sec.offsetTop <= line && (!current || sec.offsetTop > current.offsetTop)) current = sec;
         }
-        const hash = current ? '#' + current.id : '';
-        if (lockedHash) {
-          if (hash === lockedHash) lockedHash = null;
-          return;
-        }
-        setActive(hash);
+        setActive(current ? '#' + current.id : '');
       };
-      onScroll();
+      // While a click or hash jump animates the page, hold the target link
+      // active and suppress scroll-spy so the links it passes don't flash.
+      // Release once the scroll settles (or the user takes over by hand).
+      let locked = false, settleTimer;
+      const scheduleSettle = () => {
+        clearTimeout(settleTimer);
+        settleTimer = setTimeout(() => { locked = false; computeActive(); }, 120);
+      };
+      const lockTo = hash => { locked = true; setActive(hash); scheduleSettle(); };
+      const onScroll = () => {
+        nav.classList.toggle('scrolled', window.scrollY > 8);
+        if (locked) { scheduleSettle(); return; }
+        computeActive();
+      };
       window.addEventListener('scroll', onScroll, { passive: true });
-      spyLinks.forEach(a => a.addEventListener('click', () => { lockedHash = a.hash; setActive(a.hash); }));
-      ['wheel', 'touchstart', 'keydown'].forEach(ev => window.addEventListener(ev, () => { lockedHash = null; }, { passive: true }));
+      spyLinks.forEach(a => a.addEventListener('click', () => lockTo(a.hash)));
+      // The logo targets #hero, which has no nav link — locking to it simply
+      // clears every link as the page scrolls back to the top.
+      if (navLogo && navLogo.hash) navLogo.addEventListener('click', () => lockTo(navLogo.hash));
+      // Same-document hash changes that don't come through a click (back/forward,
+      // an external `#support` link while already here) scroll past sections too.
+      window.addEventListener('hashchange', () => {
+        const h = location.hash;
+        if (h && (spyLinks.some(a => a.hash === h) || (navLogo && navLogo.hash === h))) lockTo(h);
+      });
+      ['wheel', 'touchstart', 'keydown'].forEach(ev => window.addEventListener(ev, () => { locked = false; clearTimeout(settleTimer); }, { passive: true }));
+      // On a fresh page load with a hash, the browser smooth-scrolls to the
+      // target (CSS scroll-behavior:smooth applies). That scroll fires JS
+      // events late enough that a time-based lock expires mid-trip. Fix:
+      // instantly jump to the target ourselves first so the browser's own
+      // hash-scroll finds the page already there and becomes a no-op.
+      nav.classList.toggle('scrolled', window.scrollY > 8);
+      const initHash = location.hash;
+      if (initHash && spyLinks.some(a => a.hash === initHash)) {
+        const targetEl = document.getElementById(initHash.slice(1));
+        if (targetEl) window.scrollTo({ top: Math.max(0, targetEl.offsetTop - 60), behavior: 'instant' });
+        lockTo(initHash);
+      } else {
+        computeActive();
+      }
 
       document.querySelectorAll('.tabs').forEach(tabs => {
         const container = tabs.parentElement;
