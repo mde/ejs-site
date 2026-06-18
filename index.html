@@ -89,8 +89,8 @@
         --hero-surface:
           radial-gradient(95% 78% at 24% 30%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 60%),
           linear-gradient(180deg, #a8be5a 0%, #a8be5a 32%, #9aaf4c 100%);
-        --hero-grain-opacity: 1;
-        --body-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        --hero-grain-opacity: 0.55;
+        --body-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.01'/%3E%3C/svg%3E");
       }
 
       :root[data-theme="dark"] {
@@ -144,8 +144,8 @@
         --hero-surface:
           radial-gradient(95% 78% at 24% 30%, rgba(200, 200, 200, 0.07) 0%, rgba(200, 200, 200, 0) 60%),
           linear-gradient(180deg, #15171b 0%, #15171b 32%, #0f1115 100%);
-        --hero-grain-opacity: 0.7;
-        --body-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+        --hero-grain-opacity: 0.4;
+        --body-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.018'/%3E%3C/svg%3E");
       }
 
       html { scroll-behavior: smooth; scroll-padding-top: 60px; }
@@ -254,10 +254,10 @@
 
       .security-notice {
         box-shadow:
-          inset 0 1px 0 var(--panel-highlight),
-          inset 0 0 0 1px rgba(191, 34, 90, 0.7),
-          0 2px 6px var(--panel-shadow),
-          0 10px 24px var(--panel-shadow-soft);
+          inset 0 1px 0 var(--btn-highlight),
+          inset 0 0 0 1.5px var(--crimson),
+          0 1px 2px var(--panel-shadow-soft),
+          0 3px 10px var(--panel-shadow);
       }
 
       .code-card,
@@ -479,7 +479,7 @@
       .code-card { background: var(--code-bg); border-radius: 5px; overflow: hidden; }
       .code-body { padding: 20px 20px 24px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.8; color: #f0f0f0; }
       .ln { color: #666; margin-right: 14px; font-size: 10px; user-select: none; }
-      .t-tag { color: #bf225a; } .t-var { color: #ff6188; } .t-kw { color: #ab9df2; } .t-str { color: #a9dc76; } .t-path { color: #fc9867; } .t-html { color: #939293; } .t-cm { color: #78dce8; }
+      .t-tag { color: #e05285; } .t-var { color: #ff6188; } .t-kw { color: #ab9df2; } .t-str { color: #a9dc76; } .t-path { color: #fc9867; } .t-html { color: #939293; } .t-cm { color: #78dce8; }
 
       .stats-strip { display: flex; width: 620px; max-width: 100%; } /* matches .hero-body max-width */
       .stat { flex: 1; padding: 0 30px; border-right: 1px solid var(--border-subtle); }
@@ -511,7 +511,6 @@
       .license-body a:active {
         color: var(--green-link);
       }
-      .section-label { font-size: 11px; font-weight: 600; color: var(--crimson); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 12px; }
       .section-title { font-size: 44px; font-weight: 600; color: var(--text-primary); letter-spacing: -1.2px; margin-bottom: 12px; }
       .section-intro { font-size: 16px; color: var(--text-prose); line-height: 1.7; max-width: 600px; margin-bottom: 48px; }
       /* Benefits — a grid of cards, all visible at once. */
@@ -565,7 +564,12 @@
       .card-cta svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform 150ms ease-out; }
       .card-cta:hover svg { transform: translateX(3px); }
 
-      .security-notice { border-radius: 6px; background: var(--surface); padding: 28px 32px; }
+      .security-notice {
+        background: var(--btn-face);
+        border-radius: 6px;
+        border: none;
+        padding: 28px 32px;
+      }
       .notice-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
       .notice-icon { width: 32px; height: 32px; flex-shrink: 0; stroke: var(--crimson); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
       .notice-title { font-size: 26px; font-weight: 600; color: var(--crimson); letter-spacing: -0.3px; }
@@ -615,8 +619,11 @@
       /* COMPARE */
       .concept-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: auto 1fr auto; column-gap: 16px; row-gap: 14px; width: min(1200px, 100vw - 96px); margin-top: 48px; position: relative; left: 50%; transform: translateX(-50%); }
       .concept-row { grid-row: span 3; display: grid; grid-template-rows: subgrid; background: var(--btn-face); border-radius: 6px; box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1px var(--border), 0 2px 8px var(--panel-shadow); padding: 24px; align-content: start; }
-      .concept-row-ejs { background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%); box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1px var(--green), 0 6px 24px rgba(158, 180, 78, 0.38), 0 1px 6px rgba(158, 180, 78, 0.20); }
-      :root[data-theme="dark"] .concept-row-ejs { background: var(--btn-face); box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1px var(--green), 0 4px 20px rgba(180, 202, 101, 0.22), 0 1px 6px rgba(180, 202, 101, 0.14); }
+      .concept-row-ejs { background: var(--btn-face); box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 2px var(--green), 0 6px 28px rgba(158, 180, 78, 0.50), 0 1px 8px rgba(158, 180, 78, 0.28); position: relative; overflow: hidden; }
+      .concept-row-ejs::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(110deg, transparent 22%, rgba(255,255,255,0.03) 32%, rgba(255,255,255,0.42) 44%, rgba(255,255,255,0.62) 50%, rgba(255,255,255,0.42) 56%, rgba(255,255,255,0.03) 68%, transparent 78%); transform: translateX(-130%); pointer-events: none; }
+      .concept-row-ejs.shining::after { animation: card-shine 680ms cubic-bezier(0.05, 0, 0.25, 1) forwards; }
+      :root[data-theme="dark"] .concept-row-ejs { background: var(--btn-face); box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 2px var(--green), 0 4px 24px rgba(180, 202, 101, 0.34), 0 1px 8px rgba(180, 202, 101, 0.22); }
+      :root[data-theme="dark"] .concept-row-ejs::after { background: linear-gradient(110deg, transparent 22%, rgba(255,255,255,0.01) 32%, rgba(255,255,255,0.05) 44%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.05) 56%, rgba(255,255,255,0.01) 68%, transparent 78%); }
       .concept-engine { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 600; color: var(--text-primary); }
       .concept-engine-ejs { color: var(--green-link); }
       .concept-code { background: var(--embedded-code-bg); border-radius: 4px; padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; line-height: 1.8; color: #f8f8f2; }
@@ -809,7 +816,6 @@
 
       <!-- COMPARE -->
       <section id="compare" class="section">
-        <div class="section-label">Why EJS</div>
         <h2 class="section-title">Zero new concepts.</h2>
         <p class="section-intro">Every other templating language invents its own dialect for loops, conditionals, and partials. EJS just uses JavaScript. No new keywords, directives, or helper APIs to learn.</p>
         <div class="concept-grid">
@@ -838,7 +844,6 @@
 
       <!-- ABOUT -->
       <section id="about" class="section">
-        <div class="section-label">About</div>
         <h2 class="section-title">What is EJS?</h2>
         <p class="section-intro">What is the "E" for? "Embedded?" Could be. How about "Effective," "Elegant," or just "Easy"? EJS is a simple templating language that lets you generate HTML markup with plain JavaScript. No religiousness about how to organize things. No reinvention of iteration and control-flow.</p>
         <div class="expand-grid" aria-label="Why developers choose EJS">
@@ -861,7 +866,6 @@
 
       <!-- GET STARTED -->
       <section id="install" class="section">
-        <div class="section-label">Get Started</div>
         <h2 class="section-title">Up and running in minutes.</h2>
         <p class="section-intro">Install EJS, pick your module system, and start generating HTML with plain JavaScript.</p>
         <div>
@@ -897,7 +901,6 @@
 
       <!-- SUPPORT -->
       <section id="support" class="section">
-        <div class="section-label">Support</div>
         <h2 class="section-title">Need help?</h2>
         <div class="support-grid">
           <div class="support-card"><div class="support-card-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="support-card-title">Stack Overflow</div><div class="support-card-body">Ask questions about specific problems you've faced. Tag your question with <span>ejs</span> and browse existing answers.</div><a class="support-btn" href="https://stackoverflow.com/questions/tagged/ejs" target="_blank" rel="noopener noreferrer">Ask a question <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></div>
@@ -907,7 +910,6 @@
 
       <!-- LICENSE -->
       <section id="license" class="section">
-        <div class="section-label">License</div>
         <h2 class="section-title">Open source.</h2>
         <div class="license-inner">
           <div class="license-body">EJS is licensed under the Apache License, version 2.0. You're free to use it in personal and commercial projects. Full details at <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener noreferrer">apache.org/licenses</a>.</div>
@@ -1076,7 +1078,7 @@
         });
       });
 
-      document.querySelectorAll('.expand-card').forEach(card => {
+      document.querySelectorAll('.expand-card, .concept-row-ejs').forEach(card => {
         card.addEventListener('mouseenter', () => {
           card.classList.remove('shining');
           void card.offsetWidth; // force reflow to restart animation if re-entering

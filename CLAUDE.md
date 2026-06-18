@@ -37,7 +37,7 @@ There are also 3D-button/panel token families (`--btn-*`, `--edge-*`, `--primary
 
 ## Syntax Highlight Classes
 Used inside code preview blocks to color tokens (Monokai-style palette, tuned for the dark code surface):
-- `.t-tag` — EJS / template delimiters (`<% %>`, `{{ }}`) → crimson `#bf225a`
+- `.t-tag` — EJS / template delimiters (`<% %>`, `{{ }}`) → code-tuned crimson `#e05285` (lifted from brand `#bf225a` to clear WCAG AA, 4.6:1, on the dark code surface)
 - `.t-var` — variables, function/property names → `#ff6188`
 - `.t-kw` — JavaScript keywords → `#ab9df2`
 - `.t-str` — strings → `#a9dc76`

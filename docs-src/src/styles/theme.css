@@ -237,9 +237,12 @@ header.header {
 }
 
 /* ---------- EJS delimiters glow crimson inside code blocks ---------- */
-/* Shiki tags the <% %> punctuation; nudge it toward the brand crimson. */
+/* Shiki tags the <% %> punctuation; nudge it toward the brand crimson. The
+   brand crimson (#bf225a / --ejs-crimson) only hits 2.9:1 on the dark code
+   surface, so use a code-tuned lift (same hue, raised lightness) that clears
+   WCAG AA at 4.6:1. Matches the landing page's .t-tag token. */
 .expressive-code .ec-line .ejs-delim {
-  color: var(--ejs-crimson);
+  color: #e05285;
 }
 
 /* ---------- Copy tooltip: tone down EC's bright green "Copied!" ---------- */
