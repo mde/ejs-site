@@ -175,18 +175,10 @@
         transition: transform 70ms ease-out, box-shadow 70ms ease-out, background 120ms ease, color 120ms ease;
       }
 
-      .support-btn {
-        background: var(--btn-face);
-        box-shadow:
-          inset 0 1px 0 var(--btn-highlight),
-          0 1px 0 var(--edge-1),
-          0 2px 0 var(--edge-2),
-          0 3px 0 var(--edge-3),
-          0 4px 5px var(--btn-drop);
-      }
-
       .nav-gh,
-      .theme-toggle {
+      .theme-toggle,
+      .support-btn,
+      .card-cta {
         background: var(--btn-face);
         box-shadow:
           inset 0 1px 0 var(--btn-highlight),
@@ -197,20 +189,15 @@
 
       .nav-gh:hover,
       .theme-toggle:hover,
-      .support-btn:hover {
+      .support-btn:hover,
+      .card-cta:hover {
         background: var(--surface-hover);
       }
 
-      .support-btn:active {
-        transform: translateY(3px);
-        box-shadow:
-          inset 0 1px 0 var(--btn-highlight-pressed),
-          0 0 0 var(--edge-2),
-          0 1px 1px var(--btn-drop-pressed);
-      }
-
       .nav-gh:active,
-      .theme-toggle:active {
+      .theme-toggle:active,
+      .support-btn:active,
+      .card-cta:active {
         transform: translateY(2px);
         box-shadow:
           inset 0 1px 0 var(--btn-highlight-pressed),
@@ -572,10 +559,9 @@
         100% { filter: brightness(1); }
       }
       .expand-card .card-body { margin-top: 16px; }
-      .expand-card .card-feats { margin-top: 22px; padding-top: 0; padding-bottom: 14px; }
-      .card-cta { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; margin-top: auto; padding: 7px 13px; font-size: 14px; font-weight: 500; color: var(--green-link); text-decoration: none; box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1px var(--border), 0 1px 3px var(--panel-shadow); }
-      .card-cta:hover { background: var(--surface-hover); color: var(--green-link-hover); }
-      .card-cta:active { transform: translateY(2px); box-shadow: inset 0 1px 0 var(--btn-highlight-pressed), inset 0 0 0 1px var(--border), 0 1px 1px var(--panel-shadow); }
+      .expand-card .card-feats { margin-top: 22px; padding-top: 0; padding-bottom: 22px; }
+      .card-cta { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; margin-top: auto; padding: 7px 13px; font-size: 14px; font-weight: 500; color: var(--green-link); text-decoration: none; }
+      .card-cta:hover { color: var(--green-link-hover); }
       .card-cta svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform 150ms ease-out; }
       .card-cta:hover svg { transform: translateX(3px); }
 
