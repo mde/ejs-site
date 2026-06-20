@@ -98,7 +98,9 @@ export default defineConfig({
 					langs: shikiLangs,
 				},
 				styleOverrides: {
-					borderRadius: '10px',
+					// EC adds the 1px border width to this for the outer corner, so 4px
+					// here yields a 5px visible radius — matching the landing code windows.
+					borderRadius: '4px',
 					borderColor: '#272727',
 					codeBackground: '#1c1c1c',
 					frames: {

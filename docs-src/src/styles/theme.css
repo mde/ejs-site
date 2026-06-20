@@ -114,6 +114,7 @@
   --ejs-edge: #080808;
   --ejs-green: #b4ca65;
   --ejs-green-hover: #d2e889;
+  --ejs-green-link-hover: #d2e889;
   --ejs-green-active: #e8f7b0;
   --ejs-hero-ink-soft: #d6ddc6;
 }
@@ -133,7 +134,8 @@
   --ejs-edge-1: #dde0db;
   --ejs-edge: #d1d4cf;
   --ejs-green: #9eb44e;
-  --ejs-green-hover: #44640a;
+  --ejs-green-hover: #84993e;
+  --ejs-green-link-hover: #44640a;
   --ejs-green-active: #2a3d05;
   --ejs-hero-ink-soft: #2e3a18;
 }
@@ -228,7 +230,7 @@ header.header {
 }
 
 .sl-markdown-content a:hover {
-  color: var(--ejs-green-hover);
+  color: var(--ejs-green-link-hover);
   text-decoration-color: currentColor;
 }
 
@@ -305,7 +307,7 @@ header.header {
 .expressive-code .copy button {
   width: 1.75rem;
   height: 1.75rem;
-  border-radius: 6px;
+  border-radius: 3px;
   background: var(--code-btn-face);
   opacity: 1;
   box-shadow:
@@ -382,7 +384,7 @@ footer.sl-flex .meta {
   flex-basis: auto;
   flex-grow: 0;
   border: 1px solid var(--sl-color-gray-5);
-  border-radius: 8px;
+  border-radius: 5px;
   padding: 0.6rem 1.5rem;
   background: var(--ejs-btn-face);
   color: var(--sl-color-gray-2);
@@ -481,7 +483,7 @@ footer.sl-flex .meta {
    left border. This rule is unlayered, so it wins over the layered default. */
 .starlight-aside {
   border-inline-start: none;
-  border-radius: 0.5rem;
+  border-radius: 6px;
 }
 
 /* ---------- Splash hero (landing page) ---------- */
@@ -524,7 +526,7 @@ starlight-menu-button button {
   width: auto;
   height: auto;
   padding: 8.5px 10px;
-  border-radius: 6px;
+  border-radius: 3px;
   background: var(--ejs-btn-face);
   color: var(--sl-color-gray-3);
   box-shadow:
