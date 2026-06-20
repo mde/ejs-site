@@ -78,11 +78,22 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 
 		.nav-logo {
 			flex-shrink: 0;
-			color: var(--ejs-green);
+			color: #96b040;
 			font-size: 24px;
 			font-weight: 700;
 			text-decoration: none;
 			transition: color 0.15s ease;
+		}
+
+		:global([data-theme='dark']) .nav-logo {
+			color: var(--ejs-green);
+		}
+
+		.nav-delim {
+			font-family: 'IBM Plex Mono', monospace;
+			font-size: 0.72em;
+			font-weight: 600;
+			opacity: 0.55;
 		}
 
 		.nav-logo:hover,
@@ -115,7 +126,7 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 			border-radius: 3px;
 			color: var(--ejs-hero-ink-soft);
 			font-size: 14px;
-			font-weight: 500;
+			font-weight: 400;
 			text-decoration: none;
 			transition: color 0.15s, background 0.15s, box-shadow 0.15s;
 		}
