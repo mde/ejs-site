@@ -232,7 +232,8 @@
       .nav-center a:focus-visible,
       .nav-gh:focus-visible,
       .theme-toggle:focus-visible,
-      .support-btn:focus-visible {
+      .support-btn:focus-visible,
+      .card-cta:focus-visible {
         outline: 2px solid var(--btn-focus);
         outline-offset: 3px;
       }
@@ -557,6 +558,10 @@
         35%  { filter: brightness(1.15); }
         100% { filter: brightness(1); }
       }
+      @media (prefers-reduced-motion: reduce) {
+        .expand-card.shining::after,
+        .expand-card.shining .card-icon { animation: none; }
+      }
       .expand-card .card-body { margin-top: 16px; }
       .expand-card .card-feats { margin-top: 22px; padding-top: 0; padding-bottom: 22px; }
       .card-cta { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; margin-top: auto; padding: 7px 13px; font-size: 14px; font-weight: 500; color: var(--green-link); text-decoration: none; }
@@ -586,7 +591,7 @@
       .block:nth-child(even) > :first-child { order: 2; }
       .block:nth-child(even) > :last-child { order: 1; }
       .block-label { font-size: 11px; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
-      .block-title { font-size: 17px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+      .block-title { font-size: 17px; font-weight: 600; color: var(--text-primary); margin: 0 0 8px; }
       .block-desc { font-size: 15px; color: var(--text-prose); line-height: 1.7; }
       /* Code window — dark in both themes */
       .code-window { background: var(--code-bg); border-radius: 5px; overflow: hidden; }
@@ -639,7 +644,7 @@
       .support-card { background: var(--btn-face); border-radius: 5px; padding: 24px; display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto 1fr auto; column-gap: 16px; row-gap: 18px; }
       .support-card-icon { display: flex; align-self: center; }
       .support-card-icon svg { width: 28px; height: 28px; stroke: var(--green); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-      .support-card-title { font-size: 18px; font-weight: 600; color: var(--text-primary); align-self: center; }
+      .support-card-title { font-size: 18px; font-weight: 600; color: var(--text-primary); align-self: center; margin: 0; }
       .support-card-body { grid-column: 1 / -1; font-size: 15px; color: var(--text-prose); line-height: 1.65; }
       .support-card-body span { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--green-link); }
       .support-btn {
@@ -793,6 +798,8 @@
       </div>
     </nav>
 
+    <main>
+
     <!-- HERO -->
     <section class="hero" id="hero">
       <div class="hero-inner">
@@ -870,30 +877,30 @@
         <p class="section-intro">Install EJS, pick your module system, and start generating HTML with plain JavaScript.</p>
         <div>
           <div class="block">
-            <div><div class="block-title">Install via npm</div><div class="block-desc">Add EJS to your project with a single command.</div></div>
+            <div><h3 class="block-title">Install via npm</h3><div class="block-desc">Add EJS to your project with a single command.</div></div>
             <div class="code-window"><div class="code-file"><span class="code-file-name">terminal</span><button class="copy-btn"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><div class="code-body"><span class="t-cm">$</span> <span class="t-var">npm</span> install <span class="t-str">ejs</span></div></div>
           </div>
           <div class="block">
-            <div><div class="block-title">ESM or CJS</div><div class="block-desc">Pick the module system that fits your project.</div></div>
+            <div><h3 class="block-title">ESM or CJS</h3><div class="block-desc">Pick the module system that fits your project.</div></div>
             <div class="code-window">
-              <div class="tabs">
-                <button class="tab active" data-tab="esm">ESM</button>
-                <button class="tab" data-tab="cjs">CJS</button>
+              <div class="tabs" role="tablist" aria-label="Module system">
+                <button class="tab active" data-tab="esm" role="tab" id="tab-esm" aria-selected="true" aria-controls="panel-esm" tabindex="0">ESM</button>
+                <button class="tab" data-tab="cjs" role="tab" id="tab-cjs" aria-selected="false" aria-controls="panel-cjs" tabindex="-1">CJS</button>
               </div>
-              <div class="code-body" data-panel="esm"><span class="t-kw">import</span> <span class="t-var">ejs</span> <span class="t-kw">from</span> <span class="t-str">'ejs'</span>;</div>
-              <div class="code-body" data-panel="cjs" hidden><span class="t-kw">const</span> <span class="t-var">ejs</span> = <span class="t-kw">require</span>(<span class="t-str">'ejs'</span>);</div>
+              <div class="code-body" data-panel="esm" role="tabpanel" id="panel-esm" aria-labelledby="tab-esm" tabindex="0"><span class="t-kw">import</span> <span class="t-var">ejs</span> <span class="t-kw">from</span> <span class="t-str">'ejs'</span>;</div>
+              <div class="code-body" data-panel="cjs" role="tabpanel" id="panel-cjs" aria-labelledby="tab-cjs" tabindex="0" hidden><span class="t-kw">const</span> <span class="t-var">ejs</span> = <span class="t-kw">require</span>(<span class="t-str">'ejs'</span>);</div>
             </div>
           </div>
           <div class="block">
-            <div><div class="block-title">Render a template</div><div class="block-desc">Pass EJS a template string and some data. You've got HTML.</div></div>
+            <div><h3 class="block-title">Render a template</h3><div class="block-desc">Pass EJS a template string and some data. You've got HTML.</div></div>
             <div class="code-window"><div class="code-file"><span class="code-file-name">render.js</span></div><div class="code-body"><div><span class="t-kw">import</span> <span class="t-var">ejs</span> <span class="t-kw">from</span> <span class="t-str">'ejs'</span>;</div><div><span class="t-kw">let</span> <span class="t-var">people</span> = [<span class="t-str">'geddy'</span>, <span class="t-str">'neil'</span>, <span class="t-str">'alex'</span>];</div><div><span class="t-kw">let</span> <span class="t-var">html</span> = <span class="t-var">ejs</span>.<span class="t-var">render</span>(<span class="t-str">'&lt;%= people.join(", "); %&gt;'</span>, {<span class="t-var">people</span>});</div></div></div>
           </div>
           <div class="block">
-            <div><div class="block-title">Use the command line</div><div class="block-desc">Feed it a template file and a data file, specify an output file.</div></div>
+            <div><h3 class="block-title">Use the command line</h3><div class="block-desc">Feed it a template file and a data file, specify an output file.</div></div>
             <div class="code-window"><div class="code-file"><span class="code-file-name">terminal</span><button class="copy-btn"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><div class="code-body"><span class="t-cm">$</span> <span class="t-var">ejs</span> <span class="t-path">./template.ejs</span> <span class="t-kw">-f</span> <span class="t-path">data.json</span> <span class="t-kw">-o</span> <span class="t-path">./output.html</span></div></div>
           </div>
           <div class="block">
-            <div><div class="block-title">Browser support</div><div class="block-desc">Download a browser build and drop it in a script tag.</div></div>
+            <div><h3 class="block-title">Browser support</h3><div class="block-desc">Download a browser build and drop it in a script tag.</div></div>
             <div class="code-window"><div class="code-file"><span class="code-file-name">index.html</span></div><div class="code-body"><div><span class="t-html">&lt;script </span><span class="t-kw">src</span>=<span class="t-str">"ejs.js"</span><span class="t-html">&gt;&lt;/script&gt;</span></div><div><span class="t-html">&lt;script&gt;</span></div><div>&nbsp;&nbsp;<span class="t-kw">let</span> <span class="t-var">html</span> = <span class="t-var">ejs</span>.<span class="t-var">render</span>(<span class="t-str">'&lt;%= people.join(", "); %&gt;'</span>, {<span class="t-var">people</span>});</div><div><span class="t-html">&lt;/script&gt;</span></div></div></div>
           </div>
         </div>
@@ -903,8 +910,8 @@
       <section id="support" class="section">
         <h2 class="section-title">Need help?</h2>
         <div class="support-grid">
-          <div class="support-card"><div class="support-card-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="support-card-title">Stack Overflow</div><div class="support-card-body">Ask questions about specific problems you've faced. Tag your question with <span>ejs</span> and browse existing answers.</div><a class="support-btn" href="https://stackoverflow.com/questions/tagged/ejs" target="_blank" rel="noopener noreferrer">Ask a question <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></div>
-          <div class="support-card"><div class="support-card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg></div><div class="support-card-title">GitHub Issues</div><div class="support-card-body">The preferred channel for bug reports, feature requests, and pull requests. Check existing issues before opening a new one.</div><a class="support-btn" href="https://github.com/mde/ejs/issues" target="_blank" rel="noopener noreferrer">Open an issue <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></div>
+          <div class="support-card"><div class="support-card-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3 class="support-card-title">Stack Overflow</h3><div class="support-card-body">Ask questions about specific problems you've faced. Tag your question with <span>ejs</span> and browse existing answers.</div><a class="support-btn" href="https://stackoverflow.com/questions/tagged/ejs" target="_blank" rel="noopener noreferrer">Ask a question <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></div>
+          <div class="support-card"><div class="support-card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg></div><h3 class="support-card-title">GitHub Issues</h3><div class="support-card-body">The preferred channel for bug reports, feature requests, and pull requests. Check existing issues before opening a new one.</div><a class="support-btn" href="https://github.com/mde/ejs/issues" target="_blank" rel="noopener noreferrer">Open an issue <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></div>
         </div>
       </section>
 
@@ -918,6 +925,8 @@
       </section>
 
     </div>
+
+    </main>
 
     <!-- FOOTER -->
     <footer class="footer">
@@ -942,7 +951,12 @@
       const navLogo = document.querySelector('.nav-logo');
       const spyLinks = [...document.querySelectorAll('.nav-center a[href^="#"]')];
       const spySections = spyLinks.map(a => document.getElementById(a.hash.slice(1))).filter(Boolean);
-      const setActive = hash => spyLinks.forEach(a => a.classList.toggle('active', a.hash === hash));
+      const setActive = hash => spyLinks.forEach(a => {
+        const isActive = a.hash === hash;
+        a.classList.toggle('active', isActive);
+        if (isActive) a.setAttribute('aria-current', 'location');
+        else a.removeAttribute('aria-current');
+      });
       const computeActive = () => {
         const line = window.scrollY + 80;
         let current = null;
@@ -994,14 +1008,36 @@
 
       document.querySelectorAll('.tabs').forEach(tabs => {
         const container = tabs.parentElement;
-        tabs.addEventListener('click', e => {
-          const tab = e.target.closest('.tab');
-          if (!tab) return;
-          tabs.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
+        const tabList = [...tabs.querySelectorAll('.tab')];
+        const selectTab = (tab, setFocus = false) => {
+          tabList.forEach(t => {
+            const on = t === tab;
+            t.classList.toggle('active', on);
+            t.setAttribute('aria-selected', on ? 'true' : 'false');
+            t.tabIndex = on ? 0 : -1;
+          });
           container.querySelectorAll('[data-panel]').forEach(p => {
             p.hidden = p.dataset.panel !== tab.dataset.tab;
           });
+          if (setFocus) tab.focus();
+        };
+        tabs.addEventListener('click', e => {
+          const tab = e.target.closest('.tab');
+          if (tab) selectTab(tab);
+        });
+        // WAI-ARIA tabs keyboard pattern with automatic activation: arrow keys
+        // (and Home/End) move focus and select in one step.
+        tabs.addEventListener('keydown', e => {
+          const i = tabList.indexOf(document.activeElement);
+          if (i < 0) return;
+          let n;
+          if (e.key === 'ArrowRight') n = (i + 1) % tabList.length;
+          else if (e.key === 'ArrowLeft') n = (i - 1 + tabList.length) % tabList.length;
+          else if (e.key === 'Home') n = 0;
+          else if (e.key === 'End') n = tabList.length - 1;
+          else return;
+          e.preventDefault();
+          selectTab(tabList[n], true);
         });
       });
 

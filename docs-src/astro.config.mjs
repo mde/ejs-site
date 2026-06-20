@@ -50,7 +50,8 @@ export default defineConfig({
 			},
 			components: {
 				Header: './src/components/Header.astro',
-				// Search lives at the top of the sidebar, not in the nav.
+				// Search is disabled (pagefind: false above), so no search UI is
+				// rendered in the sidebar or nav.
 				Sidebar: './src/components/Sidebar.astro',
 				// Share the landing page's `theme` localStorage key and a matching
 				// sun/moon toggle so light/dark stays in sync across / and /docs/.
