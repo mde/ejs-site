@@ -20,6 +20,7 @@
     </script>
     <style>
       :root {
+        color-scheme: light; /* native UI (scrollbars, controls) tracks the theme */
         --bg: #f4f5f3;
         --surface: #fcfdfb;
         --surface-faint: #ebedea;
@@ -58,6 +59,8 @@
         --code-btn-drop: rgba(0, 0, 0, 0.35);
         --code-btn-focus: rgba(180, 202, 101, 0.45);
         --code-bg: #1c1c1c;
+        --code-face: linear-gradient(180deg, #202020 0%, #1a1a1a 100%);
+        --code-titlebar: linear-gradient(180deg, #262626 0%, #1f1f1f 100%);
         --embedded-code-bg: var(--code-bg);
         --border: #d1d4cf;
         --border-subtle: #e5e7e3;
@@ -94,6 +97,7 @@
       }
 
       :root[data-theme="dark"] {
+        color-scheme: dark;
         --bg: #101114;
         --surface: #181a1e;
         --surface-faint: #0d0e11;
@@ -153,7 +157,6 @@
 
       body { background-color: var(--bg); background-image: var(--body-grain); font-family: 'Inter', sans-serif; color: var(--text-body); overflow-x: hidden; }
       .no-transitions, .no-transitions *, .no-transitions *::before, .no-transitions *::after { transition: none !important; }
-
       .hero-title, .section-title, .card-title, .notice-title, .block-title, .support-card-title, .license-badge-name,
       .nav-center a, .nav-gh, .btn-primary, .support-btn {
         font-family: 'Montserrat', sans-serif;
@@ -312,14 +315,24 @@
       .nav-logo:focus-visible { outline: 2px solid var(--btn-focus); outline-offset: 4px; border-radius: 3px; }
       .nav-center { display: flex; gap: 4px; list-style: none; align-items: center; }
       .nav-center li { display: flex; align-items: center; }
-      .nav-center a { display: flex; align-items: center; box-sizing: border-box; height: 31px; font-size: 14px; font-weight: 400; color: var(--hero-ink-soft); text-decoration: none; padding: 0 16px; border-radius: 3px; transition: color 0.15s, background 0.15s, box-shadow 0.15s; }
-      .nav-center a:hover { color: var(--text-primary); background: var(--surface-hover); box-shadow: inset 0 0 0 1px var(--border-subtle); }
-      [data-theme="dark"] .nav-center a:hover { box-shadow: inset 0 0 0 1px var(--border); }
-      .nav-center a:active { color: var(--text-primary); box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.14); }
-      [data-theme="dark"] .nav-center a:active { box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.55); }
-      .nav:not(.scrolled) .nav-center a:hover { color: var(--hero-ink); background: var(--hero-hover); box-shadow: inset 0 0 0 1px var(--hero-divider); }
-      .nav:not(.scrolled) .nav-center a:active { box-shadow: inset 0 1px 3px var(--hero-press); }
+      .nav-center a { position: relative; z-index: 0; display: flex; align-items: center; box-sizing: border-box; height: 31px; font-size: 14px; font-weight: 400; color: var(--hero-ink-soft); text-decoration: none; padding: 0 16px; border-radius: 3px; transition: color 0.15s; }
+      /* Hover fill + ring live on a pseudo so they scale in from the center;
+         the text itself doesn't scale. Defaults to the over-hero look;
+         .scrolled swaps to the solid surface chip. */
+      .nav-center a::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--hero-hover); box-shadow: inset 0 0 0 1px var(--hero-divider); opacity: 0; transform: scale(0.4); transition: opacity 0.08s ease, transform 0.1s cubic-bezier(0.22, 1, 0.36, 1); pointer-events: none; }
+      .nav.scrolled .nav-center a::before { background: var(--surface-hover); box-shadow: inset 0 0 0 1px var(--border-subtle); }
+      [data-theme="dark"] .nav.scrolled .nav-center a::before { box-shadow: inset 0 0 0 1px var(--border); }
+      .nav-center a:hover::before, .nav-center a:focus-visible::before { opacity: 1; transform: scale(1); }
+      .nav-center a:hover, .nav-center a:focus-visible { color: var(--text-primary); }
+      .nav:not(.scrolled) .nav-center a:hover, .nav:not(.scrolled) .nav-center a:focus-visible { color: var(--hero-ink); }
+      .nav.scrolled .nav-center a:active::before { box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.14); }
+      [data-theme="dark"] .nav.scrolled .nav-center a:active::before { box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.55); }
+      .nav:not(.scrolled) .nav-center a:active::before { box-shadow: inset 0 1px 3px var(--hero-press); }
       .nav-center a.active { color: var(--green-link); font-weight: 600; }
+      @media (prefers-reduced-motion: reduce) {
+        .nav-center a::before { transform: none; transition: opacity 0.15s ease; }
+        .nav-center a:hover::before, .nav-center a:focus-visible::before { transform: none; }
+      }
       .nav-right { display: flex; gap: 10px; align-items: center; }
       .nav-gh {
         display: inline-flex; align-items: center; gap: 8px;
@@ -332,6 +345,7 @@
       .nav-gh svg { width: 16px; height: 16px; fill: currentColor; }
       .nav-gh svg.ext-icon { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
       .theme-toggle {
+        position: relative;
         border: none;
         color: var(--text-secondary);
         padding: 8.5px 10px;
@@ -339,10 +353,13 @@
         align-items: center;
         font: inherit;
       }
-      .theme-toggle svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-      .theme-toggle .icon-moon { display: none; }
-      [data-theme="dark"] .theme-toggle .icon-sun { display: none; }
-      [data-theme="dark"] .theme-toggle .icon-moon { display: inline; }
+      .theme-toggle svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: opacity 200ms ease, transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+      /* Stack both icons and crossfade/rotate sun → moon on theme change */
+      .theme-toggle .icon-moon { position: absolute; top: 8.5px; left: 10px; opacity: 0; transform: rotate(-90deg) scale(0.5); }
+      [data-theme="dark"] .theme-toggle .icon-sun { opacity: 0; transform: rotate(90deg) scale(0.5); }
+      [data-theme="dark"] .theme-toggle .icon-moon { opacity: 1; transform: rotate(0) scale(1); }
+      /* Keep the icon swap animating even while .no-transitions snaps theme colors instantly */
+      .no-transitions .theme-toggle svg { transition: opacity 200ms ease, transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1) !important; }
 
       /* HERO */
       .hero {
@@ -414,12 +431,13 @@
       .hero-cta .btn-primary { padding: 20px 28px; }
       .hero-code.code-window { padding: 0; }
       .hero-code.code-window .code-body { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 18px; line-height: 1; font-size: 16px; }
-      .hero-code .copy-btn { background: none; border: none; padding: 8px; flex-shrink: 0; cursor: pointer; }
-      .hero-code .copy-btn svg { width: 16px; height: 16px; stroke: #aaa; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; display: block; }
-      .hero-code .copy-btn:hover svg { stroke: #d0d0d0; }
-      .hero-code .copy-btn .icon-check { display: none; }
-      .hero-code .copy-btn.copied .icon-copy { display: none; }
-      .hero-code .copy-btn.copied .icon-check { display: block; stroke: #b4ca65; }
+      .hero-code .copy-btn, .code-window.copy-inline .copy-btn { position: relative; padding: 8px; flex-shrink: 0; cursor: pointer; }
+      .hero-code .copy-btn svg, .code-window.copy-inline .copy-btn svg { width: 16px; height: 16px; stroke: #aaa; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; display: block; transition: opacity 180ms ease, transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+      .hero-code .copy-btn:hover .icon-copy, .code-window.copy-inline .copy-btn:hover .icon-copy { stroke: #d0d0d0; }
+      /* Stack both icons and crossfade copy → check on .copied */
+      .hero-code .copy-btn .icon-check, .code-window.copy-inline .copy-btn .icon-check { position: absolute; top: 8px; left: 8px; stroke: #b4ca65; opacity: 0; transform: scale(0.4); }
+      .hero-code .copy-btn.copied .icon-copy, .code-window.copy-inline .copy-btn.copied .icon-copy { opacity: 0; transform: scale(0.4); }
+      .hero-code .copy-btn.copied .icon-check, .code-window.copy-inline .copy-btn.copied .icon-check { opacity: 1; transform: scale(1); }
       .hero .hero-title { color: var(--hero-ink); }
       [data-theme="dark"] .hero .hero-title .hero-tagline { color: var(--hero-ink); }
       .hero .hero-title .ejs { color: var(--hero-delim); }
@@ -477,7 +495,7 @@
       }
 
       /* Code surface — dark in both themes */
-      .code-card { background: var(--code-bg); border-radius: 5px; overflow: hidden; }
+      .code-card { background: var(--code-bg); background: var(--code-face); border-radius: 5px; overflow: hidden; }
       .code-body { padding: 20px 20px 24px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.8; color: #f0f0f0; }
       .ln { color: #666; margin-right: 14px; font-size: 10px; user-select: none; }
       .t-tag { color: #e05285; } .t-var { color: #ff6188; } .t-kw { color: #ab9df2; } .t-str { color: #a9dc76; } .t-path { color: #fc9867; } .t-html { color: #939293; } .t-cm { color: #78dce8; }
@@ -561,6 +579,9 @@
       @media (prefers-reduced-motion: reduce) {
         .expand-card.shining::after,
         .expand-card.shining .card-icon { animation: none; }
+        .hero-code .copy-btn svg, .code-window.copy-inline .copy-btn svg { transition: none; transform: none; }
+        .theme-toggle svg, .no-transitions .theme-toggle svg { transition: none !important; }
+        .theme-toggle .icon-moon, [data-theme="dark"] .theme-toggle .icon-sun { transform: scale(0.5); }
       }
       .expand-card .card-body { margin-top: 16px; }
       .expand-card .card-feats { margin-top: 22px; padding-top: 0; padding-bottom: 22px; }
@@ -594,8 +615,8 @@
       .block-title { font-size: 17px; font-weight: 600; color: var(--text-primary); margin: 0 0 8px; }
       .block-desc { font-size: 15px; color: var(--text-prose); line-height: 1.7; }
       /* Code window — dark in both themes */
-      .code-window { background: var(--code-bg); border-radius: 5px; overflow: hidden; }
-      .code-file { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px; border-bottom: 1px solid #2e2e2e; }
+      .code-window { background: var(--code-bg); background: var(--code-face); border-radius: 5px; overflow: hidden; }
+      .code-file { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px; background: var(--code-titlebar); border-bottom: 1px solid #151515; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.09); }
       .code-file-name { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #777; }
       .copy-btn {
         --button-highlight: var(--code-btn-highlight);
@@ -613,12 +634,18 @@
       .copy-btn.copied { color: #b4ca65; }
       .copy-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
       .code-window .code-body { padding: 16px 20px; font-size: 13px; }
-      .tabs { display: flex; border-bottom: 1px solid #2e2e2e; }
+      /* :not([hidden]) so an inactive tab panel stays display:none, not flex */
+      .code-window.copy-inline .code-body:not([hidden]) { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+      .code-window.copy-inline .copy-btn { margin: -8px -8px -8px 0; }
+      .tabs { display: flex; }
+      .tabs::after { content: ''; flex: 1; background: var(--code-titlebar); box-shadow: inset 0 -1px 0 #151515, 0 1px 0 rgba(255, 255, 255, 0.09); }
       .tab {
-        font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 8px 16px; color: #b0b0b0; border-right: 1px solid #2e2e2e; border-top: none; border-left: none; border-bottom: none; background: none; cursor: pointer; transition: background 120ms ease, color 120ms ease;
+        font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 8px 16px; color: #b0b0b0; border-right: 1px solid #151515; border-top: none; border-left: none; border-bottom: none; background: var(--code-titlebar); cursor: pointer; transition: background 120ms ease, color 120ms ease; box-shadow: 1px 0 0 rgba(255, 255, 255, 0.09);
       }
+      .tab:not(.active) { box-shadow: inset 0 -1px 0 #151515, 0 1px 0 rgba(255, 255, 255, 0.09), 1px 0 0 rgba(255, 255, 255, 0.09); }
       .tab:hover { background: #242424; color: #d0d0d0; }
-      .tab.active { color: #b4ca65; }
+      .tab.active:hover { background: transparent; color: #b4ca65; }
+      .tab.active { color: #b4ca65; font-weight: 600; background: transparent; }
       .tab:focus-visible { outline: 2px solid var(--code-btn-focus); outline-offset: -2px; }
 
       /* COMPARE */
@@ -878,17 +905,17 @@
         <div>
           <div class="block">
             <div><h3 class="block-title">Install via npm</h3><div class="block-desc">Add EJS to your project with a single command.</div></div>
-            <div class="code-window"><div class="code-file"><span class="code-file-name">terminal</span><button class="copy-btn"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><div class="code-body"><span class="t-cm">$</span> <span class="t-var">npm</span> install <span class="t-str">ejs</span></div></div>
+            <div class="code-window copy-inline"><div class="code-body"><span><span class="t-cm">$</span> <span class="t-var">npm</span> install <span class="t-str">ejs</span></span><button class="copy-btn" aria-label="Copy to clipboard"><svg class="icon-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button></div></div>
           </div>
           <div class="block">
             <div><h3 class="block-title">ESM or CJS</h3><div class="block-desc">Pick the module system that fits your project.</div></div>
-            <div class="code-window">
+            <div class="code-window copy-inline">
               <div class="tabs" role="tablist" aria-label="Module system">
                 <button class="tab active" data-tab="esm" role="tab" id="tab-esm" aria-selected="true" aria-controls="panel-esm" tabindex="0">ESM</button>
                 <button class="tab" data-tab="cjs" role="tab" id="tab-cjs" aria-selected="false" aria-controls="panel-cjs" tabindex="-1">CJS</button>
               </div>
-              <div class="code-body" data-panel="esm" role="tabpanel" id="panel-esm" aria-labelledby="tab-esm" tabindex="0"><span class="t-kw">import</span> <span class="t-var">ejs</span> <span class="t-kw">from</span> <span class="t-str">'ejs'</span>;</div>
-              <div class="code-body" data-panel="cjs" role="tabpanel" id="panel-cjs" aria-labelledby="tab-cjs" tabindex="0" hidden><span class="t-kw">const</span> <span class="t-var">ejs</span> = <span class="t-kw">require</span>(<span class="t-str">'ejs'</span>);</div>
+              <div class="code-body" data-panel="esm" role="tabpanel" id="panel-esm" aria-labelledby="tab-esm" tabindex="0"><span><span class="t-kw">import</span> <span class="t-var">ejs</span> <span class="t-kw">from</span> <span class="t-str">'ejs'</span>;</span><button class="copy-btn" aria-label="Copy to clipboard"><svg class="icon-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button></div>
+              <div class="code-body" data-panel="cjs" role="tabpanel" id="panel-cjs" aria-labelledby="tab-cjs" tabindex="0" hidden><span><span class="t-kw">const</span> <span class="t-var">ejs</span> = <span class="t-kw">require</span>(<span class="t-str">'ejs'</span>);</span><button class="copy-btn" aria-label="Copy to clipboard"><svg class="icon-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button></div>
             </div>
           </div>
           <div class="block">
@@ -897,7 +924,7 @@
           </div>
           <div class="block">
             <div><h3 class="block-title">Use the command line</h3><div class="block-desc">Feed it a template file and a data file, specify an output file.</div></div>
-            <div class="code-window"><div class="code-file"><span class="code-file-name">terminal</span><button class="copy-btn"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><div class="code-body"><span class="t-cm">$</span> <span class="t-var">ejs</span> <span class="t-path">./template.ejs</span> <span class="t-kw">-f</span> <span class="t-path">data.json</span> <span class="t-kw">-o</span> <span class="t-path">./output.html</span></div></div>
+            <div class="code-window copy-inline"><div class="code-body"><span><span class="t-cm">$</span> <span class="t-var">ejs</span> <span class="t-path">./template.ejs</span> <span class="t-kw">-f</span> <span class="t-path">data.json</span> <span class="t-kw">-o</span> <span class="t-path">./output.html</span></span><button class="copy-btn" aria-label="Copy to clipboard"><svg class="icon-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button></div></div>
           </div>
           <div class="block">
             <div><h3 class="block-title">Browser support</h3><div class="block-desc">Download a browser build and drop it in a script tag.</div></div>
@@ -932,16 +959,18 @@
     <footer class="footer">
       <div class="footer-inner">
         <div class="footer-logo"><span class="tag">&lt;%=</span> EJS <span class="tag">%&gt;</span></div>
-        <div class="footer-copy">© 2026 <a href="https://github.com/mde" target="_blank" rel="noopener noreferrer">Matthew Eernisse</a> · Designed by <a href="https://github.com/hiroeernisse" target="_blank" rel="noopener noreferrer">Hiro Eernisse</a></div>
-        <ul class="footer-links"><li><a href="https://github.com/mde/ejs" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a href="#license">License</a></li><li><a href="https://github.com/mde/ejs/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer">Security</a></li></ul>
+        <div class="footer-copy">© 2026 <a href="https://github.com/mde" target="_blank" rel="noopener noreferrer">Matthew Eernisse</a> · Designed by <a href="https://www.linkedin.com/in/hiro-design" target="_blank" rel="noopener noreferrer">Hiro Eernisse</a></div>
+        <ul class="footer-links"><li><a href="https://github.com/mde/ejs" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a href="https://github.com/mde/ejs/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">License</a></li><li><a href="https://github.com/mde/ejs/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer">Security</a></li></ul>
       </div>
     </footer>
 
     <script>
       document.querySelector('.theme-toggle').addEventListener('click', () => {
         const root = document.documentElement;
-        root.classList.add('no-transitions');
         const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        // Snap the whole page (and the native scrollbar) instantly in lockstep —
+        // no per-element transitions running during the flip.
+        root.classList.add('no-transitions');
         root.dataset.theme = next;
         localStorage.setItem('theme', next);
         requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove('no-transitions')));
@@ -1108,7 +1137,8 @@
       document.querySelectorAll('.copy-btn').forEach(btn => {
         btn.addEventListener('click', async () => {
           const win = btn.closest('.code-window');
-          const src = win && win.querySelector('.code-body');
+          // Prefer the visible panel so tabbed windows (ESM/CJS) copy the active tab.
+          const src = win && (win.querySelector('.code-body:not([hidden])') || win.querySelector('.code-body'));
           if (!src) return;
           if (await copyText(codeText(src))) showCopied(btn);
         });

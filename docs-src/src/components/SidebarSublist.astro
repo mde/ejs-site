@@ -91,7 +91,7 @@ const { sublist, nested } = Astro.props;
 			display: block;
 			border-radius: 3px;
 			text-decoration: none;
-			color: var(--sl-color-gray-2);
+			color: var(--sl-color-gray-3);
 			padding: 0.5em var(--sl-sidebar-item-padding-inline);
 			line-height: 1.4;
 		}
@@ -113,8 +113,8 @@ const { sublist, nested } = Astro.props;
 		[aria-current='page']:focus {
 			font-weight: 600;
 			color: var(--sl-color-text-accent);
-			background: var(--ejs-surface-hover);
-			box-shadow: inset 0 0 0 1px var(--ejs-border-subtle);
+			background: transparent;
+			box-shadow: none;
 		}
 
 		a > *:not(:last-child),

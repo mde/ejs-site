@@ -38,8 +38,10 @@
 			super();
 			this.querySelector('button')?.addEventListener('click', () => {
 				const root = document.documentElement;
-				root.classList.add('no-transitions');
 				const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+				// Snap the whole page (and the native scrollbar) instantly in lockstep —
+				// no per-element transitions running during the flip.
+				root.classList.add('no-transitions');
 				root.dataset.theme = next;
 				localStorage.setItem('theme', next);
 				requestAnimationFrame(() =>
@@ -54,6 +56,7 @@
 <style>
 	/* Same layered "physical button" as the landing page's `.theme-toggle`. */
 	.theme-toggle {
+		position: relative;
 		display: inline-flex;
 		align-items: center;
 		padding: 8.5px 10px;
@@ -95,17 +98,41 @@
 		stroke-width: 2;
 		stroke-linecap: round;
 		stroke-linejoin: round;
+		transition: opacity 200ms ease, transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
 	}
 
+	/* Stack both icons and crossfade/rotate sun <-> moon on theme change. */
 	.theme-toggle .icon-moon {
-		display: none;
+		position: absolute;
+		top: 8.5px;
+		left: 10px;
+		opacity: 0;
+		transform: rotate(-90deg) scale(0.5);
 	}
 
 	:global(:root[data-theme='dark']) .theme-toggle .icon-sun {
-		display: none;
+		opacity: 0;
+		transform: rotate(90deg) scale(0.5);
 	}
 
 	:global(:root[data-theme='dark']) .theme-toggle .icon-moon {
-		display: inline;
+		opacity: 1;
+		transform: rotate(0) scale(1);
+	}
+
+	/* Keep the icon swap animating even while .no-transitions snaps theme colors. */
+	:global(.no-transitions) .theme-toggle svg {
+		transition: opacity 200ms ease, transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.theme-toggle svg,
+		:global(.no-transitions) .theme-toggle svg {
+			transition: none !important;
+		}
+		.theme-toggle .icon-moon,
+		:global(:root[data-theme='dark']) .theme-toggle .icon-sun {
+			transform: scale(0.5);
+		}
 	}
 </style>

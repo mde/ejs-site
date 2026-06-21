@@ -118,6 +118,8 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 		}
 
 		.nav-center a {
+			position: relative;
+			z-index: 0;
 			display: inline-flex;
 			align-items: center;
 			box-sizing: border-box;
@@ -128,14 +130,42 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 			font-size: 14px;
 			font-weight: 400;
 			text-decoration: none;
-			transition: color 0.15s, background 0.15s, box-shadow 0.15s;
+			transition: color 0.15s;
+		}
+
+		/* The hover fill + ring live on a pseudo so they can scale in from the
+		   center with an overshoot ("bounce") without distorting the text. */
+		.nav-center a::before {
+			content: '';
+			position: absolute;
+			inset: 0;
+			z-index: -1;
+			border-radius: inherit;
+			background: var(--ejs-surface-hover);
+			box-shadow: inset 0 0 0 1px var(--ejs-border-subtle);
+			opacity: 0;
+			transform: scale(0.4);
+			transition: opacity 0.08s ease,
+				transform 0.1s cubic-bezier(0.22, 1, 0.36, 1);
+			pointer-events: none;
+		}
+
+		/* Match the landing nav: in dark mode the hover ring uses the visible
+		   --border tone (--sl-color-hairline here) rather than the near-invisible
+		   subtle border. */
+		:global([data-theme='dark']) .nav-center a::before {
+			box-shadow: inset 0 0 0 1px var(--sl-color-hairline);
 		}
 
 		.nav-center a:hover,
 		.nav-center a:focus-visible {
 			color: var(--sl-color-white);
-			background: var(--ejs-surface-hover);
-			box-shadow: inset 0 0 0 1px var(--ejs-border-subtle);
+		}
+
+		.nav-center a:hover::before,
+		.nav-center a:focus-visible::before {
+			opacity: 1;
+			transform: scale(1);
 		}
 
 		/* Active page mirrors the landing's `.nav-center a.active`: green text at
@@ -147,7 +177,30 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 
 		.nav-center a:active {
 			color: var(--sl-color-white);
-			box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.14);
+		}
+
+		.nav-center a:active::before {
+			box-shadow:
+				inset 0 0 0 1px var(--ejs-border-subtle),
+				inset 0 1px 2px rgba(0, 0, 0, 0.14);
+		}
+
+		:global([data-theme='dark']) .nav-center a:active::before {
+			box-shadow:
+				inset 0 0 0 1px var(--sl-color-hairline),
+				inset 0 1px 3px rgba(0, 0, 0, 0.55);
+		}
+
+		/* Respect reduced-motion: keep the fade, drop the scale/bounce. */
+		@media (prefers-reduced-motion: reduce) {
+			.nav-center a::before {
+				transform: none;
+				transition: opacity 0.15s ease;
+			}
+			.nav-center a:hover::before,
+			.nav-center a:focus-visible::before {
+				transform: none;
+			}
 		}
 
 		.nav-right {

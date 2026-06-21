@@ -179,6 +179,16 @@ h1#_top {
 
 starlight-toc a {
   padding-block: 0.45rem;
+  /* Match the sidebar's softer inactive ink. */
+  color: var(--sl-color-gray-3);
+}
+
+/* Restore the active state: our unlayered rule above outranks Starlight's
+   layered [aria-current] accent, so re-assert it here (accent + bold, in
+   line with the left sidebar and nav active links). */
+starlight-toc a[aria-current='true'] {
+  color: var(--sl-color-text-accent);
+  font-weight: 600;
 }
 
 .site-title {
@@ -300,6 +310,26 @@ header.header {
   display: none;
 }
 
+/* ---------- Code frames: same skeuomorphic "physical panel" as the landing
+   page's .code-window — a subtle gradient face, a lit top bevel, and a layered
+   drop shadow so each block reads as a raised surface. Shadow alpha tracks the
+   page theme just like the landing page's --code-panel-shadow tokens. The
+   `.expressive-code` prefix keeps these above EC's own rules. ---------- */
+.expressive-code figure.frame {
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.34),
+    0 10px 24px rgba(0, 0, 0, 0.22);
+}
+:root[data-theme='light'] .expressive-code figure.frame {
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.3),
+    0 10px 24px rgba(0, 0, 0, 0.2);
+}
+.expressive-code .frame pre {
+  background: linear-gradient(180deg, #202020 0%, #1a1a1a 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
 /* ---------- Copy button: match the landing page's physical button ---------- */
 /* Expressive Code ships a flat icon-only button; restyle it as the same dark
    gradient "physical button" used on the landing page. All selectors carry the
@@ -322,12 +352,34 @@ header.header {
 .expressive-code .copy button div {
   display: none;
 }
+/* Repurpose EC's border pseudo as a green checkmark, stacked over the copy icon
+   (::after). It crossfades in when EC flags success via `.feedback.show`,
+   mirroring the landing page's copy → check swap. */
 .expressive-code .copy button::before {
-  display: none;
+  content: '';
+  display: block;
+  position: absolute;
+  inset: 0;
+  margin: 0.475rem;
+  border: none;
+  border-radius: 0;
+  opacity: 0;
+  transform: scale(0.4);
+  background-color: #b4ca65;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  transition: opacity 180ms ease, transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 /* Icon tint — idle grey, brightening on hover, matching the landing page. */
 .expressive-code .copy button::after {
   background-color: #aaa;
+  transition: opacity 180ms ease, transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .expressive-code .copy button:hover {
   background: var(--code-btn-hover);
@@ -347,6 +399,39 @@ header.header {
 .expressive-code .copy button:focus-visible {
   outline: 2px solid var(--code-btn-focus);
   outline-offset: 2px;
+}
+
+/* Success: swap copy icon → checkmark. On copy, EC appends a `.feedback.show`
+   div into the button's sibling `[aria-live]` region. Hide that "Copied!" bubble
+   visually — but keep it screen-reader-available so the live region still
+   announces — so the checkmark is the sole visual feedback, as on the landing
+   page. Match the success state via :has() since the feedback is nested in the
+   live region, not a direct sibling of the button. */
+.expressive-code .copy .feedback {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.expressive-code .copy:has(.feedback.show) button::after {
+  opacity: 0;
+  transform: scale(0.4);
+}
+.expressive-code .copy:has(.feedback.show) button::before {
+  opacity: 1;
+  transform: scale(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .expressive-code .copy button::after,
+  .expressive-code .copy button::before {
+    transition: none;
+  }
 }
 
 /* ---------- Page footer: Edit page + Prev/Next on one row ---------- */
