@@ -92,6 +92,9 @@
         --hero-surface:
           radial-gradient(95% 78% at 24% 30%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 60%),
           linear-gradient(180deg, #a8be5a 0%, #a8be5a 32%, #9aaf4c 100%);
+        --cta-surface:
+          radial-gradient(55% 72% at 50% 48%, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 60%),
+          linear-gradient(180deg, #a8be5a 0%, #a8be5a 32%, #9aaf4c 100%);
         --hero-grain-opacity: 0.55;
         --body-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.01'/%3E%3C/svg%3E");
       }
@@ -148,6 +151,9 @@
         --hero-surface:
           radial-gradient(95% 78% at 24% 30%, rgba(200, 200, 200, 0.07) 0%, rgba(200, 200, 200, 0) 60%),
           linear-gradient(180deg, #15171b 0%, #15171b 32%, #0f1115 100%);
+        --cta-surface:
+          radial-gradient(55% 72% at 50% 48%, rgba(200, 200, 200, 0.09) 0%, rgba(200, 200, 200, 0) 60%),
+          linear-gradient(180deg, #15171b 0%, #15171b 32%, #0f1115 100%);
         --hero-grain-opacity: 0.4;
         --body-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.018'/%3E%3C/svg%3E");
       }
@@ -157,7 +163,7 @@
 
       body { background-color: var(--bg); background-image: var(--body-grain); font-family: 'Inter', sans-serif; color: var(--text-body); overflow-x: hidden; }
       .no-transitions, .no-transitions *, .no-transitions *::before, .no-transitions *::after { transition: none !important; }
-      .hero-title, .section-title, .card-title, .notice-title, .block-title, .support-card-title, .license-badge-name,
+      .hero-title, .section-title, .card-title, .notice-title, .block-title, .support-card-title,
       .nav-center a, .nav-gh, .btn-primary, .support-btn {
         font-family: 'Montserrat', sans-serif;
       }
@@ -242,8 +248,7 @@
         outline-offset: 3px;
       }
 
-      .support-card,
-      .license-badge {
+      .support-card {
         border: none;
         box-shadow:
           inset 0 1px 0 var(--btn-highlight),
@@ -505,8 +510,7 @@
       .section { padding: 96px 48px; position: relative; }
       .section::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 100vw; height: 1px; background: var(--border); pointer-events: none; }
       .notice-body a,
-      .card-feat a,
-      .license-body a {
+      .card-feat a {
         color: var(--green-link);
         text-decoration: underline;
         text-decoration-thickness: 1px;
@@ -514,18 +518,54 @@
         transition: color 0.15s, text-decoration-color 0.15s;
       }
       .notice-body a:hover,
-      .card-feat a:hover,
-      .license-body a:hover {
+      .card-feat a:hover {
         color: var(--green-link-hover);
         text-decoration-color: currentColor;
       }
       .notice-body a:active,
-      .card-feat a:active,
-      .license-body a:active {
+      .card-feat a:active {
         color: var(--green-link);
       }
       .section-title { font-size: 44px; font-weight: 600; color: var(--text-primary); letter-spacing: -1.2px; margin-bottom: 12px; }
       .section-intro { font-size: 16px; color: var(--text-prose); line-height: 1.7; max-width: 600px; margin-bottom: 48px; }
+      /* Docs CTA — centered closing call to action. */
+      /* Echoes the hero treatment to bookend the page. */
+      .cta {
+        padding-top: 80px; padding-bottom: 80px;
+        overflow: hidden;
+        background-color: var(--hero-bg);
+        background-image: var(--cta-surface);
+      }
+      .cta-delim {
+        position: absolute;
+        top: 50%;
+        z-index: 0;
+        font-family: 'IBM Plex Mono', monospace;
+        font-weight: 600;
+        font-size: clamp(160px, 24vw, 340px);
+        line-height: 1;
+        color: var(--hero-watermark);
+        text-shadow:
+          1px 1px 0 var(--hero-watermark-edge), 2px 2px 0 var(--hero-watermark-edge),
+          3px 3px 0 var(--hero-watermark-edge), 4px 4px 0 var(--hero-watermark-edge),
+          5px 5px 0 var(--hero-watermark-edge), 6px 6px 0 var(--hero-watermark-edge),
+          7px 7px 0 var(--hero-watermark-edge), 8px 8px 0 var(--hero-watermark-edge),
+          9px 9px 0 var(--hero-watermark-edge), 10px 10px 0 var(--hero-watermark-edge),
+          11px 11px 0 var(--hero-watermark-edge), 12px 12px 0 var(--hero-watermark-edge),
+          13px 13px 0 var(--hero-watermark-edge), 14px 14px 0 var(--hero-watermark-edge);
+        pointer-events: none;
+        user-select: none;
+      }
+      .cta-delim-right { right: -0.06em; transform: perspective(800px) rotateX(18deg) rotateY(-18deg) rotateZ(4deg) translateY(-50%); }
+      .cta-delim-left  { left: -0.06em;  top: 24%; transform: perspective(800px) rotateX(18deg) rotateY(-18deg) rotateZ(4deg) translateY(-50%); }
+      .cta::after {
+        content: ""; inset: 0; left: 0; top: 0; width: auto; height: auto; transform: none;
+        z-index: 0; opacity: var(--hero-grain-opacity); mix-blend-mode: soft-light; background: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+      .cta .cta-inner { position: relative; z-index: 1; max-width: 620px; margin: 0 auto; text-align: center; }
+      .cta .section-title { margin-bottom: 32px; color: var(--hero-ink); }
+      .cta .btn-primary { padding: 20px 28px; width: 280px; } /* matches the hero CTA's min-width: 280px */
       /* Benefits — a grid of cards, all visible at once. */
       .card-head { display: flex; align-items: center; gap: 12px; }
       /* Bold icon chip — large, saturated green with a white glyph so each card
@@ -573,9 +613,12 @@
       }
       @media (prefers-reduced-motion: reduce) {
         .expand-card.shining::after,
-        .expand-card.shining .card-icon { animation: none; }
-        .expand-card { transition: box-shadow 220ms ease; }
-        .expand-card:hover, .expand-card:has(.card-link:focus-visible) { transform: none; }
+        .expand-card.shining .card-icon,
+        .support-card.shining::after,
+        .support-card.shining .support-card-icon { animation: none; }
+        .expand-card, .support-card { transition: box-shadow 220ms ease; }
+        .expand-card:hover, .expand-card:has(.card-link:focus-visible),
+        .support-card:hover, .support-card:has(.card-link:focus-visible) { transform: none; }
         .hero-code .copy-btn svg, .code-window.copy-inline .copy-btn svg { transition: none; transform: none; }
         .theme-toggle svg, .no-transitions .theme-toggle svg { transition: none !important; }
         .theme-toggle .icon-moon, [data-theme="dark"] .theme-toggle .icon-sun { transform: scale(0.5); }
@@ -666,35 +709,27 @@
 
       /* SUPPORT */
       .support-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; }
-      .support-card { background: var(--btn-face); border-radius: 5px; padding: 24px; display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto 1fr auto; column-gap: 16px; row-gap: 18px; }
+      .support-card { background: var(--btn-face); border-radius: 5px; padding: 24px; display: grid; grid-template-columns: auto 1fr; column-gap: 16px; row-gap: 18px; position: relative; overflow: hidden; box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1px var(--border), 0 2px 8px var(--panel-shadow); transition: transform 220ms cubic-bezier(0.2, 0, 0.2, 1), box-shadow 220ms ease; }
+      .support-card:hover, .support-card:has(.card-link:focus-visible) { transform: scale(1.05); box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1.5px var(--border), 0 3px 8px var(--panel-shadow), 0 14px 28px var(--panel-shadow-soft); z-index: 4; }
+      .support-card::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(110deg, transparent 22%, rgba(255,255,255,0.03) 32%, rgba(255,255,255,0.42) 44%, rgba(255,255,255,0.62) 50%, rgba(255,255,255,0.42) 56%, rgba(255,255,255,0.03) 68%, transparent 78%); transform: translateX(-130%); pointer-events: none; }
+      .support-card.shining::after { animation: card-shine 680ms cubic-bezier(0.05, 0, 0.25, 1) forwards; }
+      :root[data-theme="dark"] .support-card::after { background: linear-gradient(110deg, transparent 22%, rgba(255,255,255,0.01) 32%, rgba(255,255,255,0.05) 44%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.05) 56%, rgba(255,255,255,0.01) 68%, transparent 78%); }
+      .support-card.shining .support-card-icon { animation: icon-pulse 820ms cubic-bezier(0.05, 0, 0.25, 1) forwards; }
+      .support-card:has(.card-link:focus-visible) { outline: 2px solid var(--btn-focus); outline-offset: 3px; }
       .support-card-icon { display: flex; align-self: center; }
       .support-card-icon svg { width: 28px; height: 28px; stroke: var(--green); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
       .support-card-title { font-size: 18px; font-weight: 600; color: var(--text-primary); align-self: center; margin: 0; }
+      .support-card-ext { position: absolute; top: 24px; right: 24px; display: flex; }
+      .support-card-ext svg { width: 15px; height: 15px; stroke: var(--text-secondary); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; display: block; }
       .support-card-body { grid-column: 1 / -1; font-size: 15px; color: var(--text-prose); line-height: 1.65; }
       .support-card-body span { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--green-link); }
-      .support-btn {
-        grid-column: 1 / -1; justify-self: start;
-        display: inline-flex; align-items: center; gap: 6px;
-        font-size: 13px; font-weight: 500;
-        color: var(--text-primary); text-decoration: none;
-        padding: 8px 14px;
-      }
-      .support-btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-
-      /* LICENSE */
-      .license-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 48px; align-items: start; }
-      .license-body { font-size: 15px; color: var(--text-prose); line-height: 1.7; }
-      .license-badge { background: var(--btn-face); border-radius: 5px; padding: 24px; display: flex; align-items: center; gap: 16px; }
-      .license-badge-icon svg { width: 32px; height: 32px; stroke: var(--green); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-      .license-badge-name { font-size: 15px; font-weight: 600; color: var(--green-link); margin-bottom: 4px; }
-      .license-badge-sub { font-size: 12px; color: var(--text-secondary); }
 
       /* FOOTER */
       .footer { background: var(--surface-deep); border-top: 1px solid var(--border-subtle); padding: 28px 0; }
       .footer-inner { max-width: 1120px; margin: 0 auto; padding: 0 48px; display: flex; align-items: center; justify-content: space-between; }
       .footer-logo { font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600; color: var(--green); }
       .footer-logo .tag { color: var(--crimson); font-size: 10px; font-weight: 400; vertical-align: middle; }
-      .footer-copy { font-size: 12px; color: var(--text-secondary); }
+      .footer-copy { font-size: 12px; color: var(--text-secondary); line-height: 1.8; }
       .footer-copy a { color: var(--text-secondary); text-decoration: none; transition: color 0.15s; }
       .footer-links { display: flex; gap: 20px; list-style: none; }
       .footer-links a { font-size: 12px; color: var(--text-secondary); text-decoration: none; transition: color 0.15s; }
@@ -784,7 +819,6 @@
         .block:nth-child(even) > :last-child { order: unset; }
 
         .support-grid { grid-template-columns: 1fr; }
-        .license-inner { grid-template-columns: 1fr; gap: 24px; }
 
         .footer { padding: 0; }
         .footer-inner { flex-direction: column; align-items: flex-start; gap: 16px; padding: 24px 20px; }
@@ -935,21 +969,22 @@
       <section id="support" class="section">
         <h2 class="section-title">Need help?</h2>
         <div class="support-grid">
-          <div class="support-card"><div class="support-card-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3 class="support-card-title">Stack Overflow</h3><div class="support-card-body">Ask questions about specific problems you've faced. Tag your question with <span>ejs</span> and browse existing answers.</div><a class="support-btn" href="https://stackoverflow.com/questions/tagged/ejs" target="_blank" rel="noopener noreferrer">Ask a question <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></div>
-          <div class="support-card"><div class="support-card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg></div><h3 class="support-card-title">GitHub Issues</h3><div class="support-card-body">The preferred channel for bug reports, feature requests, and pull requests. Check existing issues before opening a new one.</div><a class="support-btn" href="https://github.com/mde/ejs/issues" target="_blank" rel="noopener noreferrer">Open an issue <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></div>
-        </div>
-      </section>
-
-      <!-- LICENSE -->
-      <section id="license" class="section">
-        <h2 class="section-title">Open source.</h2>
-        <div class="license-inner">
-          <div class="license-body">EJS is licensed under the Apache License, version 2.0. You're free to use it in personal and commercial projects. Full details at <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener noreferrer">apache.org/licenses</a>.</div>
-          <div class="license-badge"><div class="license-badge-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><div class="license-badge-name">Apache License 2.0</div><div class="license-badge-sub">Free for personal and commercial use</div></div></div>
+          <div class="support-card"><div class="support-card-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3 class="support-card-title">Stack Overflow</h3><span class="support-card-ext"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span><div class="support-card-body">Ask questions about specific problems you've faced. Tag your question with <span>ejs</span> and browse existing answers.</div><a class="card-link" href="https://stackoverflow.com/questions/tagged/ejs" target="_blank" rel="noopener noreferrer" aria-label="Stack Overflow — ask a question (opens in a new tab)"></a></div>
+          <div class="support-card"><div class="support-card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg></div><h3 class="support-card-title">GitHub Issues</h3><span class="support-card-ext"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span><div class="support-card-body">The preferred channel for bug reports, feature requests, and pull requests. Check existing issues before opening a new one.</div><a class="card-link" href="https://github.com/mde/ejs/issues" target="_blank" rel="noopener noreferrer" aria-label="GitHub Issues — open an issue (opens in a new tab)"></a></div>
         </div>
       </section>
 
     </div>
+
+    <!-- DOCS CTA -->
+    <section id="docs-cta" class="section cta">
+      <span class="cta-delim cta-delim-left" aria-hidden="true">%&gt;</span>
+      <span class="cta-delim cta-delim-right" aria-hidden="true">&lt;%=</span>
+      <div class="cta-inner">
+        <h2 class="section-title">Ready to build?</h2>
+        <a class="btn-primary" href="/docs/getting-started/">Read the Docs <span class="btn-arrow" aria-hidden="true">→</span></a>
+      </div>
+    </section>
 
     </main>
 
@@ -1142,7 +1177,7 @@
         });
       });
 
-      document.querySelectorAll('.expand-card, .concept-row-ejs').forEach(card => {
+      document.querySelectorAll('.expand-card, .concept-row-ejs, .support-card').forEach(card => {
         card.addEventListener('mouseenter', () => {
           card.classList.remove('shining');
           void card.offsetWidth; // force reflow to restart animation if re-entering
