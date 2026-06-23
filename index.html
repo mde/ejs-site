@@ -725,13 +725,13 @@
       .support-card-body span { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--green-link); }
 
       /* FOOTER */
-      .footer { background: var(--surface-deep); border-top: 1px solid var(--border-subtle); padding: 28px 0; }
-      .footer-inner { max-width: 1120px; margin: 0 auto; padding: 0 48px; display: flex; align-items: center; justify-content: space-between; }
-      .footer-logo { font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600; color: var(--green); }
-      .footer-logo .tag { color: var(--crimson); font-size: 10px; font-weight: 400; vertical-align: middle; }
-      .footer-copy { font-size: 12px; color: var(--text-secondary); line-height: 1.8; }
+      .footer { background: var(--bg); border-top: 1px solid var(--border); padding: 40px 0; }
+      .footer-inner { max-width: 1120px; margin: 0 auto; padding: 0 48px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+      .footer-logo { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 500; color: var(--text-secondary); }
+      .footer-logo .tag { font-family: 'IBM Plex Mono', monospace; color: var(--text-secondary); opacity: 0.55; font-size: 10px; font-weight: 600; vertical-align: middle; }
+      .footer-copy { font-size: 12px; color: var(--text-secondary); }
       .footer-copy a { color: var(--text-secondary); text-decoration: none; transition: color 0.15s; }
-      .footer-links { display: flex; gap: 20px; list-style: none; }
+      .footer-links { display: flex; gap: 20px; list-style: none; justify-self: end; }
       .footer-links a { font-size: 12px; color: var(--text-secondary); text-decoration: none; transition: color 0.15s; }
       .footer-copy a:hover, .footer-links a:hover { color: var(--text-primary); }
       .footer-copy a:active, .footer-links a:active { color: var(--green-link); }
