@@ -599,7 +599,7 @@
       .card-feat code { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--green-link); background: none; padding: 0; }
 
       .expand-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; gap: 20px; margin-bottom: 48px; width: min(1200px, 100vw - 96px); position: relative; left: 50%; transform: translateX(-50%); }
-      .expand-card { background: var(--btn-face); border-radius: 6px; padding: 22px 26px; box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1px var(--border), 0 2px 8px var(--panel-shadow); display: flex; flex-direction: column; position: relative; overflow: hidden; transition: transform 220ms cubic-bezier(0.2, 0, 0.2, 1), box-shadow 220ms ease; }
+      .expand-card { background: var(--btn-face); border-radius: 6px; padding: 26px; box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1px var(--border), 0 2px 8px var(--panel-shadow); display: flex; flex-direction: column; position: relative; overflow: hidden; transition: transform 220ms cubic-bezier(0.2, 0, 0.2, 1), box-shadow 220ms ease; }
       .expand-card:hover, .expand-card:has(.card-link:focus-visible) { transform: scale(1.05); box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1.5px var(--border), 0 3px 8px var(--panel-shadow), 0 14px 28px var(--panel-shadow-soft); z-index: 4; }
       .expand-card::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(110deg, transparent 22%, rgba(255,255,255,0.03) 32%, rgba(255,255,255,0.42) 44%, rgba(255,255,255,0.62) 50%, rgba(255,255,255,0.42) 56%, rgba(255,255,255,0.03) 68%, transparent 78%); transform: translateX(-130%); pointer-events: none; }
       .expand-card.shining::after { animation: card-shine 680ms cubic-bezier(0.05, 0, 0.25, 1) forwards; }
@@ -624,7 +624,7 @@
         .theme-toggle .icon-moon, [data-theme="dark"] .theme-toggle .icon-sun { transform: scale(0.5); }
       }
       .expand-card .card-body { margin-top: 16px; }
-      .expand-card .card-feats { margin-top: 22px; padding-top: 0; padding-bottom: 22px; }
+      .expand-card .card-feats { margin-top: 22px; padding-top: 0; }
       .card-link { position: absolute; inset: 0; z-index: 2; border-radius: 6px; }
       .expand-card .card-feat a { position: relative; z-index: 3; }
       .expand-card:has(.card-link:focus-visible) { outline: 2px solid var(--btn-focus); outline-offset: 3px; }
@@ -633,7 +633,7 @@
         background: var(--btn-face);
         border-radius: 6px;
         border: none;
-        padding: 28px 40px;
+        padding: 32px 40px;
         max-width: 656px;
         margin-inline: auto;
       }
@@ -690,22 +690,29 @@
       .tab:focus-visible { outline: 2px solid var(--code-btn-focus); outline-offset: -2px; }
 
       /* COMPARE */
-      .concept-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: auto 1fr auto; column-gap: 16px; row-gap: 14px; width: min(1200px, 100vw - 96px); margin-top: 48px; position: relative; left: 50%; transform: translateX(-50%); }
-      .concept-row { grid-row: span 3; display: grid; grid-template-rows: subgrid; background: var(--btn-face); border-radius: 6px; box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1px var(--border), 0 2px 8px var(--panel-shadow); padding: 24px; align-content: start; }
-      .concept-row-ejs { background: var(--btn-face); box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 2px var(--green), 0 6px 28px rgba(158, 180, 78, 0.50), 0 1px 8px rgba(158, 180, 78, 0.28); position: relative; overflow: hidden; }
-      .concept-row-ejs::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(110deg, transparent 22%, rgba(255,255,255,0.03) 32%, rgba(255,255,255,0.42) 44%, rgba(255,255,255,0.62) 50%, rgba(255,255,255,0.42) 56%, rgba(255,255,255,0.03) 68%, transparent 78%); transform: translateX(-130%); pointer-events: none; }
-      .concept-row-ejs.shining::after { animation: card-shine 680ms cubic-bezier(0.05, 0, 0.25, 1) forwards; }
-      :root[data-theme="dark"] .concept-row-ejs { background: var(--btn-face); box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 2px var(--green), 0 4px 24px rgba(180, 202, 101, 0.34), 0 1px 8px rgba(180, 202, 101, 0.22); }
-      :root[data-theme="dark"] .concept-row-ejs::after { background: linear-gradient(110deg, transparent 22%, rgba(255,255,255,0.01) 32%, rgba(255,255,255,0.05) 44%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.05) 56%, rgba(255,255,255,0.01) 68%, transparent 78%); }
+      .concept-grid { display: flex; flex-direction: column; gap: 24px; margin-top: 48px; width: min(1200px, 100vw - 96px); position: relative; left: 50%; transform: translateX(-50%); }
+      .concept-peers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+      .peer-card { display: flex; flex-direction: column; gap: 12px; background: var(--btn-face); border-radius: 6px; box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1px var(--border), 0 2px 8px var(--panel-shadow); padding: 22px; }
+      .peer-card .concept-engine { font-size: 16px; }
+      .peer-card .concept-code { flex: 1; }
+      .peer-card .concept-desc { font-size: 12.5px; color: var(--text-secondary); }
       .concept-engine { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 600; color: var(--text-primary); }
       .concept-engine-ejs { color: var(--green-link); }
       .concept-code { background: var(--embedded-code-bg); border-radius: 4px; padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; line-height: 1.8; color: #f8f8f2; }
-      .concept-row-ejs .concept-code { align-self: center; }
+      .concept-ejs-card { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); align-items: center; gap: 32px; background: var(--btn-face); border-radius: 6px; box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1px var(--border), 0 2px 8px var(--panel-shadow); padding: 36px; }
+      .ejs-lead { display: flex; flex-direction: column; gap: 18px; }
+      .concept-ejs-card .concept-engine { font-size: 28px; }
+      .concept-ejs-card .concept-engine-delims { font-size: 24px; }
+      .concept-ejs-card .concept-code { font-size: 15px; line-height: 1.9; }
       .concept-engine-delims { font-family: 'IBM Plex Mono', monospace; font-size: 18px; font-weight: 600; color: var(--green-link); }
       .concept-desc { font-size: 13.5px; line-height: 1.65; color: var(--text-body); }
       .concept-desc code { font-family: 'IBM Plex Mono', monospace; font-size: 0.88em; }
       .concept-zero { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 700; color: var(--green-link); letter-spacing: -0.4px; }
-      .concept-desc-ejs { font-size: 13.5px; line-height: 1.65; color: var(--green-link); }
+      .concept-desc-ejs { font-size: 14.5px; line-height: 1.65; color: var(--green-link); }
+      .concept-feats { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+      .concept-feats li { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-body); border-radius: 999px; padding: 6px 12px; background: var(--surface-faint); box-shadow: inset 0 0 0 1px var(--border-subtle); }
+      :root[data-theme="dark"] .concept-feats li { background: var(--surface-deep); box-shadow: inset 0 0 0 1px var(--border); }
+      .concept-feats svg { width: 13px; height: 13px; flex: none; stroke: var(--green); fill: none; stroke-width: 2.25; stroke-linecap: round; stroke-linejoin: round; }
 
       /* SUPPORT */
       .support-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; }
@@ -810,8 +817,9 @@
 
         .expand-grid { grid-template-columns: repeat(2, 1fr); width: 100%; left: auto; transform: none; margin-bottom: 32px; }
 
-        .concept-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: unset; width: 100%; left: auto; transform: none; margin-top: 32px; }
-        .concept-row { grid-row: auto; display: flex; flex-direction: column; gap: 12px; }
+        .concept-grid { margin-top: 32px; gap: 14px; width: 100%; left: auto; transform: none; }
+        .concept-peers { grid-template-columns: 1fr; }
+        .concept-ejs-card { grid-template-columns: 1fr; gap: 22px; }
 
         .block { grid-template-columns: 1fr; gap: 20px; padding: 40px 0; }
         .block:nth-child(even) { grid-template-columns: 1fr; }
@@ -885,25 +893,34 @@
         <h2 class="section-title">Zero new concepts.</h2>
         <p class="section-intro">Every other templating language invents its own dialect for loops, conditionals, and partials. EJS just uses JavaScript. No new keywords, directives, or helper APIs to learn.</p>
         <div class="concept-grid">
-          <div class="concept-row">
-            <div class="concept-engine">Handlebars</div>
-            <div class="concept-code"><span class="t-tag">{{#if</span> <span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br>&nbsp;&nbsp;Hello, <span class="t-tag">{{</span><span class="t-var">user.name</span><span class="t-tag">}}</span>!<br><span class="t-tag">{{else}}</span><br>&nbsp;&nbsp;Hello, Guest!<br><span class="t-tag">{{/if}}</span></div>
-            <p class="concept-desc">Logic-less by design, until you need logic. Then you register a helper function. More files, more indirection.</p>
+          <div class="concept-peers">
+            <div class="peer-card">
+              <div class="concept-engine">Handlebars</div>
+              <div class="concept-code"><span class="t-tag">{{#if</span> <span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br>&nbsp;&nbsp;Hello, <span class="t-tag">{{</span><span class="t-var">user.name</span><span class="t-tag">}}</span>!<br><span class="t-tag">{{else}}</span><br>&nbsp;&nbsp;Hello, Guest!<br><span class="t-tag">{{/if}}</span></div>
+              <p class="concept-desc">Logic-less until you need logic, then you register a helper. More files, more indirection.</p>
+            </div>
+            <div class="peer-card">
+              <div class="concept-engine">Pug</div>
+              <div class="concept-code"><span class="t-kw">if</span> <span class="t-var">user.loggedIn</span><br>&nbsp;&nbsp;<span class="t-tag">|</span> Hello, <span class="t-tag">#{</span><span class="t-var">user.name</span><span class="t-tag">}</span>!<br><span class="t-kw">else</span><br>&nbsp;&nbsp;<span class="t-tag">|</span> Hello, Guest!</div>
+              <p class="concept-desc">Indentation-sensitive syntax that replaces HTML. A new language just to write templates.</p>
+            </div>
+            <div class="peer-card">
+              <div class="concept-engine">Mustache</div>
+              <div class="concept-code"><span class="t-tag">{{#</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span>Hello, <span class="t-tag">{{</span><span class="t-var">user.name</span><span class="t-tag">}}</span>!<span class="t-tag">{{/</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br><span class="t-tag">{{^</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span>Hello, Guest!<span class="t-tag">{{/</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span></div>
+              <p class="concept-desc">No <code>else</code>. Conditionals and loops share one syntax. Anything real needs a lambda.</p>
+            </div>
           </div>
-          <div class="concept-row">
-            <div class="concept-engine">Pug</div>
-            <div class="concept-code"><span class="t-kw">if</span> <span class="t-var">user.loggedIn</span><br>&nbsp;&nbsp;<span class="t-tag">|</span> Hello, <span class="t-tag">#{</span><span class="t-var">user.name</span><span class="t-tag">}</span>!<br><span class="t-kw">else</span><br>&nbsp;&nbsp;<span class="t-tag">|</span> Hello, Guest!</div>
-            <p class="concept-desc">Replaces HTML with its own indentation-sensitive syntax. A new language to learn, just to write templates.</p>
-          </div>
-          <div class="concept-row">
-            <div class="concept-engine">Mustache</div>
-            <div class="concept-code"><span class="t-tag">{{#</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span>Hello, <span class="t-tag">{{</span><span class="t-var">user.name</span><span class="t-tag">}}</span>!<span class="t-tag">{{/</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br><span class="t-tag">{{^</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span>Hello, Guest!<span class="t-tag">{{/</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span></div>
-            <p class="concept-desc">No <code>else</code>. Conditionals and loops share the same syntax. Anything beyond interpolation requires a lambda.</p>
-          </div>
-          <div class="concept-row concept-row-ejs">
-            <div class="concept-engine concept-engine-ejs"><span class="concept-engine-delims">&lt;%=</span> EJS <span class="concept-engine-delims">%&gt;</span></div>
-            <div class="concept-code"><span>Hello, <span class="t-tag">&lt;%=</span> <span class="t-var">user.loggedIn</span><br>&nbsp;&nbsp;? <span class="t-var">user.name</span> : <span class="t-str">'Guest'</span> <span class="t-tag">%&gt;</span>!</span></div>
-            <p class="concept-desc-ejs">That's it. No helpers, no registered functions, no new syntax.</p>
+          <div class="concept-ejs-card">
+            <div class="ejs-lead">
+              <div class="concept-engine concept-engine-ejs"><span class="concept-engine-delims">&lt;%</span> EJS <span class="concept-engine-delims">%&gt;</span></div>
+              <p class="concept-desc-ejs">The same <code>if/else</code> you already know. No new dialect to learn, on any line.</p>
+              <ul class="concept-feats">
+                <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>No helpers to register</li>
+                <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>No new keywords</li>
+                <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>No separate language</li>
+              </ul>
+            </div>
+            <div class="concept-code"><span class="t-tag">&lt;%</span> <span class="t-kw">if</span> (<span class="t-var">user.loggedIn</span>) { <span class="t-tag">%&gt;</span><br>&nbsp;&nbsp;Hello, <span class="t-tag">&lt;%=</span> <span class="t-var">user.name</span> <span class="t-tag">%&gt;</span>!<br><span class="t-tag">&lt;%</span> } <span class="t-kw">else</span> { <span class="t-tag">%&gt;</span><br>&nbsp;&nbsp;Hello, Guest!<br><span class="t-tag">&lt;%</span> } <span class="t-tag">%&gt;</span></div>
           </div>
         </div>
       </section>
@@ -1177,7 +1194,7 @@
         });
       });
 
-      document.querySelectorAll('.expand-card, .concept-row-ejs, .support-card').forEach(card => {
+      document.querySelectorAll('.expand-card, .support-card').forEach(card => {
         card.addEventListener('mouseenter', () => {
           card.classList.remove('shining');
           void card.offsetWidth; // force reflow to restart animation if re-entering

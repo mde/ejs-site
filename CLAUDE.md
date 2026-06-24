@@ -9,7 +9,7 @@ Single-page marketing site for EJS (Embedded JavaScript Templates). Static HTML 
 ## Architecture
 - Single `index.html` file
 - All styles live in a `<style>` block in the `<head>` — no separate CSS files
-- Minimal JS: pre-paint theme resolver (inline in `<head>`), theme toggle button, scroll-spy nav (`.scrolled` + active-link highlighting), tab toggles (Compare-section template tabs and the ESM/CJS tab in Get Started), service-worker registration. CSS `scroll-behavior: smooth` handles anchor scrolling.
+- Minimal JS: pre-paint theme resolver (inline in `<head>`), theme toggle button, scroll-spy nav (`.scrolled` + active-link highlighting), tab toggles (the ESM/CJS tab in Get Started), service-worker registration. CSS `scroll-behavior: smooth` handles anchor scrolling.
 - Fonts: Inter for body text and most UI; Montserrat for display/heading type (hero title, section/card/notice titles, nav links, GitHub button, primary/support buttons); IBM Plex Mono reserved strictly for code/terminal contexts (code blocks, syntax tokens, file/tab labels inside code windows, inline `<code>`, the install pill, and the brand's `<%= EJS %>` stylization in the hero/footer). Loaded weights: Inter 400/500/600, Montserrat 400/500/600/700, IBM Plex Mono 400/600.
 
 ## Theming
