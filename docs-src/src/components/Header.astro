@@ -10,7 +10,24 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 			<li><a href="/#about">About</a></li>
 			<li><a href="/#install">Get Started</a></li>
 			<li><a href="/#support">Support</a></li>
-			<li><a href="/docs/getting-started/" aria-current="page">Docs</a></li>
+			<li class="nav-dropdown">
+				<a class="nav-dropdown-trigger" href="/docs/" aria-current="page" aria-haspopup="true">Docs<svg class="nav-caret" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+				<div class="nav-dropdown-menu" role="menu">
+					<a role="menuitem" href="/docs/#getting-started">Getting Started</a>
+					<div class="nav-dropdown-divider"></div>
+					<span class="nav-dropdown-label">Guide</span>
+					<a role="menuitem" href="/docs/#tags">Tags</a>
+					<a role="menuitem" href="/docs/#includes">Includes</a>
+					<a role="menuitem" href="/docs/#custom-delimiters">Custom Delimiters</a>
+					<a role="menuitem" href="/docs/#layouts">Layouts</a>
+					<a role="menuitem" href="/docs/#caching">Caching</a>
+					<a role="menuitem" href="/docs/#client-side-support">Client-Side Support</a>
+					<div class="nav-dropdown-divider"></div>
+					<span class="nav-dropdown-label">Reference</span>
+					<a role="menuitem" href="/docs/#options">Options</a>
+					<a role="menuitem" href="/docs/#cli-usage">CLI Usage</a>
+				</div>
+			</li>
 		</ul>
 		<div class="nav-right">
 			<ThemeSelect />
@@ -203,6 +220,135 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 			}
 		}
 
+		/* Docs dropdown — ported from the landing nav so the two headers match.
+		   CSS-driven reveal on hover/focus-within; trigger keeps aria-current. */
+		.nav-dropdown {
+			position: relative;
+		}
+
+		.nav-caret {
+			width: 13px;
+			height: 13px;
+			margin-left: 4px;
+			fill: none;
+			stroke: currentColor;
+			stroke-width: 2;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+			opacity: 0.7;
+			transition: transform 0.2s ease;
+		}
+
+		.nav-dropdown:hover .nav-caret,
+		.nav-dropdown:focus-within .nav-caret {
+			transform: rotate(180deg);
+		}
+
+		.nav-dropdown-menu {
+			position: absolute;
+			top: calc(100% + 9px);
+			left: 0;
+			min-width: 224px;
+			padding: 7px;
+			background: var(--sl-color-bg-nav);
+			border: 1px solid var(--sl-color-hairline);
+			border-radius: 6px;
+			box-shadow:
+				0 1px 2px var(--ejs-panel-shadow),
+				0 10px 30px var(--ejs-panel-shadow-soft);
+			display: flex;
+			flex-direction: column;
+			gap: 1px;
+			opacity: 0;
+			visibility: hidden;
+			pointer-events: none;
+			transform: translateY(-6px);
+			transition: opacity 0.15s ease,
+				transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+				visibility 0s linear 0.18s;
+			z-index: 20;
+		}
+
+		/* transparent bridge over the gap so the menu stays open while the
+		   cursor travels from trigger to panel */
+		.nav-dropdown-menu::before {
+			content: '';
+			position: absolute;
+			top: -9px;
+			left: 0;
+			right: 0;
+			height: 9px;
+		}
+
+		.nav-dropdown:hover .nav-dropdown-menu,
+		.nav-dropdown:focus-within .nav-dropdown-menu {
+			opacity: 1;
+			visibility: visible;
+			pointer-events: auto;
+			transform: translateY(0);
+			transition: opacity 0.15s ease,
+				transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+		}
+
+		.nav-dropdown-menu a {
+			height: auto;
+			padding: 7px 11px;
+			font-size: 13.5px;
+			font-weight: 400;
+			color: var(--sl-color-gray-3);
+			border-radius: 3px;
+			white-space: nowrap;
+		}
+
+		.nav-dropdown-menu a::before {
+			display: none;
+		}
+
+		.nav-dropdown-menu a:hover,
+		.nav-dropdown-menu a:focus-visible {
+			color: var(--sl-color-white);
+			background: var(--ejs-surface-hover);
+		}
+
+		.nav-dropdown-menu a:active {
+			color: var(--sl-color-white);
+			background: var(--ejs-surface-hover);
+			box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.14);
+		}
+
+		:global([data-theme='dark']) .nav-dropdown-menu a:active {
+			box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.55);
+		}
+
+		.nav-dropdown-label {
+			padding: 9px 11px 4px;
+			font-family: 'Montserrat', sans-serif;
+			font-size: 10.5px;
+			font-weight: 600;
+			letter-spacing: 0.07em;
+			text-transform: uppercase;
+			color: var(--sl-color-gray-3);
+			opacity: 0.65;
+		}
+
+		.nav-dropdown-divider {
+			height: 1px;
+			background: var(--ejs-border-subtle);
+			margin: 6px 5px;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.nav-dropdown-menu {
+				transition: opacity 0.15s ease, visibility 0s linear 0.15s;
+				transform: none;
+			}
+			.nav-dropdown:hover .nav-dropdown-menu,
+			.nav-dropdown:focus-within .nav-dropdown-menu {
+				transform: none;
+				transition: opacity 0.15s ease;
+			}
+		}
+
 		.nav-right {
 			flex-shrink: 0;
 			display: flex;
@@ -291,6 +437,17 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 			.nav-center a {
 				padding-inline: 10px;
 				white-space: nowrap;
+			}
+
+			/* The horizontal-scroll nav clips an absolute panel, and the sidebar
+			   already lists every section here — so collapse the dropdown back to
+			   a plain Docs link on narrow viewports. */
+			.nav-caret {
+				display: none;
+			}
+
+			.nav-dropdown-menu {
+				display: none;
 			}
 
 			.nav-gh {

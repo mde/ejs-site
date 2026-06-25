@@ -30,9 +30,19 @@ export default defineConfig({
 	base: '/docs/',
 	outDir: '../docs',
 	trailingSlash: 'always',
-	// No docs landing page — send /docs/ straight to Getting Started.
+	// The docs are a single page at /docs/. Redirect the former per-topic URLs
+	// (and the old /docs/getting-started/ page) to their anchors so existing
+	// links keep working.
 	redirects: {
-		'/': '/docs/getting-started/',
+		'/getting-started/': '/docs/',
+		'/guide/tags/': '/docs/#tags',
+		'/guide/includes/': '/docs/#includes',
+		'/guide/custom-delimiters/': '/docs/#custom-delimiters',
+		'/guide/layouts/': '/docs/#layouts',
+		'/guide/caching/': '/docs/#caching',
+		'/guide/client-side/': '/docs/#client-side-support',
+		'/reference/options/': '/docs/#options',
+		'/reference/cli/': '/docs/#cli-usage',
 	},
 	// All site imagery is SVG — skip sharp optimization and serve as-is.
 	image: { service: passthroughImageService() },
@@ -43,6 +53,8 @@ export default defineConfig({
 				'Documentation for EJS — a simple templating language that lets you generate HTML markup with plain JavaScript.',
 			// No clickable anchor links beside headings.
 			markdown: { headingLinks: false },
+			// Single-page docs: hide the left sidebar (see src/routeData.ts).
+			routeMiddleware: './src/routeData.ts',
 			pagefind: false,
 			logo: {
 				src: './src/assets/ejs-logo.svg',
@@ -113,30 +125,7 @@ export default defineConfig({
 					},
 				},
 			},
-			sidebar: [
-				{
-					label: 'Start Here',
-					items: [{ label: 'Getting Started', slug: 'getting-started' }],
-				},
-				{
-					label: 'Guide',
-					items: [
-						{ label: 'Tags', slug: 'guide/tags' },
-						{ label: 'Includes', slug: 'guide/includes' },
-						{ label: 'Custom Delimiters', slug: 'guide/custom-delimiters' },
-						{ label: 'Layouts', slug: 'guide/layouts' },
-						{ label: 'Caching', slug: 'guide/caching' },
-						{ label: 'Client-Side Support', slug: 'guide/client-side' },
-					],
-				},
-				{
-					label: 'Reference',
-					items: [
-						{ label: 'Options', slug: 'reference/options' },
-						{ label: 'CLI Usage', slug: 'reference/cli' },
-					],
-				},
-			],
+			// Single page, no sidebar — see routeMiddleware above.
 		}),
 	],
 });

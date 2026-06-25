@@ -191,6 +191,58 @@ starlight-toc a[aria-current='true'] {
   font-weight: 600;
 }
 
+/* ---------- Make the "On this page" TOC read as its own scroll region ----------
+   The docs are one long page, so the right-hand TOC overflows the viewport and
+   scrolls independently of the prose. Starlight builds the scroll container
+   (.right-sidebar) as a fixed, viewport-width element with the TOC left-aligned
+   inside it, which parks the native scrollbar off the right edge of the screen,
+   then hides it (scrollbar-width: none). So the column scrolls but gives no
+   visible cue. We fix the root cause: constrain .right-sidebar to the reserved
+   TOC column (so its scrollbar lands at the visible gutter), un-hide it, and
+   give it a persistent, visibly-tracked bar. The non-transparent thumb+track
+   also forces a classic (non-overlay) bar in Blink, so it never auto-hides. */
+@media (min-width: 72rem) {
+  .right-sidebar {
+    /* Match the visible .right-sidebar-container: the reserved sidebar column
+       plus the half-gutter Starlight's content clamp leaves beside it. Without
+       this the element is viewport-width and its scrollbar is off-screen. The
+       half-gutter is derived from the frame (capped at --docs-frame-width) so
+       the scrollbar stays at the visible gutter across all widths >= 72rem. */
+    width: calc(
+      var(--sl-sidebar-width) +
+        (min(100vw, var(--docs-frame-width)) - 2 * var(--docs-frame-pad) -
+              var(--sl-content-width) - var(--sl-sidebar-width)) / 2
+    );
+    box-sizing: border-box;
+    /* Start the scroll container below the fixed nav instead of behind it
+       (Starlight uses top:0 + padding-top:nav-height), so the scrollbar track
+       isn't clipped under the nav. Content keeps the same offset because the
+       removed padding equals the new top inset. */
+    top: var(--sl-nav-height);
+    height: calc(100vh - var(--sl-nav-height));
+    padding-top: 0;
+    scrollbar-gutter: stable;
+    /* Now that the bar sits at the visible gutter, keep it quiet: a thin neutral
+       thumb on a transparent track is enough of a cue without a heavy channel. */
+    scrollbar-width: thin; /* undo Starlight's `none` */
+    scrollbar-color: var(--sl-color-gray-4) transparent;
+  }
+  /* WebKit/Blink fallback for engines that ignore the standard properties. */
+  .right-sidebar::-webkit-scrollbar {
+    width: 8px;
+  }
+  .right-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .right-sidebar::-webkit-scrollbar-thumb {
+    background: var(--sl-color-gray-4);
+    border-radius: 4px;
+  }
+  .right-sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--sl-color-gray-3);
+  }
+}
+
 .site-title {
   font-weight: 700;
 }
@@ -599,54 +651,41 @@ footer.sl-flex .meta {
   margin-inline: auto;
 }
 
-/* ---------- Mobile sidebar toggle ---------- */
-/* Starlight's PageFrame renders <MobileMenuToggle /> as a fixed top-right
-   button (shown below 50rem) that opens the docs sidebar. Restyle it from the
-   stock white circle into the landing/header "physical button" family so it
-   matches the merged nav's theme toggle, and pad the header's right group on
-   mobile so the two buttons sit side by side instead of overlapping. These
-   rules are unlayered, so they win over Starlight's layered core styles. */
-starlight-menu-button button {
-  top: calc((var(--sl-nav-height) - 31px) / 2);
-  width: auto;
-  height: auto;
-  padding: 8.5px 10px;
-  border-radius: 3px;
-  background: var(--ejs-btn-face);
-  color: var(--sl-color-gray-3);
-  box-shadow:
-    inset 0 1px 0 var(--ejs-btn-highlight),
-    0 1px 0 var(--ejs-edge),
-    0 2px 2px var(--ejs-btn-drop);
-  transition: transform 70ms ease-out, box-shadow 70ms ease-out,
-    background 120ms ease, color 120ms ease;
-}
-starlight-menu-button button svg {
-  width: 14px;
-  height: 14px;
-}
-starlight-menu-button button:hover {
-  background: var(--ejs-surface-hover);
-}
-/* Pressed and open (X showing) share the inset/pressed shadow, like .nav-gh:active. */
-starlight-menu-button button:active,
-starlight-menu-button[aria-expanded='true'] button {
-  transform: translateY(1px);
-  background: var(--ejs-surface-hover);
-  box-shadow:
-    inset 0 1px 0 var(--ejs-btn-highlight-pressed),
-    0 0 0 var(--ejs-edge),
-    0 1px 1px var(--ejs-btn-drop-pressed);
-}
-starlight-menu-button button:focus-visible {
-  outline: 2px solid var(--ejs-btn-focus);
-  outline-offset: 3px;
-}
-
-/* The toggle is fixed at the right edge below 50rem; pad the header's right
-   group so its theme toggle clears the button instead of sitting under it. */
-@media (max-width: 50rem) {
-  .nav-right {
-    padding-inline-end: 42px;
+/* ---------- Single-page content frame ---------- */
+/* The docs are one page with no left sidebar (see src/routeData.ts). Starlight's
+   no-sidebar layout otherwise runs the prose full-width (at 67.5rem) and lets
+   the TOC overflow the viewport, because its content-width clamp is gated on
+   [data-has-sidebar], which we don't set. Re-create the layout inside the same
+   centered frame. The frame is a touch wider than the nav's 1120px so the docs
+   don't read as a narrow island on large screens; this trades the exact nav
+   logo / GitHub-button alignment for ~60px of breathing room on each side.
+   --docs-frame-width is the single source of truth, shared with the TOC scroll
+   container's width calc above. */
+@media (min-width: 72rem) {
+  [data-has-toc]:not([data-has-sidebar]) {
+    --docs-frame-width: 1200px; /* outer frame; nav stays at 1120 by design */
+    --docs-frame-pad: 48px; /* inline gutter, matches the nav */
+    --sl-content-width: 46rem; /* readable measure that fits beside the TOC */
+    --sl-sidebar-width: 15rem; /* width reserved for the "On this page" column */
+    --sl-content-margin-inline: 0 auto; /* hug the gutter */
+  }
+  [data-has-toc]:not([data-has-sidebar]) .lg\:sl-flex {
+    max-width: var(--docs-frame-width);
+    margin-inline: auto;
+    padding-inline: var(--docs-frame-pad);
+    box-sizing: border-box;
+  }
+  /* The frame supplies the 48px gutter; drop the panel's own inline padding so
+     the prose starts exactly at the gutter. */
+  [data-has-toc]:not([data-has-sidebar]) .content-panel {
+    padding-inline: 0;
+  }
+  /* Clamp the content column so content + TOC sum to the frame width (the stock
+     clamp is gated on [data-has-sidebar]). 100% here is the frame's inner box. */
+  [data-has-toc]:not([data-has-sidebar]) .main-pane {
+    width: calc(
+      var(--sl-content-width) +
+        (100% - var(--sl-content-width) - var(--sl-sidebar-width)) / 2
+    );
   }
 }
