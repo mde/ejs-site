@@ -52,6 +52,61 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 	</div>
 </nav>
 
+<script>
+	// Keep the active "On this page" TOC link visible within the right-sidebar
+	// scroll region. Starlight flips aria-current on the active link as you
+	// scroll the (long, single-page) docs, but never scrolls the TOC column to
+	// follow it, so on a tall page the green active item drifts below the fold.
+	// We watch for the aria-current change and nudge only the TOC container's
+	// own scroll, never the page.
+	function syncActiveTocIntoView() {
+		const container = document.querySelector<HTMLElement>('.right-sidebar');
+		const toc = document.querySelector('starlight-toc');
+		if (!container || !toc) return;
+		// At the very top of the page, reset the TOC to its top too, so its
+		// heading and first items are fully in view (the active link may already
+		// be the first one, so no aria-current change fires to trigger this).
+		if (window.scrollY <= 4) {
+			container.scrollTop = 0;
+			return;
+		}
+		const active = toc.querySelector<HTMLElement>('a[aria-current="true"]');
+		if (!active) return;
+		// Only act when the column actually scrolls (desktop layout); on mobile
+		// the TOC is a dropdown and scrollTop is a no-op anyway.
+		const margin = 32; // breathing room above/below the active item
+		const cRect = container.getBoundingClientRect();
+		const aRect = active.getBoundingClientRect();
+		if (aRect.top < cRect.top + margin) {
+			container.scrollTop -= cRect.top + margin - aRect.top;
+		} else if (aRect.bottom > cRect.bottom - margin) {
+			container.scrollTop += aRect.bottom - (cRect.bottom - margin);
+		}
+	}
+
+	let observer: MutationObserver | undefined;
+	function initTocFollow() {
+		observer?.disconnect();
+		const toc = document.querySelector('starlight-toc');
+		if (!toc) return;
+		observer = new MutationObserver(syncActiveTocIntoView);
+		observer.observe(toc, {
+			subtree: true,
+			attributes: true,
+			attributeFilter: ['aria-current'],
+		});
+		// Align once on load in case we deep-linked partway down the page.
+		syncActiveTocIntoView();
+	}
+
+	initTocFollow();
+	// Re-bind after Starlight/Astro view-transition navigations swap the DOM.
+	document.addEventListener('astro:page-load', initTocFollow);
+	// The observer only fires on aria-current changes, which don't happen when
+	// scrolling back up to the very top — so catch the top via the scroll event.
+	window.addEventListener('scroll', syncActiveTocIntoView, { passive: true });
+</script>
+
 <style>
 	@layer starlight.core {
 		:global(:root) {
@@ -77,7 +132,7 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 		}
 
 		.site-nav-inner {
-			max-width: 1120px;
+			max-width: 1200px;
 			height: 100%;
 			margin: 0 auto;
 			padding: 0 48px;
@@ -302,6 +357,14 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 
 		.nav-dropdown-menu a::before {
 			display: none;
+		}
+
+		/* Items that fall under a section label (Guide, Reference) are indented
+		   so the label reads as a header and its clickable items nest beneath it.
+		   The general-sibling selector starts at the first label, so the
+		   label-less top item (Getting Started) stays flush with the labels. */
+		.nav-dropdown-label ~ [role='menuitem'] {
+			padding-left: 22px;
 		}
 
 		.nav-dropdown-menu a:hover,

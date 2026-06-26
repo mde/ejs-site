@@ -615,6 +615,14 @@ footer.sl-flex .meta {
   border-bottom: 1px solid var(--sl-color-hairline);
 }
 
+/* ---------- Tag reference table: no header row ---------- */
+/* The Tag / Name / What-it-does columns are self-evident from the rows, so drop
+   the header. Markdown always emits a <thead>, and the table is the immediate
+   sibling of its heading, so scope the removal to just this one table. */
+#tag-reference + table thead {
+  display: none;
+}
+
 /* ---------- Asides: no left bar ---------- */
 /* The tinted background already signals the callout; drop Starlight's colored
    left border. This rule is unlayered, so it wins over the layered default. */
