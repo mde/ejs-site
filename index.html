@@ -474,7 +474,7 @@
         margin: 0 auto;
         padding: clamp(140px, 18vh, 180px) 48px clamp(80px, 10vh, 96px);
       }
-      .hero-title { font-size: clamp(48px, 7vw, 88px); font-weight: 600; line-height: 1.04; letter-spacing: -3px; color: var(--text-primary); margin-bottom: 28px; }
+      .hero-title { font-size: clamp(48px, 7.4vw, 90px); font-weight: 600; line-height: 1.04; letter-spacing: -3px; color: var(--text-primary); margin-bottom: 28px; }
       .hero-title .ejs { color: var(--green); font-family: 'Montserrat', sans-serif; font-size: 1.18em; letter-spacing: -0.03em; }
       .hero-title .delim { color: var(--hero-delim); font-family: 'IBM Plex Mono', monospace; font-size: 0.82em; font-weight: 600; vertical-align: baseline; }
       .hero-body { font-size: 19px; color: var(--text-prose); line-height: 1.65; max-width: 620px; margin-bottom: 20px; }
@@ -555,14 +555,20 @@
          viewports (body has overflow-x: hidden, which would otherwise silently
          clip a too-wide line rather than let it scroll). Desktop is unaffected:
          these lines already fit, so no scrollbar appears. */
-      .code-window .code-body { overflow-x: auto; }
-      /* Multi-line windows: each line is a <div>; keep it intact and scroll. */
+      /* Multi-line windows only: each line is a <div>; keep it intact and
+         scroll horizontally. overflow-y stays hidden so the auto-computed
+         vertical axis (forced by overflow-x) can't show a spurious scrollbar.
+         The inline windows below are excluded: they scroll via their span. */
+      .code-window:not(.copy-inline):not(.hero-code) .code-body { overflow-x: auto; overflow-y: hidden; }
       .code-window .code-body > div { white-space: nowrap; }
-      /* Single-line inline windows are a flex row of [code span][copy button].
-         Scroll the span itself so the copy button stays pinned at the right. */
-      .code-window.copy-inline .code-body > span:first-child,
-      .hero-code .code-body > span:first-child {
-        flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap;
+      /* The copy-inline windows are a flex row of [code span][copy button] and
+         can hold a long CLI command; scroll the span so the copy button stays
+         pinned at the right (overflow-y: hidden keeps the single line from
+         gaining a vertical bar). The hero pill is excluded: its content is
+         short and fixed, so it needs no scroller and its tight line-height
+         would otherwise clip under an overflow scroll context. */
+      .code-window.copy-inline .code-body > span:first-child {
+        flex: 1; min-width: 0; overflow-x: auto; overflow-y: hidden; white-space: nowrap;
       }
 
       .stats-strip { display: flex; width: 620px; max-width: 100%; } /* matches .hero-body max-width */
@@ -893,13 +899,13 @@
       @media (max-width: 768px) {
         .nav-inner { padding: 0 20px; }
 
-        .hero-inner { padding: clamp(92px, 14vh, 100px) 20px clamp(52px, 8vh, 56px); }
+        .hero-inner { padding: clamp(92px, 13vh, 108px) 20px clamp(52px, 8vh, 56px); }
         .hero::before { content: none; }
         .hero-title { letter-spacing: -1.5px; }
         .hero-row { gap: 24px; }
         .stats-strip { width: 100%; }
         .stat { padding: 0 12px; }
-        .stat-value { font-size: 24px; }
+        .hero .stat-value { font-size: 34px; }
         .hero-cta { display: flex; min-width: unset; width: 100%; }
         .btn-primary { width: 100%; font-size: 18px; padding: 18px 32px; }
 
@@ -923,10 +929,43 @@
         .footer-inner { flex-direction: column; align-items: flex-start; gap: 16px; padding: 24px 20px; }
       }
 
+      /* Tablet hero: keep the stats and CTA side by side (CTA on the right)
+         instead of letting the CTA wrap below, which wasted vertical space.
+         Shrink the stats (smaller type, strip flex-shrinks) to make room.
+         Placed after the 768 block so it wins the 700-768 overlap; below 700px
+         the stacked layout takes over (stats labels would start clipping).
+         Upper bound is 1035px (not 1024px): the desktop 48px layout needs
+         >=1036px to fit the 620px strip + 40px gap + 280px CTA + 96px padding
+         on one row, so 1025-1035px would otherwise wrap the CTA below. */
+      @media (min-width: 700px) and (max-width: 1035px) {
+        .hero-row { flex-wrap: nowrap; gap: 24px; align-items: flex-end; }
+        .stats-strip { width: 620px; flex: 0 1 auto; min-width: 0; }
+        .stat { padding: 0 14px; min-width: 0; }
+        .hero .stat-value { font-size: 42px; }
+        .stat-label { font-size: 12px; letter-spacing: 0.08em; }
+        .hero-cta { width: auto; min-width: 0; flex: 0 0 auto; }
+        .btn-primary { width: auto; }
+      }
+
+      /* Portrait tablets (700-768px) fall into the 768 phone block but have far
+         more vertical room, so the compact phone hero-top reads as too tight.
+         Restore a more generous top here; placed after the 768 block to win the
+         overlap, and only overrides padding-top (sides/bottom stay from 768). */
+      @media (min-width: 700px) and (max-width: 768px) {
+        .hero-inner { padding-top: clamp(120px, 15vh, 144px); }
+      }
+
       @media (max-width: 480px) {
+        /* Phone top bar: logo + theme + GitHub + hamburger crowds below ~390px.
+           Collapse the GitHub button to an icon-only square (matching the theme
+           toggle) by dropping the text label and the external-link glyph. */
+        .nav-right { gap: 6px; }
+        .nav-gh { padding: 8.5px 10px; gap: 0; }
+        .nav-gh .nav-gh-label, .nav-gh svg.ext-icon { display: none; }
+
         /* Type scale and spacing re-tuned for ~360px phones; 768 left these at
            tablet sizes. */
-        .hero-title { font-size: 40px; letter-spacing: -1px; }
+        .hero-title { font-size: clamp(40px, 11vw, 50px); letter-spacing: -1px; }
         .hero-body { font-size: 17px; }
         .section { padding: 56px 18px; }
         .section-title { font-size: 30px; letter-spacing: -0.5px; }
@@ -936,7 +975,7 @@
            min-width: 0 lets flex:1 distribute them evenly; without it the
            default min-content width makes the row overflow the viewport. */
         .stat { padding: 0 10px; min-width: 0; }
-        .stat-value { font-size: 21px; }
+        .hero .stat-value { font-size: 30px; }
         .stat-label { font-size: 11px; letter-spacing: 0.08em; }
 
         .block { gap: 16px; padding: 32px 0; }
@@ -981,7 +1020,7 @@
             <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
             <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           </button>
-          <a class="nav-gh" href="https://github.com/mde/ejs" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg> GitHub <svg class="ext-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+          <a class="nav-gh" href="https://github.com/mde/ejs" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg> <span class="nav-gh-label">GitHub</span> <svg class="ext-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
           <button class="nav-hamburger" type="button" aria-label="Open menu" aria-expanded="false">
             <svg class="icon-menu" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
             <svg class="icon-close" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -995,7 +1034,7 @@
     <!-- HERO -->
     <section class="hero" id="hero">
       <div class="hero-inner">
-        <h1 class="hero-title"><span class="hero-tagline">Generate HTML with plain JS.</span></h1>
+        <h1 class="hero-title"><span class="hero-tagline">Generate HTML with plain&nbsp;JS.</span></h1>
         <p class="hero-body">No new syntax, no special directives. Write the JavaScript you already know, right inside your HTML.</p>
         <div class="hero-row">
           <div class="stats-strip">
