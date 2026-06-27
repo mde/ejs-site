@@ -923,6 +923,24 @@
         .footer-inner { flex-direction: column; align-items: flex-start; gap: 16px; padding: 24px 20px; }
       }
 
+      @media (max-width: 696px) {
+        /* Below ~696px the security notice can no longer hold its 656px
+           max-width and starts shrinking; tighten its inner side padding so
+           the content keeps breathing room instead of cramping to the center.
+           The feature cards drop their side padding to the same 20px so both
+           card types align their content consistently when narrow. */
+        .security-notice { padding-inline: 20px; }
+        .expand-card { padding-inline: 20px; }
+      }
+
+      @media (max-width: 512px) {
+        /* The 2-up feature grid has a hard ~502px min-width (its plain 1fr
+           columns won't shrink below the cards' content), so below ~510px the
+           right column is pushed off-screen. Collapse to a single column here
+           so the cards never clip. */
+        .expand-grid { grid-template-columns: 1fr; }
+      }
+
       @media (max-width: 480px) {
         /* Type scale and spacing re-tuned for ~360px phones; 768 left these at
            tablet sizes. */
@@ -941,7 +959,6 @@
 
         .block { gap: 16px; padding: 32px 0; }
 
-        .expand-grid { grid-template-columns: 1fr; }
         .concept-grid { grid-template-columns: 1fr; }
       }
     </style>
