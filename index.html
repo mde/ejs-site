@@ -351,7 +351,7 @@
         box-shadow: 0 1px 2px var(--panel-shadow), 0 10px 30px var(--panel-shadow-soft);
         display: flex;
         flex-direction: column;
-        gap: 1px;
+        gap: 3px;
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
@@ -370,14 +370,11 @@
         transform: translateY(0);
         transition: opacity 0.15s ease, transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
       }
-      .nav-dropdown-menu a { height: auto; padding: 7px 11px; font-size: 13.5px; font-weight: 400; color: var(--text-secondary); border-radius: 3px; white-space: nowrap; }
+      .nav-dropdown-menu a { height: auto; padding: 7px 11px; font-size: 13.5px; line-height: 1.75; font-weight: 400; color: var(--text-secondary); border-radius: 3px; white-space: nowrap; }
       .nav-dropdown-menu a::before { display: none; }
       .nav-dropdown-menu a:hover, .nav-dropdown-menu a:focus-visible { color: var(--text-primary); background: var(--surface-hover); }
       .nav-dropdown-menu a:active { color: var(--text-primary); background: var(--surface-hover); box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.14); }
       [data-theme="dark"] .nav-dropdown-menu a:active { box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.55); }
-      .nav-dropdown-label { padding: 9px 11px 4px; font-family: 'Montserrat', sans-serif; font-size: 10.5px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-secondary); opacity: 0.65; }
-      .nav-dropdown-menu .nav-dropdown-label ~ a { padding-left: 22px; }
-      .nav-dropdown-divider { height: 1px; background: var(--border-subtle); margin: 6px 5px; }
       @media (prefers-reduced-motion: reduce) {
         .nav-dropdown-menu { transition: opacity 0.15s ease, visibility 0s linear 0.15s; transform: none; }
         .nav-dropdown:hover .nav-dropdown-menu,
@@ -477,7 +474,7 @@
       .hero-title { font-size: clamp(48px, 7vw, 88px); font-weight: 600; line-height: 1.04; letter-spacing: -3px; color: var(--text-primary); margin-bottom: 28px; }
       .hero-title .ejs { color: var(--green); font-family: 'Montserrat', sans-serif; font-size: 1.18em; letter-spacing: -0.03em; }
       .hero-title .delim { color: var(--hero-delim); font-family: 'IBM Plex Mono', monospace; font-size: 0.82em; font-weight: 600; vertical-align: baseline; }
-      .hero-body { font-size: 19px; color: var(--text-prose); line-height: 1.65; max-width: 620px; margin-bottom: 20px; }
+      .hero-body { font-size: 20px; color: var(--text-prose); line-height: 1.65; max-width: 620px; margin-bottom: 20px; }
       .hero-cta { display: inline-flex; flex-direction: column; align-items: stretch; gap: 20px; min-width: 280px; }
       .hero-cta .btn-primary { padding: 20px 28px; }
       .hero-code.code-window { padding: 0; }
@@ -562,7 +559,7 @@
          Scroll the span itself so the copy button stays pinned at the right. */
       .code-window.copy-inline .code-body > span:first-child,
       .hero-code .code-body > span:first-child {
-        flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap;
+        flex: 1; min-width: 0; overflow-x: auto; overflow-y: hidden; white-space: nowrap;
       }
 
       .stats-strip { display: flex; width: 620px; max-width: 100%; } /* matches .hero-body max-width */
@@ -593,7 +590,7 @@
         color: var(--green-link);
       }
       .section-title { font-size: 44px; font-weight: 600; color: var(--text-primary); letter-spacing: -1.2px; margin-bottom: 12px; }
-      .section-intro { font-size: 16px; color: var(--text-prose); line-height: 1.7; max-width: 600px; margin-bottom: 48px; }
+      .section-intro { font-size: 17px; color: var(--text-prose); line-height: 1.7; max-width: 600px; margin-bottom: 48px; }
       /* Docs CTA — centered closing call to action. */
       /* Echoes the hero treatment to bookend the page. */
       .cta {
@@ -647,7 +644,7 @@
       }
       .card-icon svg { width: 30px; height: 30px; stroke: #fff; fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 1px 0.5px rgba(0, 0, 0, 0.18)); }
       .card-title { font-size: 20px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.3px; }
-      .card-body { font-size: 14.5px; color: var(--text-prose); line-height: 1.65; }
+      .card-body { font-size: 15.5px; color: var(--text-prose); line-height: 1.65; }
       .card-feats { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin-top: auto; padding-top: 6px; }
       /* Flat skeuomorphic chip: gradient + inset top highlight + outline ring.
          No raised bevel/drop shadow — those are reserved for pressable buttons. */
@@ -696,9 +693,9 @@
       .notice-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
       .notice-icon { width: 32px; height: 32px; flex-shrink: 0; stroke: var(--crimson); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
       .notice-title { font-size: 26px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.3px; }
-      .notice-body { font-size: 15px; color: var(--text-prose); line-height: 1.7; margin-bottom: 12px; max-width: 65ch; }
+      .notice-body { font-size: 16px; color: var(--text-prose); line-height: 1.7; margin-bottom: 12px; max-width: 65ch; }
       .notice-quote { background: var(--surface-faint); border-radius: 4px; padding: 14px 18px; margin: 16px 0; max-width: 65ch; box-shadow: inset 0 1px 2px rgba(92, 97, 104, 0.15); }
-      .notice-quote p { font-size: 15px; color: var(--text-prose); line-height: 1.7; font-style: italic; margin-bottom: 8px; }
+      .notice-quote p { font-size: 16px; color: var(--text-prose); line-height: 1.7; font-style: italic; margin-bottom: 8px; }
       .notice-quote p:last-child { margin-bottom: 0; }
       /* Code snippet inside notice — dark in both themes */
       .notice-code { background: var(--embedded-code-bg); border: none; border-radius: 4px; box-shadow: inset 0 0 0 1px #272727; padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.7; margin-top: 14px; color: #f0f0f0; }
@@ -710,7 +707,7 @@
       .block:nth-child(even) > :last-child { order: 1; }
       .block-label { font-size: 11px; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
       .block-title { font-size: 17px; font-weight: 600; color: var(--text-primary); margin: 0 0 8px; }
-      .block-desc { font-size: 15px; color: var(--text-prose); line-height: 1.7; }
+      .block-desc { font-size: 16px; color: var(--text-prose); line-height: 1.7; }
       /* Code window — dark in both themes */
       .code-window { background: var(--code-bg); background: var(--code-face); border-radius: 5px; overflow: hidden; }
       .code-file { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px; background: var(--code-titlebar); border-bottom: 1px solid #151515; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.09); }
@@ -751,7 +748,7 @@
       .peer-card { display: flex; flex-direction: column; gap: 12px; background: var(--btn-face); border-radius: 6px; box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1px var(--border), 0 2px 8px var(--panel-shadow); padding: 22px; }
       .peer-card .concept-engine { font-size: 16px; }
       .peer-card .concept-code { flex: 1; }
-      .peer-card .concept-desc { font-size: 12.5px; color: var(--text-secondary); }
+      .peer-card .concept-desc { font-size: 13.5px; color: var(--text-secondary); }
       .concept-divider { height: 1px; background: var(--border); border: 0; margin: 12px 0; }
       .concept-engine { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 600; color: var(--text-primary); }
       .concept-engine-ejs { color: var(--green-link); }
@@ -762,10 +759,10 @@
       .concept-ejs-card .concept-engine-delims { font-size: 24px; }
       .concept-ejs-card .concept-code { font-size: 15px; line-height: 1.9; }
       .concept-engine-delims { font-family: 'IBM Plex Mono', monospace; font-size: 18px; font-weight: 600; color: var(--green-link); }
-      .concept-desc { font-size: 13.5px; line-height: 1.65; color: var(--text-body); }
+      .concept-desc { font-size: 14.5px; line-height: 1.65; color: var(--text-body); }
       .concept-desc code { font-family: 'IBM Plex Mono', monospace; font-size: 0.88em; }
       .concept-zero { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 700; color: var(--green-link); letter-spacing: -0.4px; }
-      .concept-desc-ejs { font-size: 14.5px; line-height: 1.65; color: var(--green-link); }
+      .concept-desc-ejs { font-size: 15.5px; line-height: 1.65; color: var(--green-link); }
       .concept-feats { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
       .concept-feats li { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-body); border-radius: 999px; padding: 6px 12px; background: var(--surface-faint); box-shadow: inset 0 0 0 1px var(--border-subtle); }
       :root[data-theme="dark"] .concept-feats li { background: var(--surface-deep); box-shadow: inset 0 0 0 1px var(--border); }
@@ -785,7 +782,7 @@
       .support-card-title { font-size: 18px; font-weight: 600; color: var(--text-primary); align-self: center; margin: 0; }
       .support-card-ext { position: absolute; top: 24px; right: 24px; display: flex; }
       .support-card-ext svg { width: 15px; height: 15px; stroke: var(--text-secondary); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; display: block; }
-      .support-card-body { grid-column: 1 / -1; font-size: 15px; color: var(--text-prose); line-height: 1.65; }
+      .support-card-body { grid-column: 1 / -1; font-size: 16px; color: var(--text-prose); line-height: 1.65; }
       .support-card-body span { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--green-link); }
 
       /* FOOTER */
@@ -884,10 +881,7 @@
           transition: height 0.24s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .nav-dropdown-menu::before { display: none; }
-        .nav-dropdown-menu a,
-        .nav-dropdown-menu .nav-dropdown-label ~ a { font-size: 14px; padding: 8px 12px; color: var(--text-secondary); }
-        .nav-dropdown-label { padding: 10px 12px 2px; }
-        .nav-dropdown-divider { display: none; }
+        .nav-dropdown-menu a { font-size: 14px; padding: 8px 12px; color: var(--text-secondary); }
       }
 
       @media (max-width: 768px) {
@@ -961,16 +955,12 @@
             <a class="nav-dropdown-trigger" href="/docs/" aria-haspopup="true" aria-expanded="false">Docs<svg class="nav-caret" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></a>
             <div class="nav-dropdown-menu" role="menu">
               <a role="menuitem" href="/docs/#getting-started">Getting Started</a>
-              <div class="nav-dropdown-divider"></div>
-              <span class="nav-dropdown-label">Guide</span>
               <a role="menuitem" href="/docs/#tags">Tags</a>
               <a role="menuitem" href="/docs/#includes">Includes</a>
               <a role="menuitem" href="/docs/#custom-delimiters">Custom Delimiters</a>
               <a role="menuitem" href="/docs/#layouts">Layouts</a>
               <a role="menuitem" href="/docs/#caching">Caching</a>
               <a role="menuitem" href="/docs/#client-side-support">Client-Side Support</a>
-              <div class="nav-dropdown-divider"></div>
-              <span class="nav-dropdown-label">Reference</span>
               <a role="menuitem" href="/docs/#options">Options</a>
               <a role="menuitem" href="/docs/#cli-usage">CLI Usage</a>
             </div>
@@ -1347,14 +1337,19 @@
         const dropdown = nav.querySelector('.nav-dropdown');
         const dropdownTrigger = dropdown && dropdown.querySelector('.nav-dropdown-trigger');
         const dropdownMenu = dropdown && dropdown.querySelector('.nav-dropdown-menu');
+        // The inline height drives the mobile slide animation only. On desktop the
+        // menu is an absolute popover with height:auto, so clear it (empty string)
+        // rather than pinning height:0 — a leaked 0 would collapse its background
+        // card while the links overflow below it.
+        const isMobileNav = () => window.matchMedia('(max-width: 900px)').matches;
         const collapseDropdown = () => {
           if (!dropdown) return;
           dropdown.classList.remove('open');
-          if (dropdownMenu) dropdownMenu.style.height = '0';
+          if (dropdownMenu) dropdownMenu.style.height = isMobileNav() ? '0' : '';
           if (dropdownTrigger) dropdownTrigger.setAttribute('aria-expanded', 'false');
         };
         const closeMenu = () => {
-          navCenter.style.height = '0';
+          navCenter.style.height = isMobileNav() ? '0' : '';
           nav.classList.remove('open');
           collapseDropdown();
           hamburger.setAttribute('aria-expanded', 'false');
