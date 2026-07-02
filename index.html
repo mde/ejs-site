@@ -931,15 +931,17 @@
 
       /* Tablet hero: keep the stats and CTA side by side (CTA on the right)
          instead of letting the CTA wrap below, which wasted vertical space.
-         Shrink the stats (smaller type, strip flex-shrinks) to make room.
+         Shrink the stats type, and let the strip grow to fill the row (instead
+         of the desktop 620px cap) so the three stats spread out to meet the CTA
+         rather than leaving a dead gap between the last stat and the buttons.
          Placed after the 768 block so it wins the 700-768 overlap; below 700px
          the stacked layout takes over (stats labels would start clipping).
          Upper bound is 1035px (not 1024px): the desktop 48px layout needs
          >=1036px to fit the 620px strip + 40px gap + 280px CTA + 96px padding
          on one row, so 1025-1035px would otherwise wrap the CTA below. */
       @media (min-width: 700px) and (max-width: 1035px) {
-        .hero-row { flex-wrap: nowrap; gap: 24px; align-items: flex-end; }
-        .stats-strip { width: 620px; flex: 0 1 auto; min-width: 0; }
+        .hero-row { flex-wrap: nowrap; gap: 40px; align-items: flex-end; }
+        .stats-strip { width: auto; flex: 1 1 auto; min-width: 0; }
         .stat { padding: 0 14px; min-width: 0; }
         .hero .stat-value { font-size: 42px; }
         .stat-label { font-size: 12px; letter-spacing: 0.08em; }
