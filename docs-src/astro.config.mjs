@@ -2,6 +2,7 @@
 import { defineConfig, passthroughImageService } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import { ejsLang } from './src/ejs-lang.mjs';
+import { ejsSyntaxTheme } from './src/ejs-syntax-theme.mjs';
 import jsGrammars from '@shikijs/langs/javascript';
 import htmlGrammars from '@shikijs/langs/html';
 
@@ -105,10 +106,14 @@ export default defineConfig({
 			},
 			expressiveCode: {
 				// Code surfaces stay dark in both themes, matching the landing page.
-				themes: ['github-dark'],
+				themes: [ejsSyntaxTheme],
 				shiki: {
 					langs: shikiLangs,
 				},
+				// Disable EC's auto-contrast-boost so the crimson EJS delimiter
+				// (#e05285) renders exactly as on the landing page, instead of
+				// being lightened toward EC's default 5.5:1 threshold.
+				minSyntaxHighlightingColorContrast: 0,
 				styleOverrides: {
 					// EC adds the 1px border width to this for the outer corner, so 4px
 					// here yields a 5px visible radius — matching the landing code windows.
