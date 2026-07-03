@@ -503,8 +503,8 @@ result to `output.html`. With no `-o`, output is written to stdout.
 # From a JSON file
 ejs ./template.ejs -f data.json
 
-# Inline as a JSON string
-ejs ./template.ejs -i '{"name":"world"}'
+# Inline as a URI-encoded JSON string
+ejs ./template.ejs -i '%7B%22name%22%3A%22world%22%7D'
 ```
 
 ### Command-line flags
@@ -513,7 +513,7 @@ ejs ./template.ejs -i '{"name":"world"}'
 | ----------------------------- | ----------- |
 | `-o`, `--output-file FILE`    | Write output to `FILE` (default: stdout). |
 | `-f`, `--data-file FILE`      | Load template data from a JSON `FILE`. |
-| `-i`, `--data-input STRING`   | Provide template data as a JSON string. |
+| `-i`, `--data-input STRING`   | Must be JSON-formatted and URI-encoded. Use parsed input from STRING as data for rendering. |
 | `-m`, `--delimiter CHAR`      | Inner delimiter character (default `%`). |
 | `-p`, `--open-delimiter CHAR` | Opening delimiter character (default `<`). |
 | `-c`, `--close-delimiter CHAR`| Closing delimiter character (default `>`). |
