@@ -69,6 +69,11 @@
   --sl-color-gray-5: #d1d4cf;
   --sl-color-gray-6: #e5e7e3;
   --sl-color-gray-7: #ebedea;
+  /* Mirror the dark block, where --sl-color-black == --sl-color-bg. The dark
+     `:root` above sets this unlayered, which beats Starlight's own layered
+     light default, so it must be re-set here or it stays dark in light mode
+     (e.g. the mobile "On this page" toggle/dropdown, which fill with it). */
+  --sl-color-black: #f4f5f3;
 
   --sl-color-accent-low: #e6ecd2;
   --sl-color-accent: #557d0c;

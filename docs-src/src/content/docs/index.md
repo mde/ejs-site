@@ -200,11 +200,11 @@ HTML isn't double-escaped:
 <li><%= user.name %></li>
 ```
 
-### Why `<%-` and not `<%=`
+### The raw-output tag
 
-`include()` returns a string of already-rendered HTML. If you printed it with
-the escaping tag `<%=`, every `<`, `>`, and `&` would be escaped and you'd see
-the markup as text. The raw-output tag `<%-` emits it as-is.
+`include()` returns a string of already-rendered HTML. Print it with the
+escaping tag `<%=` and every `<`, `>`, and `&` gets escaped, so the markup shows
+up as literal text. The raw-output tag `<%-` emits it as-is.
 
 ### Path resolution and `filename`
 

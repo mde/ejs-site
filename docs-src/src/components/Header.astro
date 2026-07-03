@@ -11,7 +11,7 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 			<li><a href="/#install">Get Started</a></li>
 			<li><a href="/#support">Support</a></li>
 			<li class="nav-dropdown">
-				<a class="nav-dropdown-trigger" href="/docs/" aria-current="page" aria-haspopup="true">Docs<svg class="nav-caret" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+				<a class="nav-dropdown-trigger" href="/docs/" aria-current="page" aria-haspopup="true" aria-expanded="false">Docs<svg class="nav-caret" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
 				<div class="nav-dropdown-menu" role="menu">
 					<a role="menuitem" href="/docs/#getting-started">Getting Started</a>
 					<a role="menuitem" href="/docs/#tags">Tags</a>
@@ -38,12 +38,16 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 						d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
 					></path></svg
 				>
-				GitHub
+				<span class="nav-gh-label">GitHub</span>
 				<svg class="ext-icon" viewBox="0 0 24 24" aria-hidden="true"
 					><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline
 						points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg
 				>
 			</a>
+			<button class="nav-hamburger" type="button" aria-label="Open menu" aria-expanded="false">
+				<svg class="icon-menu" viewBox="0 0 24 24" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+				<svg class="icon-close" viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+			</button>
 		</div>
 	</div>
 </nav>
@@ -80,19 +84,69 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 		}
 	}
 
+	// Reflect the section you're currently reading onto the nav Docs dropdown.
+	// Starlight's TOC scroll-spy flips aria-current on the active heading link;
+	// the dropdown lists only the top-level (h2) sections while the TOC also
+	// tracks h3s, so map the active heading to the last dropdown section that
+	// starts at or before it in document order, and mark that item active.
+	function updateActiveDocsNav() {
+		const items = Array.from(
+			document.querySelectorAll<HTMLAnchorElement>('.nav-dropdown-menu a'),
+		);
+		if (!items.length) return;
+		const toc = document.querySelector('starlight-toc');
+		const activeLink = toc?.querySelector<HTMLAnchorElement>('a[aria-current="true"]');
+		const activeId = activeLink?.hash ? decodeURIComponent(activeLink.hash.slice(1)) : '';
+		const activeHeading = activeId ? document.getElementById(activeId) : null;
+
+		let current: HTMLAnchorElement | null = null;
+		if (activeHeading) {
+			for (const item of items) {
+				const id = decodeURIComponent(new URL(item.href).hash.slice(1));
+				const section = id ? document.getElementById(id) : null;
+				if (!section) continue;
+				// Once a section begins after the active heading, stop: the section
+				// the heading lives in is the previous (last-kept) one.
+				if (
+					section !== activeHeading &&
+					section.compareDocumentPosition(activeHeading) & Node.DOCUMENT_POSITION_PRECEDING
+				) {
+					break;
+				}
+				current = item;
+			}
+		}
+
+		// Above the first section (the "Overview" at the top of the page), no
+		// section precedes the active heading — treat that as the start of the
+		// first section so Getting Started stays lit at the top.
+		if (!current) current = items[0];
+
+		for (const item of items) {
+			item.classList.toggle('active', item === current);
+			if (item === current) item.setAttribute('aria-current', 'location');
+			else item.removeAttribute('aria-current');
+		}
+	}
+
+	function onTocUpdate() {
+		syncActiveTocIntoView();
+		updateActiveDocsNav();
+	}
+
 	let observer: MutationObserver | undefined;
 	function initTocFollow() {
 		observer?.disconnect();
 		const toc = document.querySelector('starlight-toc');
 		if (!toc) return;
-		observer = new MutationObserver(syncActiveTocIntoView);
+		observer = new MutationObserver(onTocUpdate);
 		observer.observe(toc, {
 			subtree: true,
 			attributes: true,
 			attributeFilter: ['aria-current'],
 		});
 		// Align once on load in case we deep-linked partway down the page.
-		syncActiveTocIntoView();
+		onTocUpdate();
 	}
 
 	initTocFollow();
@@ -100,7 +154,86 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 	document.addEventListener('astro:page-load', initTocFollow);
 	// The observer only fires on aria-current changes, which don't happen when
 	// scrolling back up to the very top — so catch the top via the scroll event.
-	window.addEventListener('scroll', syncActiveTocIntoView, { passive: true });
+	window.addEventListener('scroll', onTocUpdate, { passive: true });
+</script>
+
+<script>
+	// Mobile nav: the hamburger reveals/collapses the center-links panel, and the
+	// Docs item expands its section list in place as an accordion. Ported from the
+	// landing page's nav so the two headers behave identically.
+	function initSiteNav() {
+		const nav = document.querySelector<HTMLElement>('.site-nav');
+		const hamburger = nav?.querySelector<HTMLButtonElement>('.nav-hamburger');
+		const navCenter = nav?.querySelector<HTMLElement>('.nav-center');
+		if (!nav || !hamburger || !navCenter) return;
+
+		const isMobileNav = () => window.matchMedia('(max-width: 900px)').matches;
+		const dropdown = nav.querySelector<HTMLElement>('.nav-dropdown');
+		const dropdownTrigger = dropdown?.querySelector<HTMLAnchorElement>('.nav-dropdown-trigger');
+		const dropdownMenu = dropdown?.querySelector<HTMLElement>('.nav-dropdown-menu');
+
+		// The inline height drives the mobile slide only. Off mobile (desktop
+		// popover, height:auto) clear it (empty string) rather than pinning 0.
+		const collapseDropdown = () => {
+			if (!dropdown) return;
+			dropdown.classList.remove('open');
+			if (dropdownMenu) dropdownMenu.style.height = isMobileNav() ? '0' : '';
+			dropdownTrigger?.setAttribute('aria-expanded', 'false');
+		};
+		const openMenu = () => {
+			nav.classList.add('open');
+			navCenter.style.height = navCenter.scrollHeight + 'px';
+			hamburger.setAttribute('aria-expanded', 'true');
+			hamburger.setAttribute('aria-label', 'Close menu');
+		};
+		const closeMenu = () => {
+			navCenter.style.height = isMobileNav() ? '0' : '';
+			nav.classList.remove('open');
+			collapseDropdown();
+			hamburger.setAttribute('aria-expanded', 'false');
+			hamburger.setAttribute('aria-label', 'Open menu');
+		};
+
+		hamburger.addEventListener('click', () => {
+			nav.classList.contains('open') ? closeMenu() : openMenu();
+		});
+
+		// Mobile only: the Docs trigger expands its sub-menu in place instead of
+		// navigating. The outer panel's height is adjusted by the sub-menu's full
+		// height (scrollHeight ignores the current 0 clamp) so the two stay in sync.
+		if (dropdownTrigger && dropdownMenu) {
+			dropdownTrigger.addEventListener('click', (e) => {
+				if (!isMobileNav()) return;
+				e.preventDefault();
+				const opening = dropdown!.classList.toggle('open');
+				const full = dropdownMenu.scrollHeight;
+				const navH = parseFloat(getComputedStyle(navCenter).height) || 0;
+				dropdownMenu.style.height = opening ? full + 'px' : '0';
+				navCenter.style.height = (opening ? navH + full : navH - full) + 'px';
+				dropdownTrigger.setAttribute('aria-expanded', opening ? 'true' : 'false');
+			});
+		}
+
+		nav.querySelectorAll('.nav-center a:not(.nav-dropdown-trigger)').forEach((link) =>
+			link.addEventListener('click', closeMenu),
+		);
+
+		// Close on an outside click. Bound once at the document level, re-querying
+		// the (view-transition-swappable) nav each time so it survives navigation.
+		if (!(window as any).__ejsSiteNavGlobalsBound) {
+			(window as any).__ejsSiteNavGlobalsBound = true;
+			document.addEventListener('click', (e) => {
+				const n = document.querySelector<HTMLElement>('.site-nav');
+				if (n?.classList.contains('open') && !n.contains(e.target as Node)) {
+					n.querySelector<HTMLButtonElement>('.nav-hamburger')?.click();
+				}
+			});
+		}
+	}
+
+	initSiteNav();
+	// Re-bind after Starlight/Astro view-transition navigations swap the DOM.
+	document.addEventListener('astro:page-load', initSiteNav);
 </script>
 
 <style>
@@ -225,15 +358,28 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 			box-shadow: inset 0 0 0 1px var(--sl-color-hairline);
 		}
 
-		.nav-center a:hover,
 		.nav-center a:focus-visible {
 			color: var(--sl-color-white);
 		}
 
-		.nav-center a:hover::before,
 		.nav-center a:focus-visible::before {
 			opacity: 1;
 			transform: scale(1);
+		}
+
+		/* Hover reveal only where hover is real (mouse). On touch, :hover latches
+		   after a tap, so a tapped link (e.g. the Docs accordion trigger, which
+		   stays put) would be left stuck lit. :focus-visible above still covers
+		   keyboard use. Mirrors the landing nav. */
+		@media (hover: hover) {
+			.nav-center a:hover {
+				color: var(--sl-color-white);
+			}
+
+			.nav-center a:hover::before {
+				opacity: 1;
+				transform: scale(1);
+			}
 		}
 
 		/* Active page mirrors the landing's `.nav-center a.active`: green text at
@@ -355,10 +501,19 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 			display: none;
 		}
 
-		.nav-dropdown-menu a:hover,
 		.nav-dropdown-menu a:focus-visible {
 			color: var(--sl-color-white);
 			background: var(--ejs-surface-hover);
+		}
+
+		/* Hover only on real-hover devices: these items are same-page anchors, so
+		   on touch a tap keeps you on the page and would otherwise leave the item
+		   stuck highlighted. :active still gives a press cue on tap. */
+		@media (hover: hover) {
+			.nav-dropdown-menu a:hover {
+				color: var(--sl-color-white);
+				background: var(--ejs-surface-hover);
+			}
 		}
 
 		.nav-dropdown-menu a:active {
@@ -369,6 +524,18 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 
 		:global([data-theme='dark']) .nav-dropdown-menu a:active {
 			box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.55);
+		}
+
+		/* The section you're currently reading (set by the scroll-spy in the
+		   script above) gets the same green + heavier weight the "On this page"
+		   TOC and the nav's active links use. Declared after :hover so an active
+		   item stays accent-colored on hover, while still picking up the hover
+		   background. */
+		.nav-dropdown-menu a.active,
+		.nav-dropdown-menu a.active:hover,
+		.nav-dropdown-menu a.active:focus-visible {
+			color: var(--sl-color-text-accent);
+			font-weight: 600;
 		}
 
 		@media (prefers-reduced-motion: reduce) {
@@ -418,10 +585,19 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 			color: var(--sl-color-text-accent);
 		}
 
-		.nav-gh:hover,
 		.nav-gh:focus-visible {
 			background: var(--ejs-surface-hover);
 			color: var(--sl-color-accent-high);
+		}
+
+		/* Hover only on real-hover devices — on touch the state latches after a
+		   tap (the link opens a new tab, so this page keeps the button) and it
+		   would sit stuck highlighted until you tapped elsewhere. */
+		@media (hover: hover) {
+			.nav-gh:hover {
+				background: var(--ejs-surface-hover);
+				color: var(--sl-color-accent-high);
+			}
 		}
 
 		.nav-gh:active {
@@ -453,49 +629,208 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 			stroke-linejoin: round;
 		}
 
-		@media (max-width: 54rem) {
-			.site-nav-inner {
-				padding: 0 16px;
-			}
+		/* Hamburger toggle — hidden on desktop, revealed at the mobile-nav
+		   breakpoint. Same physical-button treatment as the sibling theme
+		   toggle, with a menu/close icon crossfade driven by `.site-nav.open`.
+		   Mirrors the landing page's `.nav-hamburger`. */
+		.nav-hamburger {
+			display: none;
+			align-items: center;
+			position: relative;
+			box-sizing: border-box;
+			height: 31px;
+			padding: 0 9px;
+			border: none;
+			border-radius: 3px;
+			background: var(--ejs-btn-face);
+			color: var(--sl-color-gray-3);
+			cursor: pointer;
+			box-shadow:
+				inset 0 1px 0 var(--ejs-btn-highlight),
+				0 1px 0 var(--ejs-edge),
+				0 2px 2px var(--ejs-btn-drop);
+			transition: transform 70ms ease-out, box-shadow 70ms ease-out,
+				background 120ms ease;
+		}
 
-			.nav-center {
-				gap: 0;
-				overflow-x: auto;
-				scrollbar-width: none;
-			}
-
-			.nav-center::-webkit-scrollbar {
-				display: none;
-			}
-
-			.nav-center a {
-				padding-inline: 10px;
-				white-space: nowrap;
-			}
-
-			/* The horizontal-scroll nav clips an absolute panel, and the sidebar
-			   already lists every section here — so collapse the dropdown back to
-			   a plain Docs link on narrow viewports. */
-			.nav-caret {
-				display: none;
-			}
-
-			.nav-dropdown-menu {
-				display: none;
-			}
-
-			.nav-gh {
-				display: none;
+		/* Hover only where hover is real — on touch it latches after the tap that
+		   opens the menu, leaving the button stuck highlighted. */
+		@media (hover: hover) {
+			.nav-hamburger:hover {
+				background: var(--ejs-surface-hover);
 			}
 		}
 
-		@media (max-width: 38rem) {
-			.site-nav-inner {
-				gap: 10px;
+		.nav-hamburger:active {
+			transform: translateY(1px);
+			box-shadow:
+				inset 0 1px 0 var(--ejs-btn-highlight-pressed),
+				0 0 0 var(--ejs-edge),
+				0 1px 1px var(--ejs-btn-drop-pressed);
+		}
+
+		.nav-hamburger:focus-visible {
+			outline: 2px solid var(--ejs-btn-focus);
+			outline-offset: 3px;
+		}
+
+		.nav-hamburger svg {
+			width: 16px;
+			height: 16px;
+			stroke: currentColor;
+			fill: none;
+			stroke-width: 2;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+			display: block;
+			transition: opacity 0.2s ease, transform 0.2s ease;
+		}
+
+		.nav-hamburger .icon-close {
+			position: absolute;
+			inset: 0;
+			margin: auto;
+			opacity: 0;
+			transform: rotate(-45deg);
+		}
+
+		.site-nav.open .nav-hamburger .icon-menu {
+			opacity: 0;
+			transform: rotate(45deg);
+		}
+
+		.site-nav.open .nav-hamburger .icon-close {
+			opacity: 1;
+			transform: rotate(0deg);
+		}
+
+		/* ── Mobile nav ──
+		   Below 900px the center links collapse behind the hamburger into a
+		   full-width panel that slides down from under the bar, and the Docs
+		   dropdown becomes a tap-to-expand accordion. Ported from the landing
+		   nav so the two headers behave identically; GitHub and the theme
+		   toggle stay in the bar. The panel is `position: fixed` (the docs
+		   header is itself a fixed bar), so it hangs below the nav without
+		   being clipped by the header box. */
+		@media (max-width: 900px) {
+			.nav-hamburger {
+				display: inline-flex;
 			}
 
-			.nav-logo {
-				font-size: 20px;
+			.nav-center {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-end;
+				position: fixed;
+				top: var(--sl-nav-height);
+				left: 0;
+				right: 0;
+				background: var(--sl-color-bg-nav);
+				border-bottom: 1px solid var(--sl-color-hairline);
+				box-shadow: 0 4px 16px var(--ejs-panel-shadow-soft);
+				border-radius: 0 0 6px 6px;
+				gap: 2px;
+				z-index: 10;
+				padding: 8px 20px 16px;
+				overflow: hidden;
+				height: 0;
+				opacity: 0;
+				pointer-events: none;
+				/* close: height slides up, opacity snaps at the very end */
+				transition: height 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+					opacity 0s linear 0.2s;
+			}
+
+			.site-nav.open .nav-center {
+				opacity: 1;
+				pointer-events: auto;
+				/* open: height slides down, opacity fades in quickly */
+				transition: height 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+					opacity 0.15s ease;
+			}
+
+			.nav-center a {
+				height: auto;
+				padding: 10px 12px;
+				font-size: 15px;
+				color: var(--sl-color-text);
+			}
+
+			/* Docs becomes a tap-to-expand accordion. The trigger toggles
+			   `.open` on its `.nav-dropdown` (JS); the sub-menu slides via a
+			   JS-set height, mirroring how the panel itself animates. */
+			.nav-center li.nav-dropdown {
+				/* The landing nav makes every `.nav-center li` a flex box; the docs
+				   header only styles the anchors, so opt this one li in explicitly.
+				   Without it, flex-direction/align-items below are inert (the li
+				   stays list-item) and the narrower "Docs" trigger sits left of the
+				   wider submenu instead of aligning to the panel's right edge. */
+				display: flex;
+				flex-direction: column;
+				align-items: flex-end;
+			}
+
+			/* On mobile the caret follows the open state, not focus/hover —
+			   tapping focuses the trigger, which would otherwise keep it
+			   rotated. */
+			.nav-dropdown:hover .nav-caret,
+			.nav-dropdown:focus-within .nav-caret {
+				transform: none;
+			}
+
+			.nav-dropdown.open .nav-caret {
+				transform: rotate(180deg);
+			}
+
+			.nav-dropdown-menu {
+				position: static;
+				transform: none;
+				opacity: 1;
+				visibility: visible;
+				pointer-events: auto;
+				min-width: 0;
+				background: none;
+				border: none;
+				box-shadow: none;
+				align-items: flex-end;
+				height: 0;
+				overflow: hidden;
+				gap: 0;
+				transition: height 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+			}
+
+			.nav-dropdown-menu::before {
+				display: none;
+			}
+
+			.nav-dropdown-menu a {
+				font-size: 14px;
+				padding: 8px 12px;
+				color: var(--sl-color-gray-3);
+			}
+		}
+
+		@media (max-width: 768px) {
+			.site-nav-inner {
+				padding: 0 20px;
+			}
+		}
+
+		/* Phone: the theme toggle, GitHub button, and hamburger crowd the bar,
+		   so collapse GitHub to an icon-only square (matching the landing). */
+		@media (max-width: 480px) {
+			.nav-right {
+				gap: 6px;
+			}
+
+			.nav-gh {
+				padding: 0 9px;
+				gap: 0;
+			}
+
+			.nav-gh .nav-gh-label,
+			.nav-gh svg.ext-icon {
+				display: none;
 			}
 		}
 	}

@@ -73,8 +73,13 @@
 			background 120ms ease, color 120ms ease;
 	}
 
-	.theme-toggle:hover {
-		background: var(--ejs-surface-hover);
+	/* Hover only on real-hover devices — on touch the state latches after the
+	   tap that flips the theme, leaving the button stuck highlighted until you
+	   tap elsewhere. */
+	@media (hover: hover) {
+		.theme-toggle:hover {
+			background: var(--ejs-surface-hover);
+		}
 	}
 
 	.theme-toggle:active {
