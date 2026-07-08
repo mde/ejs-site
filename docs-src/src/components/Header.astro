@@ -158,28 +158,18 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 </script>
 
 <script>
-	// Mobile nav: the hamburger reveals/collapses the center-links panel, and the
-	// Docs item expands its section list in place as an accordion. Ported from the
-	// landing page's nav so the two headers behave identically.
+	// Mobile nav: the hamburger reveals/collapses the center-links panel. Docs is
+	// a plain link to the docs page at every breakpoint. Ported from the landing
+	// page's nav so the two headers behave identically.
 	function initSiteNav() {
 		const nav = document.querySelector<HTMLElement>('.site-nav');
 		const hamburger = nav?.querySelector<HTMLButtonElement>('.nav-hamburger');
 		const navCenter = nav?.querySelector<HTMLElement>('.nav-center');
 		if (!nav || !hamburger || !navCenter) return;
 
-		const isMobileNav = () => window.matchMedia('(max-width: 900px)').matches;
-		const dropdown = nav.querySelector<HTMLElement>('.nav-dropdown');
-		const dropdownTrigger = dropdown?.querySelector<HTMLAnchorElement>('.nav-dropdown-trigger');
-		const dropdownMenu = dropdown?.querySelector<HTMLElement>('.nav-dropdown-menu');
-
 		// The inline height drives the mobile slide only. Off mobile (desktop
 		// popover, height:auto) clear it (empty string) rather than pinning 0.
-		const collapseDropdown = () => {
-			if (!dropdown) return;
-			dropdown.classList.remove('open');
-			if (dropdownMenu) dropdownMenu.style.height = isMobileNav() ? '0' : '';
-			dropdownTrigger?.setAttribute('aria-expanded', 'false');
-		};
+		const isMobileNav = () => window.matchMedia('(max-width: 900px)').matches;
 		const openMenu = () => {
 			nav.classList.add('open');
 			navCenter.style.height = navCenter.scrollHeight + 'px';
@@ -189,7 +179,6 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 		const closeMenu = () => {
 			navCenter.style.height = isMobileNav() ? '0' : '';
 			nav.classList.remove('open');
-			collapseDropdown();
 			hamburger.setAttribute('aria-expanded', 'false');
 			hamburger.setAttribute('aria-label', 'Open menu');
 		};
@@ -198,23 +187,9 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 			nav.classList.contains('open') ? closeMenu() : openMenu();
 		});
 
-		// Mobile only: the Docs trigger expands its sub-menu in place instead of
-		// navigating. The outer panel's height is adjusted by the sub-menu's full
-		// height (scrollHeight ignores the current 0 clamp) so the two stay in sync.
-		if (dropdownTrigger && dropdownMenu) {
-			dropdownTrigger.addEventListener('click', (e) => {
-				if (!isMobileNav()) return;
-				e.preventDefault();
-				const opening = dropdown!.classList.toggle('open');
-				const full = dropdownMenu.scrollHeight;
-				const navH = parseFloat(getComputedStyle(navCenter).height) || 0;
-				dropdownMenu.style.height = opening ? full + 'px' : '0';
-				navCenter.style.height = (opening ? navH + full : navH - full) + 'px';
-				dropdownTrigger.setAttribute('aria-expanded', opening ? 'true' : 'false');
-			});
-		}
-
-		nav.querySelectorAll('.nav-center a:not(.nav-dropdown-trigger)').forEach((link) =>
+		// Docs links to /docs/ at every breakpoint; on mobile it's a plain link
+		// like the rest, so every panel link closes the menu on tap.
+		nav.querySelectorAll('.nav-center a').forEach((link) =>
 			link.addEventListener('click', closeMenu),
 		);
 
@@ -756,57 +731,15 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 				color: var(--sl-color-text);
 			}
 
-			/* Docs becomes a tap-to-expand accordion. The trigger toggles
-			   `.open` on its `.nav-dropdown` (JS); the sub-menu slides via a
-			   JS-set height, mirroring how the panel itself animates. */
-			.nav-center li.nav-dropdown {
-				/* The landing nav makes every `.nav-center li` a flex box; the docs
-				   header only styles the anchors, so opt this one li in explicitly.
-				   Without it, flex-direction/align-items below are inert (the li
-				   stays list-item) and the narrower "Docs" trigger sits left of the
-				   wider submenu instead of aligning to the panel's right edge. */
-				display: flex;
-				flex-direction: column;
-				align-items: flex-end;
-			}
-
-			/* On mobile the caret follows the open state, not focus/hover —
-			   tapping focuses the trigger, which would otherwise keep it
-			   rotated. */
-			.nav-dropdown:hover .nav-caret,
-			.nav-dropdown:focus-within .nav-caret {
-				transform: none;
-			}
-
-			.nav-dropdown.open .nav-caret {
-				transform: rotate(180deg);
-			}
-
-			.nav-dropdown-menu {
-				position: static;
-				transform: none;
-				opacity: 1;
-				visibility: visible;
-				pointer-events: auto;
-				min-width: 0;
-				background: none;
-				border: none;
-				box-shadow: none;
-				align-items: flex-end;
-				height: 0;
-				overflow: hidden;
-				gap: 0;
-				transition: height 0.24s cubic-bezier(0.4, 0, 0.2, 1);
-			}
-
-			.nav-dropdown-menu::before {
+			/* Docs is a plain link to the docs page (which carries its own in-page
+			   section nav / TOC). Hide the desktop caret + fly-out sub-menu so the
+			   trigger behaves like every other link in the panel. */
+			.nav-center .nav-caret {
 				display: none;
 			}
 
-			.nav-dropdown-menu a {
-				font-size: 14px;
-				padding: 8px 12px;
-				color: var(--sl-color-gray-3);
+			.nav-center .nav-dropdown-menu {
+				display: none;
 			}
 		}
 

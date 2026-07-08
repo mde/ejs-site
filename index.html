@@ -195,10 +195,14 @@
           0 3px 3px var(--btn-drop);
       }
 
-      .nav-gh:hover,
-      .theme-toggle:hover,
-      .support-btn:hover {
-        background: var(--surface-hover);
+      /* Hover only on real pointers. On touch, :hover is "sticky" — it clings
+         after a tap and leaves the button stuck in its lighter fill. */
+      @media (hover: hover) {
+        .nav-gh:hover,
+        .theme-toggle:hover,
+        .support-btn:hover {
+          background: var(--surface-hover);
+        }
       }
 
       .nav-gh:active,
@@ -504,10 +508,9 @@
       }
       .hero .hero-body,
       .hero .stat-label { color: var(--hero-ink); }
-      .hero .stat { border-right-color: var(--hero-divider); }
       .hero .stat-value {
         font-family: 'Montserrat', sans-serif;
-        font-size: 48px;
+        font-size: 52px;
         font-weight: 700;
         letter-spacing: -1px;
         color: var(--hero-delim);
@@ -578,11 +581,11 @@
       }
 
       .stats-strip { display: flex; width: 620px; max-width: 100%; } /* matches .hero-body max-width */
-      .stat { flex: 1; padding: 0 30px; border-right: 1px solid var(--border-subtle); }
+      .stat { flex: 1; padding: 0 30px; }
       .stat:first-child { padding-left: 0; }
-      .stat:last-child { border-right: none; padding-right: 0; }
-      .stat-value { font-size: 38px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.5px; line-height: 1.1; margin-bottom: 8px; }
-      .stat-label { font-size: 13px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em; }
+      .stat:last-child { padding-right: 0; }
+      .stat-value { font-size: 42px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.5px; line-height: 1.1; margin-bottom: 8px; }
+      .stat-label { font-size: 15px; color: var(--text-secondary); }
 
       /* ABOUT */
       .section { padding: 96px 48px; position: relative; }
@@ -720,7 +723,6 @@
       .block:nth-child(even) { grid-template-columns: 1fr 380px; align-items: center; }
       .block:nth-child(even) > :first-child { order: 2; }
       .block:nth-child(even) > :last-child { order: 1; }
-      .block-label { font-size: 11px; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
       .block-title { font-size: 17px; font-weight: 600; color: var(--text-primary); margin: 0 0 8px; }
       .block-desc { font-size: 16px; color: var(--text-prose); line-height: 1.7; }
       /* Code window — dark in both themes */
@@ -827,7 +829,7 @@
         box-shadow: inset 0 1px 0 var(--btn-highlight), 0 1px 0 var(--edge-2), 0 2px 2px var(--btn-drop);
         transition: transform 70ms ease-out, box-shadow 70ms ease-out, background 120ms ease;
       }
-      .nav-hamburger:hover { background: var(--surface-hover); }
+      @media (hover: hover) { .nav-hamburger:hover { background: var(--surface-hover); } }
       .nav-hamburger:active { transform: translateY(1px); box-shadow: inset 0 1px 0 var(--btn-highlight-pressed), 0 0 0 var(--edge-2), 0 1px 1px var(--btn-drop-pressed); }
       .nav-hamburger:focus-visible { outline: 2px solid var(--btn-focus); outline-offset: 3px; }
       .nav-hamburger svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; display: block; transition: opacity 0.2s ease, transform 0.2s ease; }
@@ -849,7 +851,10 @@
 
       @media (max-width: 900px) {
         .nav-hamburger { display: inline-flex; }
-        .nav.open { background-color: var(--nav-bg); box-shadow: inset 0 -1px 0 var(--nav-highlight), 0 1px 0 var(--border), 0 1px 2px var(--panel-shadow), 0 4px 16px var(--panel-shadow-soft); }
+        /* When open, the bar and the drop-down menu read as one panel: the
+           menu (.nav-center) supplies the border + drop shadow, so the bar
+           itself must NOT cast a downward shadow onto the seam. */
+        .nav.open { background-color: var(--nav-bg); box-shadow: none; }
         .nav-center {
           display: flex;
           flex-direction: column;
@@ -860,7 +865,10 @@
           right: 0;
           background: var(--nav-bg);
           border-bottom: 1px solid var(--border);
-          box-shadow: 0 4px 16px var(--panel-shadow-soft);
+          /* Menu paints above the bar (z-index), so a symmetric blur would
+             bleed upward onto the bar and show as a shadow at the seam. The
+             negative spread keeps the shadow strictly below the menu. */
+          box-shadow: 0 10px 18px -8px var(--panel-shadow-soft);
           border-radius: 0 0 6px 6px;
           gap: 2px;
           z-index: 10;
@@ -879,24 +887,11 @@
           transition: height 0.28s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s ease;
         }
         .nav-center a { height: auto; padding: 10px 12px; font-size: 15px; color: var(--text-body); }
-        /* Mobile: Docs becomes a tap-to-expand accordion. The trigger toggles
-           .open on its .nav-dropdown (JS); the sub-menu slides via a JS-set
-           height, mirroring how the hamburger panel itself animates. */
-        .nav-center li.nav-dropdown { flex-direction: column; align-items: flex-end; }
-        /* On mobile the caret must follow the open state, not focus/hover —
-           tapping focuses the trigger, which would otherwise keep it rotated. */
-        .nav-dropdown:hover .nav-caret,
-        .nav-dropdown:focus-within .nav-caret { transform: none; }
-        .nav-dropdown.open .nav-caret { transform: rotate(180deg); }
-        .nav-dropdown-menu {
-          position: static; transform: none; opacity: 1; visibility: visible; pointer-events: auto;
-          min-width: 0; background: none; border: none; box-shadow: none;
-          align-items: flex-end;
-          height: 0; overflow: hidden; gap: 0;
-          transition: height 0.24s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .nav-dropdown-menu::before { display: none; }
-        .nav-dropdown-menu a { font-size: 14px; padding: 8px 12px; color: var(--text-secondary); }
+        /* Mobile: Docs is a plain link to the docs page (which carries its own
+           in-page section nav). Hide the desktop caret + fly-out sub-menu so the
+           trigger behaves like every other link in the panel. */
+        .nav-center .nav-caret { display: none; }
+        .nav-center .nav-dropdown-menu { display: none; }
       }
 
       /* Tablet 3-up: reclaim horizontal space (wider page gutters, tighter card
@@ -926,7 +921,7 @@
         .hero-row { gap: 24px; }
         .stats-strip { width: 100%; }
         .stat { padding: 0 12px; }
-        .hero .stat-value { font-size: 34px; }
+        .hero .stat-value { font-size: 38px; }
         .hero-cta { display: flex; min-width: unset; width: 100%; }
         .btn-primary { width: 100%; font-size: 18px; padding: 18px 32px; }
 
@@ -978,8 +973,8 @@
         .hero-row { flex-wrap: nowrap; gap: 40px; align-items: flex-end; }
         .stats-strip { width: auto; flex: 1 1 auto; min-width: 0; }
         .stat { padding: 0 14px; min-width: 0; }
-        .hero .stat-value { font-size: 42px; }
-        .stat-label { font-size: 12px; letter-spacing: 0.08em; }
+        .hero .stat-value { font-size: 46px; }
+        .stat-label { font-size: 14px; }
         .hero-cta { width: auto; min-width: 0; flex: 0 0 auto; }
         .btn-primary { width: auto; }
       }
@@ -1012,8 +1007,8 @@
            min-width: 0 lets flex:1 distribute them evenly; without it the
            default min-content width makes the row overflow the viewport. */
         .stat { padding: 0 10px; min-width: 0; }
-        .hero .stat-value { font-size: 30px; }
-        .stat-label { font-size: 11px; letter-spacing: 0.08em; }
+        .hero .stat-value { font-size: 34px; }
+        .stat-label { font-size: 13px; }
 
         .block { gap: 16px; padding: 32px 0; }
 
@@ -1420,53 +1415,28 @@
       const hamburger = document.querySelector('.nav-hamburger');
       if (hamburger) {
         const navCenter = nav.querySelector('.nav-center');
+        // The inline height drives the mobile slide animation only. On desktop the
+        // menu is an absolute popover with height:auto, so clear it (empty string)
+        // rather than pinning height:0 — a leaked 0 would collapse its background.
+        const isMobileNav = () => window.matchMedia('(max-width: 900px)').matches;
         const openMenu = () => {
           nav.classList.add('open');
           navCenter.style.height = navCenter.scrollHeight + 'px';
           hamburger.setAttribute('aria-expanded', 'true');
           hamburger.setAttribute('aria-label', 'Close menu');
         };
-        const dropdown = nav.querySelector('.nav-dropdown');
-        const dropdownTrigger = dropdown && dropdown.querySelector('.nav-dropdown-trigger');
-        const dropdownMenu = dropdown && dropdown.querySelector('.nav-dropdown-menu');
-        // The inline height drives the mobile slide animation only. On desktop the
-        // menu is an absolute popover with height:auto, so clear it (empty string)
-        // rather than pinning height:0 — a leaked 0 would collapse its background
-        // card while the links overflow below it.
-        const isMobileNav = () => window.matchMedia('(max-width: 900px)').matches;
-        const collapseDropdown = () => {
-          if (!dropdown) return;
-          dropdown.classList.remove('open');
-          if (dropdownMenu) dropdownMenu.style.height = isMobileNav() ? '0' : '';
-          if (dropdownTrigger) dropdownTrigger.setAttribute('aria-expanded', 'false');
-        };
         const closeMenu = () => {
           navCenter.style.height = isMobileNav() ? '0' : '';
           nav.classList.remove('open');
-          collapseDropdown();
           hamburger.setAttribute('aria-expanded', 'false');
           hamburger.setAttribute('aria-label', 'Open menu');
         };
         hamburger.addEventListener('click', () => {
           nav.classList.contains('open') ? closeMenu() : openMenu();
         });
-        // Mobile only: the Docs trigger expands its sub-menu in place instead of
-        // navigating. The panel's own height is adjusted by the sub-menu's full
-        // height (read from scrollHeight, which ignores the current 0 clamp) so
-        // the outer slide stays in sync without re-measuring mid-transition.
-        if (dropdownTrigger && dropdownMenu) {
-          dropdownTrigger.addEventListener('click', e => {
-            if (!window.matchMedia('(max-width: 900px)').matches) return;
-            e.preventDefault();
-            const opening = dropdown.classList.toggle('open');
-            const full = dropdownMenu.scrollHeight;
-            const navH = parseFloat(getComputedStyle(navCenter).height) || 0;
-            dropdownMenu.style.height = opening ? full + 'px' : '0';
-            navCenter.style.height = (opening ? navH + full : navH - full) + 'px';
-            dropdownTrigger.setAttribute('aria-expanded', opening ? 'true' : 'false');
-          });
-        }
-        document.querySelectorAll('.nav-center a:not(.nav-dropdown-trigger)').forEach(link => link.addEventListener('click', closeMenu));
+        // Docs links straight to /docs/ at every breakpoint; on mobile it's a
+        // plain link like the rest, so every panel link closes the menu on tap.
+        document.querySelectorAll('.nav-center a').forEach(link => link.addEventListener('click', closeMenu));
         document.addEventListener('click', e => {
           if (nav.classList.contains('open') && !nav.contains(e.target)) closeMenu();
         });
