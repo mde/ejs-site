@@ -166,6 +166,7 @@
       .hero-title, .section-title, .card-title, .notice-title, .block-title, .support-card-title,
       .nav-center a, .nav-gh, .btn-primary, .support-btn {
         font-family: 'Montserrat', sans-serif;
+        -webkit-tap-highlight-color: transparent;
       }
 
       .page {
@@ -321,9 +322,17 @@
       .nav-center a::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--hero-hover); box-shadow: inset 0 0 0 1px var(--hero-divider); opacity: 0; transform: scale(0.4); transition: opacity 0.08s ease, transform 0.1s cubic-bezier(0.22, 1, 0.36, 1); pointer-events: none; }
       .nav.scrolled .nav-center a::before { background: var(--surface-hover); box-shadow: inset 0 0 0 1px var(--border-subtle); }
       [data-theme="dark"] .nav.scrolled .nav-center a::before { box-shadow: inset 0 0 0 1px var(--border); }
-      .nav-center a:hover::before, .nav-center a:focus-visible::before { opacity: 1; transform: scale(1); }
-      .nav-center a:hover, .nav-center a:focus-visible { color: var(--text-primary); }
-      .nav:not(.scrolled) .nav-center a:hover, .nav:not(.scrolled) .nav-center a:focus-visible { color: var(--hero-ink); }
+      /* Keyboard focus keeps the fill + ring unconditionally. */
+      .nav-center a:focus-visible::before { opacity: 1; transform: scale(1); }
+      .nav-center a:focus-visible { color: var(--text-primary); }
+      .nav:not(.scrolled) .nav-center a:focus-visible { color: var(--hero-ink); }
+      /* Hover only on real pointers. On touch, :hover is "sticky" — it clings
+         to the tapped link and its fill flickers as .scrolled swaps the chip. */
+      @media (hover: hover) {
+        .nav-center a:hover::before { opacity: 1; transform: scale(1); }
+        .nav-center a:hover { color: var(--text-primary); }
+        .nav:not(.scrolled) .nav-center a:hover { color: var(--hero-ink); }
+      }
       .nav.scrolled .nav-center a:active::before { box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.14); }
       [data-theme="dark"] .nav.scrolled .nav-center a:active::before { box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.55); }
       .nav:not(.scrolled) .nav-center a:active::before { box-shadow: inset 0 1px 3px var(--hero-press); }
@@ -1229,6 +1238,17 @@
         let current = null;
         for (const sec of spySections) {
           if (sec.offsetTop <= line && (!current || sec.offsetTop > current.offsetTop)) current = sec;
+        }
+        // Tall screens: the last spied section (Support) can sit below the fold
+        // with too little content beneath it to ever scroll its top up to
+        // `line` — the page bottoms out first, so the loop above keeps the
+        // section above it (Get Started) active. When scrolled to the bottom,
+        // promote the last spied section that has entered the viewport.
+        const doc = document.documentElement;
+        if (doc.scrollHeight > window.innerHeight && window.scrollY + window.innerHeight >= doc.scrollHeight - 2) {
+          for (const sec of spySections) {
+            if (sec.offsetTop < window.scrollY + window.innerHeight) current = sec;
+          }
         }
         setActive(current ? '#' + current.id : '');
       };
