@@ -158,7 +158,7 @@
         --body-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.018'/%3E%3C/svg%3E");
       }
 
-      html { scroll-behavior: smooth; scroll-padding-top: 60px; }
+      html { scroll-behavior: smooth; scroll-padding-top: 60px; overflow-y: scroll; }
       * { box-sizing: border-box; margin: 0; padding: 0; }
 
       body { background-color: var(--bg); background-image: var(--body-grain); font-family: 'Inter', sans-serif; color: var(--text-body); overflow-x: hidden; }
@@ -177,6 +177,7 @@
       .nav-gh,
       .theme-toggle,
       .support-btn,
+      .nav-hamburger,
       .btn-primary,
       .copy-btn {
         border-radius: 3px;
@@ -186,7 +187,8 @@
 
       .nav-gh,
       .theme-toggle,
-      .support-btn {
+      .support-btn,
+      .nav-hamburger {
         background: var(--btn-face);
         box-shadow:
           inset 0 1px 0 var(--btn-highlight),
@@ -200,14 +202,16 @@
       @media (hover: hover) {
         .nav-gh:hover,
         .theme-toggle:hover,
-        .support-btn:hover {
+        .support-btn:hover,
+        .nav-hamburger:hover {
           background: var(--surface-hover);
         }
       }
 
       .nav-gh:active,
       .theme-toggle:active,
-      .support-btn:active {
+      .support-btn:active,
+      .nav-hamburger:active {
         transform: translateY(2px);
         box-shadow:
           inset 0 1px 0 var(--btn-highlight-pressed),
@@ -242,7 +246,8 @@
       .nav-center a:focus-visible,
       .nav-gh:focus-visible,
       .theme-toggle:focus-visible,
-      .support-btn:focus-visible {
+      .support-btn:focus-visible,
+      .nav-hamburger:focus-visible {
         outline: 2px solid var(--btn-focus);
         outline-offset: 3px;
       }
@@ -809,6 +814,7 @@
       .footer-logo .tag { font-family: 'IBM Plex Mono', monospace; color: var(--text-secondary); opacity: 0.55; font-size: 10px; font-weight: 600; vertical-align: middle; }
       .footer-copy { font-size: 12px; color: var(--text-secondary); }
       .footer-copy a { color: var(--text-secondary); text-decoration: none; transition: color 0.15s; }
+      .footer-credit { white-space: nowrap; }
       .footer-links { display: flex; gap: 20px; list-style: none; justify-self: end; }
       .footer-links a { font-size: 12px; color: var(--text-secondary); text-decoration: none; transition: color 0.15s; }
       .footer-copy a:hover, .footer-links a:hover { color: var(--text-primary); }
@@ -816,22 +822,18 @@
 
       /* ── RESPONSIVE ── */
 
+      /* Shares the raised-button treatment (shadow/hover/active/focus) with
+         .nav-gh and .theme-toggle via the grouped rules above; only its own
+         box metrics and icon-swap live here. 7.5px padding + 16px icon = 31px,
+         matching the height of its two neighbors. */
       .nav-hamburger {
         display: none;
         align-items: center;
         position: relative;
-        background: var(--btn-face);
         border: none;
-        border-radius: 3px;
-        padding: 8px 10px;
-        cursor: pointer;
+        padding: 7.5px 10px;
         color: var(--text-secondary);
-        box-shadow: inset 0 1px 0 var(--btn-highlight), 0 1px 0 var(--edge-2), 0 2px 2px var(--btn-drop);
-        transition: transform 70ms ease-out, box-shadow 70ms ease-out, background 120ms ease;
       }
-      @media (hover: hover) { .nav-hamburger:hover { background: var(--surface-hover); } }
-      .nav-hamburger:active { transform: translateY(1px); box-shadow: inset 0 1px 0 var(--btn-highlight-pressed), 0 0 0 var(--edge-2), 0 1px 1px var(--btn-drop-pressed); }
-      .nav-hamburger:focus-visible { outline: 2px solid var(--btn-focus); outline-offset: 3px; }
       .nav-hamburger svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; display: block; transition: opacity 0.2s ease, transform 0.2s ease; }
       .nav-hamburger .icon-close { position: absolute; inset: 0; margin: auto; opacity: 0; transform: rotate(-45deg); }
       .nav.open .nav-hamburger .icon-menu { opacity: 0; transform: rotate(45deg); }
@@ -909,7 +911,12 @@
       @media (max-width: 800px) {
         .concept-grid { margin-top: 32px; gap: 14px; width: 100%; left: auto; transform: none; }
         .concept-peers { grid-template-columns: 1fr; }
-        .concept-ejs-card { grid-template-columns: 1fr; gap: 22px; width: 100%; }
+        .concept-ejs-card { grid-template-columns: 1fr; gap: 22px; width: 100%; margin-top: 10px; }
+        /* Stacked single column: each card's own chrome (border, shadow, gap)
+           plus the EJS card's distinct styling already separates the peers from
+           EJS, so the full-width rule reads as an arbitrary line. Hide it and let
+           a little extra top margin mark the beat between the peers and EJS. */
+        .concept-divider { display: none; }
       }
 
       @media (max-width: 768px) {
@@ -921,9 +928,11 @@
         .hero-row { gap: 24px; }
         .stats-strip { width: 100%; }
         .stat { padding: 0 12px; }
-        .hero .stat-value { font-size: 38px; }
+        .hero .stat-value { font-size: 35px; }
         .hero-cta { display: flex; min-width: unset; width: 100%; }
         .btn-primary { width: 100%; font-size: 18px; padding: 18px 32px; }
+
+        .cta-delim { display: none; }
 
         .section { padding: 64px 20px; }
         .section-title { font-size: 36px; letter-spacing: -0.8px; }
@@ -938,7 +947,15 @@
         .support-grid { grid-template-columns: 1fr; }
 
         .footer { padding: 0; }
-        .footer-inner { flex-direction: column; align-items: flex-start; gap: 16px; padding: 24px 20px; }
+        .footer-inner { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; padding: 24px 20px; }
+      }
+
+      @media (min-width: 513px) and (max-width: 768px) {
+        /* Tablet footer: logo and links share the top row (links pushed to the
+           right), the copyright drops to a full-width line beneath. */
+        .footer-inner { display: grid; grid-template-columns: 1fr auto; column-gap: 24px; row-gap: 12px; align-items: center; }
+        .footer-links { grid-column: 2; grid-row: 1 / span 2; justify-self: end; align-self: center; }
+        .footer-copy { grid-column: 1; grid-row: 2; }
       }
 
       @media (max-width: 696px) {
@@ -956,7 +973,45 @@
            columns won't shrink below the cards' content), so below ~510px the
            right column is pushed off-screen. Collapse to a single column here
            so the cards never clip. */
-        .expand-grid { grid-template-columns: 1fr; }
+        .expand-grid { grid-template-columns: 1fr; row-gap: 12px; }
+      }
+
+      /* Full-bleed cards on phones. At desktop the section's side gutter plus
+         each card's own padding stack into a double gutter that starves the
+         content (worst on the mono code samples). Below 512px every card grid
+         is already single-column, so break the card faces out to the viewport
+         edges and let the card's own padding be the ONLY gutter. The
+         self-cancelling left:50% / translateX(-50%) / 100vw idiom (the same one
+         the concept and feature grids use on desktop) lands the edges at 0 and
+         100vw regardless of the section padding; body's overflow-x: hidden
+         absorbs any sub-pixel spill. */
+      @media (max-width: 512px) {
+        .concept-grid,
+        .expand-grid,
+        .support-grid,
+        .security-notice {
+          width: 100vw;
+          position: relative;
+          left: 50%;
+          transform: translateX(-50%);
+          max-width: none;
+          margin-inline: 0;
+        }
+        /* Card faces now sit flush to the screen edges: drop the corner radius
+           and reset each card's side padding to the 18px section gutter so the
+           text lines up with the section heading above it. */
+        .peer-card,
+        .concept-ejs-card,
+        .expand-card,
+        .security-notice,
+        .support-card {
+          border-radius: 0;
+          padding-inline: 18px;
+        }
+        /* The support card's hover/focus scale would now push past 100vw and
+           trip horizontal scroll — pin it flat at this width. */
+        .support-card:hover,
+        .support-card:has(.card-link:focus-visible) { transform: none; }
       }
 
       /* Tablet hero: keep the stats and CTA side by side (CTA on the right)
@@ -1007,7 +1062,7 @@
            min-width: 0 lets flex:1 distribute them evenly; without it the
            default min-content width makes the row overflow the viewport. */
         .stat { padding: 0 10px; min-width: 0; }
-        .hero .stat-value { font-size: 34px; }
+        .hero .stat-value { font-size: 31px; }
         .stat-label { font-size: 13px; }
 
         .block { gap: 16px; padding: 32px 0; }
@@ -1201,7 +1256,7 @@
     <footer class="footer">
       <div class="footer-inner">
         <div class="footer-logo"><span class="tag">&lt;%=</span> EJS <span class="tag">%&gt;</span></div>
-        <div class="footer-copy">© 2026 <a href="https://github.com/mde" target="_blank" rel="noopener noreferrer">Matthew Eernisse</a> · Designed by <a href="https://www.linkedin.com/in/hiro-design" target="_blank" rel="noopener noreferrer">Hiro Eernisse</a></div>
+        <div class="footer-copy">© 2026 <a href="https://github.com/mde" target="_blank" rel="noopener noreferrer">Matthew Eernisse</a> · <span class="footer-credit">Designed by <a href="https://www.linkedin.com/in/hiro-design" target="_blank" rel="noopener noreferrer">Hiro Eernisse</a></span></div>
         <ul class="footer-links"><li><a href="https://github.com/mde/ejs" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a href="https://github.com/mde/ejs/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">License</a></li><li><a href="https://github.com/mde/ejs/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer">Security</a></li></ul>
       </div>
     </footer>
