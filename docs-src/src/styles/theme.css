@@ -5,6 +5,14 @@
   Code surfaces stay dark in both themes, matching the landing page.
 */
 
+/* ---------- Page scrollbar ---------- */
+/* Always show the window's vertical scrollbar so it never appears/disappears as
+   the page height changes across widths (which also prevents the content from
+   shifting sideways when a bar toggles). `scroll`, not the default `auto`. */
+html {
+  overflow-y: scroll;
+}
+
 /* ---------- Fonts ---------- */
 :root {
   --sl-font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -206,19 +214,25 @@ starlight-toc a[aria-current='true'] {
    TOC column (so its scrollbar lands at the visible gutter), un-hide it, and
    give it a persistent, visibly-tracked bar. The non-transparent thumb+track
    also forces a classic (non-overlay) bar in Blink, so it never auto-hides. */
-@media (min-width: 72rem) {
+@media (min-width: 64rem) {
   .right-sidebar {
     /* Match the visible .right-sidebar-container: the reserved sidebar column
        plus the half-gutter Starlight's content clamp leaves beside it. Without
        this the element is viewport-width and its scrollbar is off-screen. The
        half-gutter is derived from the frame (capped at --docs-frame-width) so
-       the scrollbar stays at the visible gutter across all widths >= 72rem. */
+       the scrollbar stays at the visible gutter across all widths >= 64rem. */
     width: calc(
       var(--sl-sidebar-width) +
         (min(100vw, var(--docs-frame-width)) - 2 * var(--docs-frame-pad) -
               var(--sl-content-width) - var(--sl-sidebar-width)) / 2
     );
     box-sizing: border-box;
+    /* Take the scroller out of flow and hairline it off from the prose. Starlight
+       only sets these at its `lg` (72rem) breakpoint; at 64–72rem we supply them
+       so the TOC is pinned to the right gutter instead of sitting static in the
+       column (which otherwise renders it to the left of the prose). */
+    position: fixed;
+    border-inline-start: 1px solid var(--sl-color-hairline);
     /* Start the scroll container below the fixed nav instead of behind it
        (Starlight uses top:0 + padding-top:nav-height), so the scrollbar track
        isn't clipped under the nav. Content keeps the same offset because the
@@ -226,6 +240,11 @@ starlight-toc a[aria-current='true'] {
     top: var(--sl-nav-height);
     height: calc(100vh - var(--sl-nav-height));
     padding-top: 0;
+    /* Scroll the TOC independently of the page (Starlight sets this only at
+       72rem; without it the fixed column overflows the viewport with no bar).
+       `scroll`, not `auto`, so the bar is always present and never auto-hides —
+       the non-transparent thumb below also forces a classic (non-overlay) bar. */
+    overflow-y: scroll;
     scrollbar-gutter: stable;
     /* Now that the bar sits at the visible gutter, keep it quiet: a thin neutral
        thumb on a transparent track is enough of a cue without a heavy channel. */
@@ -674,19 +693,37 @@ footer.sl-flex .meta {
    logo / GitHub-button alignment for ~60px of breathing room on each side.
    --docs-frame-width is the single source of truth, shared with the TOC scroll
    container's width calc above. */
-@media (min-width: 72rem) {
+@media (min-width: 64rem) {
   [data-has-toc]:not([data-has-sidebar]) {
     --docs-frame-width: 1200px; /* outer frame; nav stays at 1120 by design */
     --docs-frame-pad: 48px; /* inline gutter, matches the nav */
-    --sl-content-width: 46rem; /* readable measure that fits beside the TOC */
+    /* Fluid measure: start at 40rem so the prose plus the 15rem TOC clear a
+       1024px (64rem) laptop, then grow to the roomy 46rem once the frame has the
+       room for it (>= 72rem). Interpolating keeps a near-constant gutter beside
+       the TOC instead of snapping the measure wider at 72rem. Above ~72rem the
+       calc exceeds 46rem and the clamp pins it there, so wide screens are
+       unchanged. */
+    --sl-content-width: clamp(40rem, calc(40rem + (100vw - 64rem) * 0.75), 46rem);
     --sl-sidebar-width: 15rem; /* width reserved for the "On this page" column */
     --sl-content-margin-inline: 0 auto; /* hug the gutter */
   }
+  /* Surface the on-page TOC early. Starlight gates the two-column layout on its
+     `lg` (72rem) utilities: `.lg:sl-flex` (the split), `.right-sidebar-panel`
+     (the desktop TOC, `sl-hidden` until `lg`), and `.lg:sl-hidden` (the mobile
+     TOC bar). Re-trigger all three at 64rem so 1024–1152px laptops get the
+     sidebar TOC instead of the compacted mobile view. */
   [data-has-toc]:not([data-has-sidebar]) .lg\:sl-flex {
+    display: flex;
     max-width: var(--docs-frame-width);
     margin-inline: auto;
     padding-inline: var(--docs-frame-pad);
     box-sizing: border-box;
+  }
+  [data-has-toc]:not([data-has-sidebar]) .right-sidebar-panel.sl-hidden {
+    display: block;
+  }
+  [data-has-toc]:not([data-has-sidebar]) .lg\:sl-hidden {
+    display: none;
   }
   /* The frame supplies the 48px gutter; drop the panel's own inline padding so
      the prose starts exactly at the gutter. */
@@ -694,10 +731,25 @@ footer.sl-flex .meta {
     padding-inline: 0;
   }
   /* Clamp the content column so content + TOC sum to the frame width (the stock
-     clamp is gated on [data-has-sidebar]). 100% here is the frame's inner box. */
+     clamp is gated on [data-has-sidebar]). 100% here is the frame's inner box.
+     `order` puts the prose first (left) and the TOC column second (right);
+     Starlight only assigns these orders at 72rem, so without them the 64–72rem
+     band lays the columns out in DOM order (TOC left, prose right). */
   [data-has-toc]:not([data-has-sidebar]) .main-pane {
+    order: 1;
     width: calc(
       var(--sl-content-width) +
+        (100% - var(--sl-content-width) - var(--sl-sidebar-width)) / 2
+    );
+  }
+  /* Reserve the TOC column (Starlight sizes/orders this only at 72rem). The
+     width matches the half-gutter left beside the clamped content, so the fixed
+     .right-sidebar above lines up with it. */
+  [data-has-toc]:not([data-has-sidebar]) .right-sidebar-container {
+    order: 2;
+    position: relative;
+    width: calc(
+      var(--sl-sidebar-width) +
         (100% - var(--sl-content-width) - var(--sl-sidebar-width)) / 2
     );
   }
