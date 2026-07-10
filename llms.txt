@@ -1,0 +1,52 @@
+# EJS (Embedded JavaScript templates)
+
+> EJS is a simple templating language that lets you generate HTML markup with plain JavaScript. It adds no new syntax for iteration or control flow: if you know JavaScript, you already know how to write EJS templates. EJS runs on Node.js and in the browser, and is released under the Apache 2.0 license.
+
+## What it is
+
+- Templating engine that embeds JavaScript inside HTML using `<% %>` control tags and `<%= %>` output tags.
+- No new concepts to learn: loops, conditionals, and variables are plain JavaScript.
+- Works server-side on Node.js and client-side in the browser.
+- Installed from npm as `ejs`.
+
+## Quick start
+
+Install: `npm install ejs`
+
+Render a string:
+```js
+const ejs = require('ejs');
+const html = ejs.render('<h1>Hello <%= name %></h1>', { name: 'EJS' });
+```
+
+Render a file:
+```js
+ejs.renderFile('template.ejs', { name: 'EJS' }, (err, html) => { /* ... */ });
+```
+
+## Core syntax
+
+- `<%= value %>` — output a value, HTML-escaped.
+- `<%- value %>` — output a value, unescaped (raw HTML).
+- `<% code %>` — run JavaScript with no output (loops, conditionals).
+- `<%# comment %>` — a comment, produces no output.
+- `<%- include('partial', { data }) %>` — include another template.
+
+## Documentation
+
+- Home: https://ejs.co/
+- Getting started: https://ejs.co/docs/getting-started/
+- Tags reference: https://ejs.co/docs/guide/tags/
+- Includes and partials: https://ejs.co/docs/guide/includes/
+- Layouts: https://ejs.co/docs/guide/layouts/
+- Caching: https://ejs.co/docs/guide/caching/
+- Client-side use: https://ejs.co/docs/guide/client-side/
+- Custom delimiters: https://ejs.co/docs/guide/custom-delimiters/
+- Options reference: https://ejs.co/docs/reference/options/
+- CLI reference: https://ejs.co/docs/reference/cli/
+
+## Project
+
+- Source: https://github.com/mde/ejs
+- npm package: https://www.npmjs.com/package/ejs
+- License: Apache-2.0
