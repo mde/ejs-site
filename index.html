@@ -1323,6 +1323,99 @@
     </footer>
 
     <script>
+      // ── Analytics ────────────────────────────────────────────────────────
+      // Lightweight, tool-agnostic instrumentation. `track(name, detail)` is the
+      // single sink: locally it logs to the console (debug mode) so every
+      // interaction can be verified before this ever ships; in prod it forwards
+      // to Microsoft Clarity as a custom event + tags (heatmaps/recordings come
+      // from Clarity itself). Activation is a one-line change: paste your Clarity
+      // project ID below. Until then nothing is sent to any third party.
+
+      // Paste the ~10-char Clarity project ID here to go live in prod. Empty = inert.
+      const CLARITY_ID = '';
+      // true → run Clarity without cookies (no consent banner needed). Requires the
+      // "Cookie consent" toggle ON in the Clarity dashboard; we simply never grant
+      // consent. Flip to false (and add a banner) if you later want full-cookie data.
+      const CLARITY_COOKIELESS = true;
+      // Debug mode logs events to the console. On automatically for local dev, or
+      // force it anywhere with ?debug in the URL.
+      const TRACK_DEBUG = location.protocol === 'file:'
+        || /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)
+        || /[?&]debug\b/.test(location.search);
+
+      // Buffer of everything tracked this session — handy to inspect via
+      // `window.__events` in the console while user-testing locally.
+      window.__events = [];
+      function track(name, detail) {
+        detail = detail || {};
+        window.__events.push({ name, detail });
+        if (TRACK_DEBUG) console.log('%c[track]', 'color:#9eb44e;font-weight:600', name, detail);
+        if (window.clarity) {
+          try {
+            window.clarity('event', name);
+            Object.keys(detail).forEach(k => window.clarity('set', k, String(detail[k])));
+          } catch (e) { /* never let analytics break the page */ }
+        }
+      }
+
+      // Clarity bootstrap — only injected once a project ID is set.
+      if (CLARITY_ID) {
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', CLARITY_ID);
+        if (CLARITY_COOKIELESS) window.clarity('consent', false);
+      }
+
+      // Snippet label for copy-button events (which install/import got copied).
+      function snippetLabel(text) {
+        if (/npm install/.test(text)) return 'npm_install';
+        if (/^import\b/.test(text)) return 'esm_import';
+        if (/require\(/.test(text)) return 'cjs_require';
+        if (/^ejs\b/.test(text)) return 'cli';
+        return 'code';
+      }
+
+      // One delegated click handler covers every link interaction. Capture phase
+      // so the event is recorded before an outbound/docs navigation unloads us.
+      document.addEventListener('click', function (e) {
+        const link = e.target.closest('a[href]');
+        if (!link) return;
+        const href = link.getAttribute('href');
+        if (!href || href === '#') return;
+        if (link.classList.contains('btn-primary')) {
+          track('cta_click', { label: link.textContent.trim().replace(/\s+/g, ' '), href });
+        } else if (href.charAt(0) === '#') {
+          track('nav_section', { section: href.slice(1) });
+        } else if (href.indexOf('/docs') === 0) {
+          track('docs_nav', { href });
+        } else if (/^https?:\/\//i.test(href)) {
+          let host = href;
+          try { host = new URL(href).host; } catch (e) { /* leave raw href */ }
+          track('outbound', { host, href });
+        }
+      }, true);
+
+      // Theme toggle — read the resulting theme after the existing handler runs.
+      const themeBtnTrack = document.querySelector('.theme-toggle');
+      if (themeBtnTrack) themeBtnTrack.addEventListener('click', () => {
+        requestAnimationFrame(() => track('theme_toggle', { theme: document.documentElement.dataset.theme }));
+      });
+
+      // Scroll depth — fire each 25/50/75/100% milestone once per session.
+      const depthHit = {};
+      window.addEventListener('scroll', function () {
+        const doc = document.documentElement;
+        const scrollable = doc.scrollHeight - window.innerHeight;
+        if (scrollable <= 0) return;
+        const pct = Math.min(100, Math.round((window.scrollY / scrollable) * 100));
+        [25, 50, 75, 100].forEach(m => {
+          if (pct >= m && !depthHit[m]) { depthHit[m] = true; track('scroll_depth', { percent: m }); }
+        });
+      }, { passive: true });
+      // ─────────────────────────────────────────────────────────────────────
+
       document.querySelector('.theme-toggle').addEventListener('click', () => {
         const root = document.documentElement;
         const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
@@ -1408,6 +1501,7 @@
         const container = tabs.parentElement;
         const tabList = [...tabs.querySelectorAll('.tab')];
         const selectTab = (tab, setFocus = false) => {
+          const changed = !tab.classList.contains('active');
           tabList.forEach(t => {
             const on = t === tab;
             t.classList.toggle('active', on);
@@ -1418,6 +1512,7 @@
             p.hidden = p.dataset.panel !== tab.dataset.tab;
           });
           if (setFocus) tab.focus();
+          if (changed) track('tab_switch', { tab: tab.dataset.tab });
         };
         tabs.addEventListener('click', e => {
           const tab = e.target.closest('.tab');
@@ -1509,7 +1604,11 @@
           // Prefer the visible panel so tabbed windows (ESM/CJS) copy the active tab.
           const src = win && (win.querySelector('.code-body:not([hidden])') || win.querySelector('.code-body'));
           if (!src) return;
-          if (await copyText(codeText(src))) showCopied(btn);
+          const text = codeText(src);
+          if (await copyText(text)) {
+            showCopied(btn);
+            track('copy_snippet', { snippet: snippetLabel(text), where: (btn.closest('[id]') || {}).id || 'hero' });
+          }
         });
       });
 
