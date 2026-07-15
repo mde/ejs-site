@@ -825,30 +825,30 @@
       .tab:focus-visible { outline: 2px solid var(--code-btn-focus); outline-offset: -2px; }
 
       /* COMPARE */
-      .concept-grid { display: flex; flex-direction: column; gap: 24px; margin-top: 48px; width: min(1320px, 100vw - 48px); position: relative; left: 50%; transform: translateX(-50%); }
-      .concept-peers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+      .concept-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; gap: 24px; margin-top: 48px; }
+      .concept-peers { display: grid; grid-template-columns: 1fr; gap: 16px; align-content: start; }
       .peer-card { display: flex; flex-direction: column; gap: 12px; background: var(--btn-face); border-radius: 6px; box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1px var(--border), 0 2px 8px var(--panel-shadow); padding: 22px; }
       .peer-card .concept-engine { font-size: 16px; }
       .peer-card .concept-code { flex: 1; }
       .peer-card .concept-desc { font-size: 13.5px; color: var(--text-secondary); }
-      .concept-divider { height: 1px; background: var(--border); border: 0; margin: 12px 0; }
+      .concept-divider { display: none; }
       .concept-engine { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 600; color: var(--text-primary); }
       .concept-engine-ejs { color: var(--green-link); }
       .concept-code { background: var(--embedded-code-bg); border-radius: 4px; padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; line-height: 1.8; color: #f8f8f2; }
-      .concept-ejs-card { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); align-items: center; align-self: center; width: min(1056px, 100vw - 144px); gap: 32px; background: var(--btn-face); border-radius: 6px; box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1px var(--border), 0 2px 8px var(--panel-shadow); padding: 36px; }
+      .concept-ejs-card { display: grid; grid-template-columns: 1fr; align-content: start; gap: 24px; width: auto; background: var(--btn-face); border-radius: 6px; box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1px var(--border), 0 2px 8px var(--panel-shadow); padding: 36px; }
       .ejs-lead { display: flex; flex-direction: column; gap: 18px; }
-      .concept-ejs-card .concept-engine { font-size: 28px; }
-      .concept-ejs-card .concept-engine-delims { font-size: 24px; }
-      .concept-ejs-card .concept-code { font-size: 15px; line-height: 1.9; }
+      .concept-ejs-card .concept-engine { font-size: 34px; }
+      .concept-ejs-card .concept-engine-delims { font-size: 29px; }
+      .concept-ejs-card .concept-code { font-size: 20px; line-height: 1.9; }
       .concept-engine-delims { font-family: 'IBM Plex Mono', monospace; font-size: 18px; font-weight: 600; color: var(--green-link); }
       .concept-desc { font-size: 14.5px; line-height: 1.65; color: var(--text-body); }
       .concept-desc code { font-family: 'IBM Plex Mono', monospace; font-size: 0.88em; }
       .concept-zero { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 700; color: var(--green-link); letter-spacing: -0.4px; }
       .concept-desc-ejs { font-size: 15.5px; line-height: 1.65; color: var(--green-link); }
-      .concept-feats { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
-      .concept-feats li { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-body); border-radius: 999px; padding: 6px 12px; background: var(--surface-faint); box-shadow: inset 0 0 0 1px var(--border-subtle); }
+      .concept-feats { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; }
+      .concept-feats li { display: inline-flex; align-items: center; gap: 9px; font-size: 16.5px; font-weight: 500; color: var(--text-body); border-radius: 999px; padding: 11px 19px; background: var(--surface-faint); box-shadow: inset 0 0 0 1px var(--border-subtle); }
       :root[data-theme="dark"] .concept-feats li { background: var(--surface-deep); box-shadow: inset 0 0 0 1px var(--border); }
-      .concept-feats svg { width: 13px; height: 13px; flex: none; stroke: var(--green); fill: none; stroke-width: 2.25; stroke-linecap: round; stroke-linejoin: round; }
+      .concept-feats svg { width: 17px; height: 17px; flex: none; stroke: var(--green); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
       /* SUPPORT */
       .support-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; }
@@ -967,7 +967,7 @@
       /* Below 800px the peers can no longer fit three-up without wrapping:
          stack them (and the EJS card) into a single column. */
       @media (max-width: 800px) {
-        .concept-grid { margin-top: 32px; gap: 14px; width: 100%; left: auto; transform: none; }
+        .concept-grid { grid-template-columns: 1fr; margin-top: 32px; gap: 14px; width: 100%; left: auto; transform: none; }
         .concept-peers { grid-template-columns: 1fr; }
         .concept-ejs-card { grid-template-columns: 1fr; gap: 22px; width: 100%; margin-top: 10px; }
         /* Stacked single column: each card's own chrome (border, shadow, gap)
@@ -1139,8 +1139,8 @@
       <div class="nav-inner">
         <a class="nav-logo" href="#hero"><span class="nav-delim">&lt;%=</span> EJS <span class="nav-delim">%&gt;</span></a>
         <ul class="nav-center">
-          <li><a href="#compare">Compare</a></li>
           <li><a href="#about">About</a></li>
+          <li><a href="#compare">Compare</a></li>
           <li><a href="#install">Get Started</a></li>
           <li><a href="#support">Support</a></li>
           <li class="nav-dropdown">
@@ -1195,44 +1195,6 @@
 
     <div class="page">
 
-      <!-- COMPARE -->
-      <section id="compare" class="section">
-        <h2 class="section-title">Zero new concepts.</h2>
-        <p class="section-intro">Every other templating language invents its own dialect for loops, conditionals, and partials. EJS just uses JavaScript. No new keywords, directives, or helper APIs to learn.</p>
-        <div class="concept-grid">
-          <div class="concept-peers">
-            <div class="peer-card">
-              <div class="concept-engine">Handlebars</div>
-              <div class="concept-code"><span class="t-tag">{{#if</span> <span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br>&nbsp;&nbsp;Hello, <span class="t-tag">{{</span><span class="t-var">user.name</span><span class="t-tag">}}</span>!<br><span class="t-tag">{{else}}</span><br>&nbsp;&nbsp;Hello, Guest!<br><span class="t-tag">{{/if}}</span></div>
-              <p class="concept-desc">Logic-less until you need logic, then you register a helper. More files, more indirection.</p>
-            </div>
-            <div class="peer-card">
-              <div class="concept-engine">Pug</div>
-              <div class="concept-code"><span class="t-kw">if</span> <span class="t-var">user.loggedIn</span><br>&nbsp;&nbsp;<span class="t-tag">|</span> Hello, <span class="t-tag">#{</span><span class="t-var">user.name</span><span class="t-tag">}</span>!<br><span class="t-kw">else</span><br>&nbsp;&nbsp;<span class="t-tag">|</span> Hello, Guest!</div>
-              <p class="concept-desc">Indentation-sensitive syntax that replaces HTML. A new language just to write templates.</p>
-            </div>
-            <div class="peer-card">
-              <div class="concept-engine">Mustache</div>
-              <div class="concept-code"><span class="t-tag">{{#</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br>&nbsp;&nbsp;Hello, <span class="t-tag">{{</span><span class="t-var">user.name</span><span class="t-tag">}}</span>!<br><span class="t-tag">{{/</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br><span class="t-tag">{{^</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br>&nbsp;&nbsp;Hello, Guest!<br><span class="t-tag">{{/</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span></div>
-              <p class="concept-desc">No <code>else</code>. Conditionals and loops share one syntax. Anything real needs a lambda.</p>
-            </div>
-          </div>
-          <hr class="concept-divider">
-          <div class="concept-ejs-card">
-            <div class="ejs-lead">
-              <div class="concept-engine concept-engine-ejs"><span class="concept-engine-delims">&lt;%</span> EJS <span class="concept-engine-delims">%&gt;</span></div>
-              <p class="concept-desc-ejs">The same <code>if/else</code> you already know. No new dialect to learn, on any line.</p>
-              <ul class="concept-feats">
-                <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>No helpers to register</li>
-                <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>No new keywords</li>
-                <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>No separate language</li>
-              </ul>
-            </div>
-            <div class="concept-code"><span class="t-tag">&lt;%</span> <span class="t-kw">if</span> (<span class="t-var">user.loggedIn</span>) { <span class="t-tag">%&gt;</span><br>&nbsp;&nbsp;Hello, <span class="t-tag">&lt;%=</span> <span class="t-var">user.name</span> <span class="t-tag">%&gt;</span>!<br><span class="t-tag">&lt;%</span> } <span class="t-kw">else</span> { <span class="t-tag">%&gt;</span><br>&nbsp;&nbsp;Hello, Guest!<br><span class="t-tag">&lt;%</span> } <span class="t-tag">%&gt;</span></div>
-          </div>
-        </div>
-      </section>
-
       <!-- ABOUT -->
       <section id="about" class="section">
         <h2 class="section-title">What is EJS?</h2>
@@ -1252,6 +1214,45 @@
           <div class="notice-quote"><p>If you give end-users unfettered access to the EJS render method, you are using EJS in an inherently un-secure way.</p><p>EJS is effectively a JavaScript runtime. If you run the render method without checking inputs yourself, you are responsible for the results.</p></div>
           <div class="notice-body" style="margin-top:14px;">In short, <span style="color:#bf225a;">do not</span> submit vulnerabilities that include this snippet:</div>
           <div class="notice-code"><span style="color:#b4ca65;">app</span>.<span style="color:#b4ca65;">get</span>(<span style="color:#90a93a;">'/'</span>, (<span style="color:#f0f0f0;">req, res</span>) <span style="color:#7a9fd4;">=&gt;</span> {<br>&nbsp;&nbsp;<span style="color:#b4ca65;">res</span>.<span style="color:#b4ca65;">render</span>(<span style="color:#90a93a;">'index'</span>, <span style="color:#f0f0f0;">req</span>.query);<br>});</div>
+        </div>
+      </section>
+
+      <!-- COMPARE -->
+      <section id="compare" class="section">
+        <h2 class="section-title">Zero new concepts.</h2>
+        <p class="section-intro">Every other templating language invents its own dialect for loops, conditionals, and partials. EJS just uses JavaScript. No new keywords, directives, or helper APIs to learn.</p>
+        <div class="concept-grid">
+          <div class="concept-peers">
+            <div class="peer-card">
+              <div class="concept-engine">Handlebars</div>
+              <div class="concept-code"><span class="t-tag">{{#if</span> <span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br>&nbsp;&nbsp;Hello, <span class="t-tag">{{</span><span class="t-var">user.name</span><span class="t-tag">}}</span>!<br><span class="t-tag">{{else}}</span><br>&nbsp;&nbsp;Hello, Guest!<br><span class="t-tag">{{/if}}</span></div>
+            </div>
+            <div class="peer-card">
+              <div class="concept-engine">Pug</div>
+              <div class="concept-code"><span class="t-kw">if</span> <span class="t-var">user.loggedIn</span><br>&nbsp;&nbsp;<span class="t-tag">|</span> Hello, <span class="t-tag">#{</span><span class="t-var">user.name</span><span class="t-tag">}</span>!<br><span class="t-kw">else</span><br>&nbsp;&nbsp;<span class="t-tag">|</span> Hello, Guest!</div>
+            </div>
+            <div class="peer-card">
+              <div class="concept-engine">Mustache</div>
+              <div class="concept-code"><span class="t-tag">{{#</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br>&nbsp;&nbsp;Hello, <span class="t-tag">{{</span><span class="t-var">user.name</span><span class="t-tag">}}</span>!<br><span class="t-tag">{{/</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br><span class="t-tag">{{^</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br>&nbsp;&nbsp;Hello, Guest!<br><span class="t-tag">{{/</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span></div>
+            </div>
+          </div>
+          <hr class="concept-divider">
+          <div class="concept-ejs-card">
+            <div class="ejs-lead">
+              <div class="concept-engine concept-engine-ejs"><span class="concept-engine-delims">&lt;%</span> EJS <span class="concept-engine-delims">%&gt;</span></div>
+            </div>
+            <div class="concept-code"><span class="t-tag">&lt;%</span> <span class="t-kw">if</span> (<span class="t-var">user.loggedIn</span>) { <span class="t-tag">%&gt;</span><br>&nbsp;&nbsp;Hello, <span class="t-tag">&lt;%=</span> <span class="t-var">user.name</span> <span class="t-tag">%&gt;</span>!<br><span class="t-tag">&lt;%</span> } <span class="t-kw">else</span> { <span class="t-tag">%&gt;</span><br>&nbsp;&nbsp;Hello, Guest!<br><span class="t-tag">&lt;%</span> } <span class="t-tag">%&gt;</span></div>
+            <ul class="concept-feats">
+              <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>No helpers to register</li>
+              <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>No new keywords</li>
+              <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>No separate language</li>
+              <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Full JavaScript expressions</li>
+              <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Runs in Node &amp; the browser</li>
+              <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Zero dependencies</li>
+              <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Compiled &amp; cached for speed</li>
+              <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Express view engine</li>
+            </ul>
+          </div>
         </div>
       </section>
 
