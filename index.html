@@ -778,10 +778,13 @@
       .notice-title { font-size: 26px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.3px; }
       .notice-body { font-size: 16px; color: var(--text-prose); line-height: 1.7; margin-bottom: 12px; max-width: 65ch; }
       .notice-quote { background: var(--surface-faint); border-radius: 4px; padding: 14px 18px; margin: 16px 0; max-width: 65ch; box-shadow: inset 0 1px 2px rgba(92, 97, 104, 0.15); }
+      /* Dark: lift the quote above the code block so the two dark panels read as
+         distinct surfaces (card → code → quote, quote lightest). */
+      :root[data-theme="dark"] .notice-quote { background: #2d2e34; }
       .notice-quote p { font-size: 16px; color: var(--text-prose); line-height: 1.7; font-style: italic; margin-bottom: 8px; }
       .notice-quote p:last-child { margin-bottom: 0; }
       /* Code snippet inside notice — dark in both themes */
-      .notice-code { background: var(--embedded-code-bg); border: none; border-radius: 4px; box-shadow: inset 0 0 0 1px #272727; padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.7; margin-top: 14px; color: #f0f0f0; }
+      .notice-code { background: var(--embedded-code-bg); border: none; border-radius: 4px; padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.7; margin-top: 14px; color: #f0f0f0; }
 
       /* GET STARTED */
       .block { display: grid; grid-template-columns: 380px 1fr; gap: 40px; align-items: center; padding: 54px 0; border-top: 1px solid var(--border-subtle); }
@@ -835,7 +838,7 @@
       .concept-engine { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 600; color: var(--text-primary); }
       .concept-engine-ejs { color: var(--green-link); }
       .concept-code { background: var(--embedded-code-bg); border-radius: 4px; padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; line-height: 1.8; color: #f8f8f2; }
-      .concept-ejs-card { display: flex; flex-direction: column; align-self: center; gap: 28px; width: auto; background: var(--btn-face); border-radius: 6px; box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1px var(--border), 0 2px 8px var(--panel-shadow); padding: 44px; }
+      .concept-ejs-card { display: flex; flex-direction: column; align-self: start; gap: 28px; width: auto; background: var(--btn-face); border-radius: 6px; box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1px var(--border), 0 2px 8px var(--panel-shadow); padding: 44px; }
       .ejs-lead { display: flex; flex-direction: column; gap: 18px; }
       .concept-ejs-card .concept-engine { font-size: 29px; }
       .concept-ejs-card .concept-engine-delims { font-size: 25px; }
@@ -1226,20 +1229,24 @@
             <div class="peer-card">
               <div class="concept-engine">Handlebars</div>
               <div class="concept-code"><span class="t-tag">{{#if</span> <span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br>&nbsp;&nbsp;Hello, <span class="t-tag">{{</span><span class="t-var">user.name</span><span class="t-tag">}}</span>!<br><span class="t-tag">{{else}}</span><br>&nbsp;&nbsp;Hello, Guest!<br><span class="t-tag">{{/if}}</span></div>
+              <div class="concept-desc">Its own <code>{{ }}</code> syntax, with real logic pushed into helpers you register in JavaScript.</div>
             </div>
             <div class="peer-card">
               <div class="concept-engine">Pug</div>
               <div class="concept-code"><span class="t-kw">if</span> <span class="t-var">user.loggedIn</span><br>&nbsp;&nbsp;<span class="t-tag">|</span> Hello, <span class="t-tag">#{</span><span class="t-var">user.name</span><span class="t-tag">}</span>!<br><span class="t-kw">else</span><br>&nbsp;&nbsp;<span class="t-tag">|</span> Hello, Guest!</div>
+              <div class="concept-desc">A whitespace-sensitive syntax that replaces your HTML, with its own indentation rules to learn.</div>
             </div>
             <div class="peer-card">
               <div class="concept-engine">Mustache</div>
               <div class="concept-code"><span class="t-tag">{{#</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br>&nbsp;&nbsp;Hello, <span class="t-tag">{{</span><span class="t-var">user.name</span><span class="t-tag">}}</span>!<br><span class="t-tag">{{/</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br><span class="t-tag">{{^</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br>&nbsp;&nbsp;Hello, Guest!<br><span class="t-tag">{{/</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span></div>
+              <div class="concept-desc">Logic-less by design, so each condition is repeated to cover both branches.</div>
             </div>
           </div>
           <hr class="concept-divider">
           <div class="concept-ejs-card">
             <div class="ejs-lead">
               <div class="concept-engine concept-engine-ejs"><span class="concept-engine-delims">&lt;%</span> EJS <span class="concept-engine-delims">%&gt;</span></div>
+              <div class="concept-desc">It's just JavaScript between tags. The snippet below is the whole language, nothing new to learn.</div>
             </div>
             <div class="concept-code"><span class="t-tag">&lt;%</span> <span class="t-kw">if</span> (<span class="t-var">user.loggedIn</span>) { <span class="t-tag">%&gt;</span><br>&nbsp;&nbsp;Hello, <span class="t-tag">&lt;%=</span> <span class="t-var">user.name</span> <span class="t-tag">%&gt;</span>!<br><span class="t-tag">&lt;%</span> } <span class="t-kw">else</span> { <span class="t-tag">%&gt;</span><br>&nbsp;&nbsp;Hello, Guest!<br><span class="t-tag">&lt;%</span> } <span class="t-tag">%&gt;</span></div>
             <ul class="concept-feats">
