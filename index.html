@@ -825,7 +825,7 @@
       .tab:focus-visible { outline: 2px solid var(--code-btn-focus); outline-offset: -2px; }
 
       /* COMPARE */
-      .concept-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; gap: 24px; margin-top: 48px; }
+      .concept-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); align-items: stretch; gap: 24px; margin-top: 48px; }
       .concept-peers { display: grid; grid-template-columns: 1fr; gap: 16px; align-content: start; }
       .peer-card { display: flex; flex-direction: column; gap: 12px; background: var(--btn-face); border-radius: 6px; box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1px var(--border), 0 2px 8px var(--panel-shadow); padding: 22px; }
       .peer-card .concept-engine { font-size: 16px; }
@@ -835,20 +835,20 @@
       .concept-engine { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 600; color: var(--text-primary); }
       .concept-engine-ejs { color: var(--green-link); }
       .concept-code { background: var(--embedded-code-bg); border-radius: 4px; padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; line-height: 1.8; color: #f8f8f2; }
-      .concept-ejs-card { display: grid; grid-template-columns: 1fr; align-content: start; gap: 24px; width: auto; background: var(--btn-face); border-radius: 6px; box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1px var(--border), 0 2px 8px var(--panel-shadow); padding: 36px; }
+      .concept-ejs-card { display: flex; flex-direction: column; align-self: center; gap: 28px; width: auto; background: var(--btn-face); border-radius: 6px; box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1px var(--border), 0 2px 8px var(--panel-shadow); padding: 44px; }
       .ejs-lead { display: flex; flex-direction: column; gap: 18px; }
-      .concept-ejs-card .concept-engine { font-size: 34px; }
-      .concept-ejs-card .concept-engine-delims { font-size: 29px; }
-      .concept-ejs-card .concept-code { font-size: 20px; line-height: 1.9; }
+      .concept-ejs-card .concept-engine { font-size: 29px; }
+      .concept-ejs-card .concept-engine-delims { font-size: 25px; }
+      .concept-ejs-card .concept-code { font-size: 16px; line-height: 1.9; padding: 20px 22px; }
       .concept-engine-delims { font-family: 'IBM Plex Mono', monospace; font-size: 18px; font-weight: 600; color: var(--green-link); }
       .concept-desc { font-size: 14.5px; line-height: 1.65; color: var(--text-body); }
       .concept-desc code { font-family: 'IBM Plex Mono', monospace; font-size: 0.88em; }
       .concept-zero { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 700; color: var(--green-link); letter-spacing: -0.4px; }
       .concept-desc-ejs { font-size: 15.5px; line-height: 1.65; color: var(--green-link); }
-      .concept-feats { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; }
-      .concept-feats li { display: inline-flex; align-items: center; gap: 9px; font-size: 16.5px; font-weight: 500; color: var(--text-body); border-radius: 999px; padding: 11px 19px; background: var(--surface-faint); box-shadow: inset 0 0 0 1px var(--border-subtle); }
+      .concept-feats { list-style: none; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+      .concept-feats li { display: inline-flex; align-items: center; gap: 8px; font-size: 14.5px; font-weight: 500; color: var(--text-body); border-radius: 999px; padding: 9px 16px; background: var(--surface-faint); box-shadow: inset 0 0 0 1px var(--border-subtle); }
       :root[data-theme="dark"] .concept-feats li { background: var(--surface-deep); box-shadow: inset 0 0 0 1px var(--border); }
-      .concept-feats svg { width: 17px; height: 17px; flex: none; stroke: var(--green); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+      .concept-feats svg { width: 15px; height: 15px; flex: none; stroke: var(--green); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
       /* SUPPORT */
       .support-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; }
@@ -1244,8 +1244,6 @@
             <div class="concept-code"><span class="t-tag">&lt;%</span> <span class="t-kw">if</span> (<span class="t-var">user.loggedIn</span>) { <span class="t-tag">%&gt;</span><br>&nbsp;&nbsp;Hello, <span class="t-tag">&lt;%=</span> <span class="t-var">user.name</span> <span class="t-tag">%&gt;</span>!<br><span class="t-tag">&lt;%</span> } <span class="t-kw">else</span> { <span class="t-tag">%&gt;</span><br>&nbsp;&nbsp;Hello, Guest!<br><span class="t-tag">&lt;%</span> } <span class="t-tag">%&gt;</span></div>
             <ul class="concept-feats">
               <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>No helpers to register</li>
-              <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>No new keywords</li>
-              <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>No separate language</li>
               <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Full JavaScript expressions</li>
               <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Runs in Node &amp; the browser</li>
               <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Zero dependencies</li>
