@@ -337,6 +337,17 @@ header.header {
 .expressive-code {
   --ec-frm-tooltipSuccessBg: #2e2e2e;
   --ec-frm-tooltipSuccessFg: #c8c8c8;
+  /* Copy-button edge length (square). Drives the button size and the inline-end
+     inset so the gap to every nearby border stays even automatically. */
+  --copy-size: 2rem;
+  /* Copy/check glyph box. A fixed even px value (not `contain`, which would size
+     the mask against a fractional content box and anti-alias to 14 or 15px
+     depending on each button's sub-pixel position — making some icons, e.g. the
+     first one, look smaller). 16px matches the landing page's copy button, which
+     is the same 32px button around a 16px icon (`.copy-btn` svg 16px + 8px
+     padding), so the icon-to-button ratio is identical. It also centres at an
+     integer 8px offset in the 32px button, so every icon renders crisply. */
+  --copy-icon: 16px;
 }
 
 /* ---------- Terminal frames: no macOS title bar ---------- */
@@ -359,32 +370,27 @@ header.header {
   border-top-left-radius: calc(var(--ec-brdRad) + var(--ec-brdWd));
   border-top-right-radius: calc(var(--ec-brdRad) + var(--ec-brdWd));
 }
-/* Vertically center the copy button in the terminal frame, rather than pinning
-   it to the top — reads better for short, single-line commands. */
-.expressive-code figure.frame.is-terminal .copy {
+/* ---------- Copy-button placement: vertically centred in every block, pinned
+   to the right with an even gap to the border. Both terminal and editor frames
+   render without a header here, so one set of rules covers all frames (the
+   `figure.frame` prefix also keeps specificity above EC's own `.copy` inset,
+   which loads after this stylesheet). The inline-end gap matches the single-
+   line vertical-centring gap, codePadBlk + (lineHeight - size)/2, so a
+   single-line block hugs the top, bottom, and right borders evenly. */
+.expressive-code figure.frame .copy {
+  inset-inline-end: calc(var(--ec-brdWd) + var(--ec-codePadBlk) + (var(--ec-codeLineHt) * var(--ec-codeFontSize) - var(--copy-size)) / 2);
   inset-block: 0;
   align-items: center;
 }
-.expressive-code figure.frame.is-terminal .copy button {
+.expressive-code figure.frame .copy button {
   align-self: center;
 }
 
-/* Multi-line terminal blocks: top-align the button at the same distance from
-   the top as centering gives on a single-line block. The padding-top calc
-   replicates (figure_height_1line - button_height) / 2 using EC's own tokens. */
-.expressive-code figure.frame.is-terminal:has(.ec-line + .ec-line) .copy {
-  align-items: flex-start;
-  padding-top: calc(var(--ec-brdWd) + var(--ec-codePadBlk) + (var(--ec-codeLineHt) * var(--ec-codeFontSize) - 1.75rem) / 2);
-}
-.expressive-code figure.frame.is-terminal:has(.ec-line + .ec-line) .copy button {
-  align-self: flex-start;
-}
-
-/* Copy button only on terminal frames — commands are meant to be run as-is.
-   Editor/code frames are illustrative examples, so drop their copy button. */
-.expressive-code figure.frame:not(.is-terminal) .copy {
-  display: none;
-}
+/* Copy button on every frame — the js/ejs/html examples are runnable snippets
+   people copy, matching the landing page (which shows a copy button on its
+   editor-style example windows too). Editor frames keep Expressive Code's
+   native top-right button placement; terminal frames use the centered
+   placement tuned above. */
 
 /* ---------- Code frames: same skeuomorphic "physical panel" as the landing
    page's .code-window — a subtle gradient face, a lit top bevel, and a layered
@@ -408,14 +414,18 @@ header.header {
 
 /* ---------- Copy button: match the landing page's physical button ---------- */
 /* Expressive Code ships a flat icon-only button; restyle it as the same dark
-   gradient "physical button" used on the landing page. All selectors carry the
-   `.expressive-code` prefix to outrank EC's own rules regardless of load order. */
+   gradient "physical button" used on the landing page. Most selectors carry the
+   `.expressive-code` prefix to outrank EC's own (lower- or equal-specificity)
+   rules. Opacity is the exception: EC hides the button (opacity: 0) then reveals
+   it on hover via an *equal-specificity* rule in a stylesheet that loads after
+   this one, so only `!important` reliably keeps it always visible like the
+   landing page. */
 .expressive-code .copy button {
-  width: 1.75rem;
-  height: 1.75rem;
+  width: var(--copy-size);
+  height: var(--copy-size);
   border-radius: 3px;
   background: var(--code-btn-face);
-  opacity: 1;
+  opacity: 1 !important;
   box-shadow:
     inset 0 1px 0 var(--code-btn-highlight),
     0 1px 0 var(--code-edge-1),
@@ -436,7 +446,7 @@ header.header {
   display: block;
   position: absolute;
   inset: 0;
-  margin: 0.475rem;
+  margin: 0;
   border: none;
   border-radius: 0;
   opacity: 0;
@@ -448,13 +458,26 @@ header.header {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  -webkit-mask-size: contain;
-  mask-size: contain;
+  -webkit-mask-size: var(--copy-icon);
+  mask-size: var(--copy-icon);
   transition: opacity 180ms ease, transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-/* Icon tint — idle grey, brightening on hover, matching the landing page. */
+/* Icon tint — idle grey, brightening on hover, matching the landing page.
+   Also override EC's default clipboard glyph with the landing page's Feather
+   "copy" icon (the offset rounded rectangles) so the two pages match. The
+   higher-specificity `.expressive-code` prefix wins over EC's own `::after`
+   mask regardless of load order. */
 .expressive-code .copy button::after {
+  margin: 0;
   background-color: #aaa;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='9' y='9' width='13' height='13' rx='2'/%3E%3Cpath d='M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='9' y='9' width='13' height='13' rx='2'/%3E%3Cpath d='M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: var(--copy-icon);
+  mask-size: var(--copy-icon);
   transition: opacity 180ms ease, transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .expressive-code .copy button:hover {

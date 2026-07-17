@@ -816,6 +816,11 @@
       /* :not([hidden]) so an inactive tab panel stays display:none, not flex */
       .code-window.copy-inline .code-body:not([hidden]) { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
       .code-window.copy-inline .copy-btn { margin: -8px -8px -8px 0; }
+      /* Multi-line inline-copy windows: the stacked lines live in a scrollable
+         flex column so the vertically-centered copy button stays pinned at the
+         right (never overlapped by a long line), matching the single-line
+         copy-inline windows. */
+      .code-window.copy-inline .code-lines { flex: 1; min-width: 0; overflow-x: auto; overflow-y: hidden; }
       .tabs { display: flex; }
       .tabs::after { content: ''; flex: 1; background: var(--code-titlebar); box-shadow: inset 0 -1px 0 #151515, 0 1px 0 rgba(255, 255, 255, 0.09); }
       .tab {
@@ -1283,7 +1288,7 @@
           </div>
           <div class="block">
             <div><h3 class="block-title">Render a template</h3><div class="block-desc">Pass EJS a template string and some data. You've got HTML.</div></div>
-            <div class="code-window"><div class="code-file"><span class="code-file-name">render.js</span></div><div class="code-body"><div><span class="t-kw">import</span> <span class="t-var">ejs</span> <span class="t-kw">from</span> <span class="t-str">'ejs'</span>;</div><div><span class="t-kw">let</span> <span class="t-var">people</span> = [<span class="t-str">'geddy'</span>, <span class="t-str">'neil'</span>, <span class="t-str">'alex'</span>];</div><div><span class="t-kw">let</span> <span class="t-var">html</span> = <span class="t-var">ejs</span>.<span class="t-var">render</span>(<span class="t-str">'&lt;%= people.join(", "); %&gt;'</span>, {<span class="t-var">people</span>});</div></div></div>
+            <div class="code-window copy-inline"><div class="code-file"><span class="code-file-name">render.js</span></div><div class="code-body"><div class="code-lines"><div><span class="t-kw">import</span> <span class="t-var">ejs</span> <span class="t-kw">from</span> <span class="t-str">'ejs'</span>;</div><div><span class="t-kw">let</span> <span class="t-var">people</span> = [<span class="t-str">'geddy'</span>, <span class="t-str">'neil'</span>, <span class="t-str">'alex'</span>];</div><div><span class="t-kw">let</span> <span class="t-var">html</span> = <span class="t-var">ejs</span>.<span class="t-var">render</span>(<span class="t-str">'&lt;%= people.join(", "); %&gt;'</span>, {<span class="t-var">people</span>});</div></div><button class="copy-btn" aria-label="Copy to clipboard"><svg class="icon-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button></div></div>
           </div>
           <div class="block">
             <div><h3 class="block-title">Use the command line</h3><div class="block-desc">Feed it a template file and a data file, specify an output file.</div></div>
@@ -1291,7 +1296,7 @@
           </div>
           <div class="block">
             <div><h3 class="block-title">Browser support</h3><div class="block-desc">Download a browser build and drop it in a script tag.</div></div>
-            <div class="code-window"><div class="code-file"><span class="code-file-name">index.html</span></div><div class="code-body"><div><span class="t-html">&lt;script </span><span class="t-kw">src</span>=<span class="t-str">"ejs.js"</span><span class="t-html">&gt;&lt;/script&gt;</span></div><div><span class="t-html">&lt;script&gt;</span></div><div>&nbsp;&nbsp;<span class="t-kw">let</span> <span class="t-var">html</span> = <span class="t-var">ejs</span>.<span class="t-var">render</span>(<span class="t-str">'&lt;%= people.join(", "); %&gt;'</span>, {<span class="t-var">people</span>});</div><div><span class="t-html">&lt;/script&gt;</span></div></div></div>
+            <div class="code-window copy-inline"><div class="code-file"><span class="code-file-name">index.html</span></div><div class="code-body"><div class="code-lines"><div><span class="t-html">&lt;script </span><span class="t-kw">src</span>=<span class="t-str">"ejs.js"</span><span class="t-html">&gt;&lt;/script&gt;</span></div><div><span class="t-html">&lt;script&gt;</span></div><div>&nbsp;&nbsp;<span class="t-kw">let</span> <span class="t-var">html</span> = <span class="t-var">ejs</span>.<span class="t-var">render</span>(<span class="t-str">'&lt;%= people.join(", "); %&gt;'</span>, {<span class="t-var">people</span>});</div><div><span class="t-html">&lt;/script&gt;</span></div></div><button class="copy-btn" aria-label="Copy to clipboard"><svg class="icon-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button></div></div>
           </div>
         </div>
       </section>
@@ -1555,8 +1560,11 @@
       };
 
       const codeText = el => {
-        const divs = el.querySelectorAll(':scope > div');
-        const lines = divs.length ? [...divs].map(d => d.textContent) : [el.textContent];
+        // Multi-line windows nest their lines in a .code-lines scroll wrapper;
+        // single-line windows keep the code directly in the body.
+        const container = el.querySelector(':scope > .code-lines') || el;
+        const divs = container.querySelectorAll(':scope > div');
+        const lines = divs.length ? [...divs].map(d => d.textContent) : [container.textContent];
         return lines.map(l => l.trim().replace(/^\$\s+/, '')).join('\n');
       };
 
@@ -1671,7 +1679,7 @@
       // element returns to its natural hover/transform state.
       (function () {
         // Individually revealed blocks.
-        document.querySelectorAll('.section-title, .section-intro, .cta-inner, .concept-ejs-card')
+        document.querySelectorAll('.section-title, .section-intro, .cta-inner')
           .forEach(function (n) { n.classList.add('reveal'); });
         // Grids: reveal each child and cascade it by its position in the grid.
         // (.concept-peers so the three peer cards stagger individually.)
@@ -1681,13 +1689,30 @@
             card.style.setProperty('--i', i);
           });
         });
+        // Compare: the EJS card reveals a beat after the peer cards, so when
+        // the section is all in view the peers rise first, then EJS answers.
+        document.querySelectorAll('.concept-ejs-card').forEach(function (n) {
+          var peers = document.querySelectorAll('.concept-peers .peer-card').length;
+          n.classList.add('reveal');
+          n.style.setProperty('--i', peers || 3);
+        });
         // Install code windows / tabs.
         document.querySelectorAll('#install .code-window, #install .tabs')
           .forEach(function (n) { n.classList.add('reveal'); });
 
-        var reveals = [].slice.call(document.querySelectorAll('.reveal'));
-        if (!reveals.length || !('IntersectionObserver' in window)) {
-          reveals.forEach(function (n) { n.classList.remove('reveal'); });
+        // Group reveals: the compare cards fire together the moment the grid
+        // enters view (peers cascade, then EJS) instead of each waiting to be
+        // scrolled to — so lower cards (Mustache, EJS) never lag behind.
+        var groups = [].slice.call(document.querySelectorAll('.concept-grid'));
+        var grouped = [];
+        groups.forEach(function (g) {
+          grouped = grouped.concat([].slice.call(g.querySelectorAll('.reveal')));
+        });
+        var reveals = [].slice.call(document.querySelectorAll('.reveal'))
+          .filter(function (n) { return grouped.indexOf(n) === -1; });
+        if ((!reveals.length && !groups.length) || !('IntersectionObserver' in window)) {
+          [].slice.call(document.querySelectorAll('.reveal'))
+            .forEach(function (n) { n.classList.remove('reveal'); });
           return;
         }
 
@@ -1699,16 +1724,30 @@
           n.style.removeProperty('--i');
         }
 
+        function reveal(n) {
+          n.addEventListener('transitionend', cleanup);
+          n.classList.add('in');
+        }
+
         var io = new IntersectionObserver(function (entries) {
           entries.forEach(function (e) {
             if (!e.isIntersecting) return;
             io.unobserve(e.target);
-            e.target.addEventListener('transitionend', cleanup);
-            e.target.classList.add('in');
+            reveal(e.target);
           });
         }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
 
+        // When a group's top edge enters view, reveal every card in it at once.
+        var groupIo = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (!e.isIntersecting) return;
+            groupIo.unobserve(e.target);
+            [].slice.call(e.target.querySelectorAll('.reveal')).forEach(reveal);
+          });
+        }, { rootMargin: '0px 0px -12% 0px', threshold: 0 });
+
         reveals.forEach(function (n) { io.observe(n); });
+        groups.forEach(function (g) { groupIo.observe(g); });
       })();
     </script>
 
