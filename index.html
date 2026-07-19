@@ -567,7 +567,6 @@
       .hero-code .copy-btn.copied .icon-copy, .code-window.copy-inline .copy-btn.copied .icon-copy { opacity: 0; transform: scale(0.4); }
       .hero-code .copy-btn.copied .icon-check, .code-window.copy-inline .copy-btn.copied .icon-check { opacity: 1; transform: scale(1); }
       .hero .hero-title { color: var(--hero-ink); }
-      [data-theme="dark"] .hero .hero-title .hero-tagline { color: var(--hero-ink); }
       .hero .hero-title .ejs { color: var(--hero-delim); }
       .hero .hero-title .ejs,
       .hero .hero-title .delim {
@@ -806,7 +805,7 @@
         --button-drop: var(--code-btn-drop);
         --button-drop-pressed: rgba(0, 0, 0, 0.3);
         --button-focus: var(--code-btn-focus);
-        display: inline-flex; align-items: center; gap: 5px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.02em; color: #aaa; padding: 4px 9px; border: none; background: var(--code-btn-face); overflow: hidden; white-space: nowrap; transition: width 160ms ease;
+        display: inline-flex; align-items: center; gap: 5px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.02em; color: #aaa; padding: 4px 9px; border: none; background: var(--code-btn-face);
       }
       .copy-btn:hover { color: #d0d0d0; background: var(--code-btn-hover); }
       .copy-btn:active { background: var(--code-btn-active); }
@@ -838,8 +837,6 @@
       .peer-card { display: flex; flex-direction: column; gap: 12px; background: var(--btn-face); border-radius: 6px; box-shadow: inset 0 1px 0 var(--btn-highlight), inset 0 0 0 1px var(--border), 0 2px 8px var(--panel-shadow); padding: 22px; }
       .peer-card .concept-engine { font-size: 16px; }
       .peer-card .concept-code { flex: 1; }
-      .peer-card .concept-desc { font-size: 13.5px; color: var(--text-secondary); }
-      .concept-divider { display: none; }
       .concept-engine { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 600; color: var(--text-primary); }
       .concept-engine-ejs { color: var(--green-link); }
       .concept-code { background: var(--embedded-code-bg); border-radius: 4px; padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; line-height: 1.8; color: #f8f8f2; }
@@ -849,10 +846,6 @@
       .concept-ejs-card .concept-engine-delims { font-size: 25px; }
       .concept-ejs-card .concept-code { font-size: 16px; line-height: 1.9; padding: 20px 22px; }
       .concept-engine-delims { font-family: 'IBM Plex Mono', monospace; font-size: 18px; font-weight: 600; color: var(--green-link); }
-      .concept-desc { font-size: 14.5px; line-height: 1.65; color: var(--text-body); }
-      .concept-desc code { font-family: 'IBM Plex Mono', monospace; font-size: 0.88em; }
-      .concept-zero { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 700; color: var(--green-link); letter-spacing: -0.4px; }
-      .concept-desc-ejs { font-size: 15.5px; line-height: 1.65; color: var(--green-link); }
       .concept-feats { list-style: none; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
       .concept-feats li { display: inline-flex; align-items: center; gap: 8px; font-size: 14.5px; font-weight: 500; color: var(--text-body); border-radius: 999px; padding: 9px 16px; background: var(--surface-faint); box-shadow: inset 0 0 0 1px var(--border-subtle); }
       :root[data-theme="dark"] .concept-feats li { background: var(--surface-deep); box-shadow: inset 0 0 0 1px var(--border); }
@@ -1023,7 +1016,6 @@
         .concept-peers { display: none; }
         .concept-grid { grid-template-columns: 1fr; margin-top: 32px; gap: 14px; width: 100%; left: auto; transform: none; }
         .concept-ejs-card { gap: 22px; width: 100%; margin-top: 0; }
-        .concept-divider { display: none; }
       }
 
       @media (max-width: 768px) {
@@ -1207,17 +1199,17 @@
           <li><a href="#install">Get Started</a></li>
           <li><a href="#support">Support</a></li>
           <li class="nav-dropdown">
-            <a class="nav-dropdown-trigger" href="/docs/" aria-haspopup="true" aria-expanded="false">Docs<svg class="nav-caret" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></a>
-            <div class="nav-dropdown-menu" role="menu">
-              <a role="menuitem" href="/docs/#getting-started">Getting Started</a>
-              <a role="menuitem" href="/docs/#tags">Tags</a>
-              <a role="menuitem" href="/docs/#includes">Includes</a>
-              <a role="menuitem" href="/docs/#custom-delimiters">Custom Delimiters</a>
-              <a role="menuitem" href="/docs/#layouts">Layouts</a>
-              <a role="menuitem" href="/docs/#caching">Caching</a>
-              <a role="menuitem" href="/docs/#client-side-support">Client-Side Support</a>
-              <a role="menuitem" href="/docs/#options">Options</a>
-              <a role="menuitem" href="/docs/#cli-usage">CLI Usage</a>
+            <a class="nav-dropdown-trigger" href="/docs/">Docs<svg class="nav-caret" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></a>
+            <div class="nav-dropdown-menu">
+              <a href="/docs/#getting-started">Getting Started</a>
+              <a href="/docs/#tags">Tags</a>
+              <a href="/docs/#includes">Includes</a>
+              <a href="/docs/#custom-delimiters">Custom Delimiters</a>
+              <a href="/docs/#layouts">Layouts</a>
+              <a href="/docs/#caching">Caching</a>
+              <a href="/docs/#client-side-support">Client-Side Support</a>
+              <a href="/docs/#options">Options</a>
+              <a href="/docs/#cli-usage">CLI Usage</a>
             </div>
           </li>
         </ul>
@@ -1226,7 +1218,7 @@
             <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
             <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           </button>
-          <a class="nav-gh" href="https://github.com/mde/ejs" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg> <span class="nav-gh-label">GitHub</span> <svg class="ext-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+          <a class="nav-gh" href="https://github.com/mde/ejs" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg> <span class="nav-gh-label">GitHub</span> <svg class="ext-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
           <button class="nav-hamburger" type="button" aria-label="Open menu" aria-expanded="false">
             <svg class="icon-menu" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
             <svg class="icon-close" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -1272,7 +1264,7 @@
         </div>
 
         <div class="security-notice">
-          <div class="notice-header"><svg class="notice-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><div class="notice-title">A note for security professionals</div></div>
+          <div class="notice-header"><svg class="notice-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><h3 class="notice-title">A note for security professionals</h3></div>
           <div class="notice-body">Before reporting any security issues, please reference the <a href="https://github.com/mde/ejs/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer">SECURITY.md</a> for this project.</div>
           <div class="notice-quote"><p>If you give end-users unfettered access to the EJS render method, you are using EJS in an inherently un-secure way.</p><p>EJS is effectively a JavaScript runtime. If you run the render method without checking inputs yourself, you are responsible for the results.</p></div>
           <div class="notice-body" style="margin-top:14px;">In short, <span style="color:#bf225a;">do not</span> submit vulnerabilities that include this snippet:</div>
@@ -1299,7 +1291,6 @@
               <div class="concept-code"><span class="t-tag">{{#</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br>&nbsp;&nbsp;Hello, <span class="t-tag">{{</span><span class="t-var">user.name</span><span class="t-tag">}}</span>!<br><span class="t-tag">{{/</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br><span class="t-tag">{{^</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br>&nbsp;&nbsp;Hello, Guest!<br><span class="t-tag">{{/</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span></div>
             </div>
           </div>
-          <hr class="concept-divider">
           <div class="concept-ejs-card">
             <div class="ejs-lead">
               <div class="concept-engine concept-engine-ejs"><span class="concept-engine-delims">&lt;%</span> EJS <span class="concept-engine-delims">%&gt;</span></div>
@@ -1459,15 +1450,10 @@
         }
       }, true);
 
-      // Theme toggle — read the resulting theme after the existing handler runs.
-      const themeBtnTrack = document.querySelector('.theme-toggle');
-      if (themeBtnTrack) themeBtnTrack.addEventListener('click', () => {
-        requestAnimationFrame(() => track('theme_toggle', { theme: document.documentElement.dataset.theme }));
-      });
-
       // Scroll depth — fire each 25/50/75/100% milestone once per session.
+      // Called from the scroll-spy handler below so the page has one scroll listener.
       const depthHit = {};
-      window.addEventListener('scroll', function () {
+      const trackScrollDepth = () => {
         const doc = document.documentElement;
         const scrollable = doc.scrollHeight - window.innerHeight;
         if (scrollable <= 0) return;
@@ -1475,10 +1461,11 @@
         [25, 50, 75, 100].forEach(m => {
           if (pct >= m && !depthHit[m]) { depthHit[m] = true; track('scroll_depth', { percent: m }); }
         });
-      }, { passive: true });
+      };
       // ─────────────────────────────────────────────────────────────────────
 
-      document.querySelector('.theme-toggle').addEventListener('click', () => {
+      const themeToggle = document.querySelector('.theme-toggle');
+      if (themeToggle) themeToggle.addEventListener('click', () => {
         const root = document.documentElement;
         const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
         // Snap the whole page (and the native scrollbar) instantly in lockstep —
@@ -1487,6 +1474,7 @@
         root.dataset.theme = next;
         localStorage.setItem('theme', next);
         requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove('no-transitions')));
+        track('theme_toggle', { theme: next });
       });
 
       const nav = document.querySelector('.nav');
@@ -1528,6 +1516,7 @@
       };
       const lockTo = hash => { locked = true; setActive(hash); scheduleSettle(); };
       const onScroll = () => {
+        trackScrollDepth();
         nav.classList.toggle('scrolled', window.scrollY > 8);
         if (locked) { scheduleSettle(); return; }
         computeActive();
@@ -1619,33 +1608,11 @@
         return lines.map(l => l.trim().replace(/^\$\s+/, '')).join('\n');
       };
 
-      const swapBtnLabel = (btn, changeFn) => {
-        const w0 = btn.offsetWidth;
-        btn.style.transition = 'none';
-        btn.style.width = 'auto';
-        changeFn();
-        const w1 = btn.offsetWidth;
-        btn.style.width = w0 + 'px';
-        btn.getBoundingClientRect();
-        btn.style.transition = '';
-        btn.style.width = w1 + 'px';
-      };
-
       const showCopied = btn => {
-        const label = btn.querySelector('span');
         btn.classList.add('copied');
-        if (label) {
-          if (label.dataset.copyLabel === undefined) label.dataset.copyLabel = label.textContent;
-          swapBtnLabel(btn, () => { label.textContent = 'Copied'; });
-        }
         announce('Copied to clipboard');
         clearTimeout(btn._copyTimer);
-        btn._copyTimer = setTimeout(() => {
-          btn.classList.remove('copied');
-          if (label && label.dataset.copyLabel !== undefined) {
-            swapBtnLabel(btn, () => { label.textContent = label.dataset.copyLabel; });
-          }
-        }, 1600);
+        btn._copyTimer = setTimeout(() => { btn.classList.remove('copied'); }, 1600);
       };
 
       const copyText = async text => {

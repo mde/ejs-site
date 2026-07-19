@@ -57,10 +57,6 @@ export default defineConfig({
 			// Single-page docs: hide the left sidebar (see src/routeData.ts).
 			routeMiddleware: './src/routeData.ts',
 			pagefind: false,
-			logo: {
-				src: './src/assets/ejs-logo.svg',
-				replacesTitle: false,
-			},
 			components: {
 				Header: './src/components/Header.astro',
 				// Search is disabled (pagefind: false above), so no search UI is

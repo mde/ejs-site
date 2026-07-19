@@ -4,9 +4,6 @@
   "description": "Free Bootstrap Theme for developers",
   "main": "index.js",
   "dependencies": {},
-  "devDependencies": {
-    "less": "^2.3.1"
-  },
   "scripts": {
     "docs:dev": "npm --prefix docs-src run dev",
     "docs:build": "npm --prefix docs-src run build",
