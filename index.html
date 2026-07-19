@@ -651,7 +651,7 @@
       .stat { flex: 1; padding: 0 30px; }
       .stat:first-child { padding-left: 0; }
       .stat:last-child { padding-right: 0; }
-      .stat-value { font-size: 42px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.5px; line-height: 1.1; margin-bottom: 8px; }
+      .stat-value { font-size: 52px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.5px; line-height: 1.1; margin-bottom: 8px; }
       .stat-label { font-size: 15px; color: var(--text-secondary); }
 
       /* ABOUT */
@@ -960,28 +960,69 @@
            trigger behaves like every other link in the panel. */
         .nav-center .nav-caret { display: none; }
         .nav-center .nav-dropdown-menu { display: none; }
+
+        /* Whenever the compact nav is in play, the GitHub button collapses to
+           an icon-only square (matching the theme toggle) so it doesn't tower
+           over the hamburger sitting right beside it. */
+        .nav-gh { padding: 8.5px 10px; gap: 0; }
+        .nav-gh .nav-gh-label, .nav-gh svg.ext-icon { display: none; }
       }
 
-      /* Tablet 3-up: reclaim horizontal space (wider page gutters, tighter card
-         padding and gap) so the three peer code samples stay side by side
-         without wrapping their longest lines, down to ~800px. */
-      @media (min-width: 801px) and (max-width: 900px) {
-        .concept-grid { width: calc(100vw - 24px); }
-        .concept-peers { gap: 12px; }
-        .peer-card { padding: 18px 14px; }
-        .peer-card .concept-code { padding: 14px; }
+      /* Tablet nav (720-900px): the hamburger band above collapses the links
+         into a drop-down menu, but tablets have room to keep them inline. Undo
+         the drop-down treatment so .nav-center reads as the desktop row again,
+         hide the hamburger, and shrink the GitHub button to icon-only (as on
+         phones) to reclaim the width the inline links need. Placed after the
+         900 block so it wins the overlap. Lower bound is 720px, not 768: the
+         narrowed gutters below give the inline links enough room to survive to
+         720 before dropping to the hamburger. Keep the JS isMobileNav() query
+         (max-width: 719px) in step with this bound. */
+      @media (min-width: 720px) and (max-width: 900px) {
+        .nav-hamburger { display: none; }
+
+        /* Trim the desktop 48px page gutter to 32px so the row has more room
+           for the inline links (and the page runs slightly wider). Applied to
+           every gutter owner, not just the nav, so the nav edges stay aligned
+           with the section content below. Below 768 the ≤768 block takes the
+           gutter down to 20px, giving the links even more room. */
+        .nav-inner, .hero-inner, .section, .footer-inner { padding-inline: 32px; }
+
+        .nav-center {
+          position: static;
+          top: auto; left: auto; right: auto;
+          flex-direction: row;
+          align-items: center;
+          gap: 4px;
+          background: none;
+          border-bottom: none;
+          box-shadow: none;
+          border-radius: 0;
+          z-index: auto;
+          padding: 0;
+          overflow: visible;
+          height: auto;
+          opacity: 1;
+          pointer-events: auto;
+          transition: none;
+        }
+        .nav-center a { height: 31px; padding: 0 16px; font-size: 14px; color: var(--hero-ink-soft); }
+        /* Docs stays a plain link on tablet (no caret / fly-out menu) and
+           GitHub stays icon-only — both inherited from the 900px block. */
       }
 
-      /* Below 800px the peers can no longer fit three-up without wrapping:
-         stack them (and the EJS card) into a single column. */
-      @media (max-width: 800px) {
+      /* Tablet (<=900px): lighten the two content-dense sections. The About
+         cards drop their feature pills and shrink the icon so the 2-up/stacked
+         column reads lighter; the Compare section drops the three peer engines
+         (supporting context that crowds the narrower width) and lets the EJS
+         card stand alone, full-width in a single column. */
+      @media (max-width: 900px) {
+        .expand-card .card-feats { display: none; }
+        .expand-card .card-icon { width: 44px; height: 44px; }
+        .expand-card .card-icon svg { width: 24px; height: 24px; }
+
+        .concept-peers { display: none; }
         .concept-grid { grid-template-columns: 1fr; margin-top: 32px; gap: 14px; width: 100%; left: auto; transform: none; }
-        .concept-peers { grid-template-columns: 1fr; }
-        .concept-ejs-card { grid-template-columns: 1fr; gap: 22px; width: 100%; margin-top: 10px; }
-        /* Stacked single column: each card's own chrome (border, shadow, gap)
-           plus the EJS card's distinct styling already separates the peers from
-           EJS, so the full-width rule reads as an arbitrary line. Hide it and let
-           a little extra top margin mark the beat between the peers and EJS. */
+        .concept-ejs-card { gap: 22px; width: 100%; margin-top: 0; }
         .concept-divider { display: none; }
       }
 
@@ -1011,6 +1052,13 @@
         .block:nth-child(even) > :last-child { order: unset; }
 
         .support-grid { grid-template-columns: 1fr; }
+        /* Support keeps the standard .section rhythm (64/56) so it doesn't read
+           as an outlier; pull the grid a little closer to the title, then trim
+           each card's internal vertical rhythm: less top/bottom padding and a
+           tighter gap between the title row and the body copy. */
+        #support .support-grid { margin-top: 28px; }
+        .support-card { padding-top: 18px; padding-bottom: 18px; row-gap: 12px; }
+        .support-card-ext { top: 18px; }
 
         .footer { padding: 0; }
         .footer-inner { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; padding: 24px 20px; }
@@ -1083,18 +1131,12 @@
         .support-card:has(.card-link:active) { transform: translateY(2px); }
       }
 
-      /* Phones (<=425px). Trim the About feature cards to icon + title +
-         description (drop the feature pills) and shrink the icon so the stacked
-         column reads lighter. The Compare section drops the three peer engines
-         so only the EJS card remains. */
+      /* Phones (<=425px). Extra tightening on top of the <=900px tablet block
+         (which already drops the pills, shrinks the icon and removes the peer
+         engines): pull in the card padding and body spacing. */
       @media (max-width: 425px) {
         .expand-card { padding-block: 18px; }
-        .expand-card .card-icon { width: 44px; height: 44px; }
-        .expand-card .card-icon svg { width: 24px; height: 24px; }
         .expand-card .card-body { margin-top: 12px; }
-        .expand-card .card-feats { display: none; }
-
-        .concept-peers { display: none; }
         .concept-ejs-card { padding-block: 22px; gap: 20px; }
       }
 
@@ -1128,11 +1170,9 @@
 
       @media (max-width: 480px) {
         /* Phone top bar: logo + theme + GitHub + hamburger crowds below ~390px.
-           Collapse the GitHub button to an icon-only square (matching the theme
-           toggle) by dropping the text label and the external-link glyph. */
+           GitHub is already icon-only from the 900px block; just tighten the
+           gap between the controls so they don't crowd the viewport edge. */
         .nav-right { gap: 6px; }
-        .nav-gh { padding: 8.5px 10px; gap: 0; }
-        .nav-gh .nav-gh-label, .nav-gh svg.ext-icon { display: none; }
 
         /* Type scale and spacing re-tuned for ~360px phones; 768 left these at
            tablet sizes. */
@@ -1658,7 +1698,7 @@
         // The inline height drives the mobile slide animation only. On desktop the
         // menu is an absolute popover with height:auto, so clear it (empty string)
         // rather than pinning height:0 — a leaked 0 would collapse its background.
-        const isMobileNav = () => window.matchMedia('(max-width: 900px)').matches;
+        const isMobileNav = () => window.matchMedia('(max-width: 719px)').matches;
         const openMenu = () => {
           nav.classList.add('open');
           navCenter.style.height = navCenter.scrollHeight + 'px';

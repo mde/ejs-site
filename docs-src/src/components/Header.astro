@@ -169,7 +169,7 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 
 		// The inline height drives the mobile slide only. Off mobile (desktop
 		// popover, height:auto) clear it (empty string) rather than pinning 0.
-		const isMobileNav = () => window.matchMedia('(max-width: 900px)').matches;
+		const isMobileNav = () => window.matchMedia('(max-width: 719px)').matches;
 		const openMenu = () => {
 			nav.classList.add('open');
 			navCenter.style.height = navCenter.scrollHeight + 'px';
@@ -741,6 +741,73 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 			.nav-center .nav-dropdown-menu {
 				display: none;
 			}
+
+			/* Whenever the compact nav is in play, the GitHub button collapses to
+			   an icon-only square (matching the hamburger beside it) so it doesn't
+			   tower over it. Mirrors the landing nav. */
+			.nav-gh {
+				padding: 0 9px;
+				gap: 0;
+			}
+
+			.nav-gh .nav-gh-label,
+			.nav-gh svg.ext-icon {
+				display: none;
+			}
+		}
+
+		/* Tablet (720-900px): keep the center links inline instead of behind the
+		   hamburger — the narrowed gutter below plus the icon-only GitHub leave
+		   enough room. Undo the mobile drop-down panel so .nav-center reads as the
+		   desktop row again, and hide the hamburger. Mirrors the landing nav.
+		   Placed after the 900px block so it wins the overlap, but before the
+		   768px block so that block's 20px gutter still wins below 768. Keep the
+		   JS isMobileNav() query (max-width: 719px) in step with this bound. */
+		@media (min-width: 720px) and (max-width: 900px) {
+			.nav-hamburger {
+				display: none;
+			}
+
+			/* Trim the 48px bar gutter to 32px so the inline links get more room
+			   (below 768 the 768px block takes it down to 20px). Also tighten the
+			   inter-group gap (20px is generous for this narrower bar) — it's only
+			   a floor, so 810-900px still spreads via space-between. */
+			.site-nav-inner {
+				padding-inline: 32px;
+				gap: 10px;
+			}
+
+			.nav-center {
+				position: static;
+				top: auto;
+				left: auto;
+				right: auto;
+				flex-direction: row;
+				align-items: center;
+				gap: 4px;
+				background: none;
+				border-bottom: none;
+				box-shadow: none;
+				border-radius: 0;
+				z-index: auto;
+				padding: 0;
+				overflow: visible;
+				height: auto;
+				opacity: 1;
+				pointer-events: auto;
+				transition: none;
+			}
+
+			.nav-center a {
+				height: 31px;
+				padding: 0 16px;
+				font-size: 14px;
+				color: var(--ejs-hero-ink-soft);
+				white-space: nowrap;
+			}
+
+			/* Docs stays a plain link on tablet (no caret / fly-out menu) —
+			   inherited from the 900px block. */
 		}
 
 		@media (max-width: 768px) {
@@ -750,20 +817,11 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 		}
 
 		/* Phone: the theme toggle, GitHub button, and hamburger crowd the bar,
-		   so collapse GitHub to an icon-only square (matching the landing). */
+		   so tighten the gap between them. GitHub is already icon-only from the
+		   900px block above. */
 		@media (max-width: 480px) {
 			.nav-right {
 				gap: 6px;
-			}
-
-			.nav-gh {
-				padding: 0 9px;
-				gap: 0;
-			}
-
-			.nav-gh .nav-gh-label,
-			.nav-gh svg.ext-icon {
-				display: none;
 			}
 		}
 	}
