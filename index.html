@@ -558,7 +558,7 @@
       .hero-cta { display: inline-flex; flex-direction: column; align-items: stretch; gap: 20px; min-width: 280px; }
       .hero-cta .btn-primary { padding: 20px 28px; }
       .hero-code.code-window { padding: 0; }
-      .hero-code.code-window .code-body { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 18px; line-height: 1; font-size: 16px; }
+      .hero-code.code-window .code-body { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 14px 14px 18px; line-height: 1; font-size: 16px; }
       .hero-code .copy-btn, .code-window.copy-inline .copy-btn { position: relative; padding: 8px; flex-shrink: 0; cursor: pointer; }
       .hero-code .copy-btn svg, .code-window.copy-inline .copy-btn svg { width: 16px; height: 16px; stroke: #aaa; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; display: block; transition: opacity 180ms ease, transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1); }
       .hero-code .copy-btn:hover .icon-copy, .code-window.copy-inline .copy-btn:hover .icon-copy { stroke: #d0d0d0; }
@@ -763,6 +763,12 @@
       }
       .expand-card .card-body { margin-top: 16px; }
       .expand-card .card-feats { margin-top: 22px; padding-top: 0; }
+      /* The mobile accordion (<=425px) collapses the description + feature pills
+         into a drawer. On desktop the wrappers are display:contents so body and
+         feats flow in the card's flex column exactly as if they weren't there,
+         and the disclosure caret is hidden. */
+      .card-drawer, .card-drawer-inner { display: contents; }
+      .card-caret { display: none; }
       .card-link { position: absolute; inset: 0; z-index: 2; border-radius: 6px; }
 
       .security-notice {
@@ -1083,6 +1089,35 @@
         .support-card:has(.card-link:active) { transform: translateY(2px); }
       }
 
+      /* Phones (<=425px). Two space-saving changes: the About feature cards
+         become an accordion (only icon + title show; tapping a head reveals the
+         description + pills, one card open at a time — JS wires the a11y +
+         accordion logic), and the Compare section drops the three peer engines
+         so only the EJS card remains. */
+      @media (max-width: 425px) {
+        .card-head { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        .card-caret {
+          display: block; width: 20px; height: 20px; margin-left: auto; flex-shrink: 0;
+          stroke: var(--text-secondary); fill: none; stroke-width: 2.25;
+          stroke-linecap: round; stroke-linejoin: round;
+          transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .expand-card.open .card-caret { transform: rotate(180deg); }
+        /* The drawer is a 0fr->1fr grid row; its inner box clips the overflow so
+           the description + pills slide open without a magic max-height. */
+        .card-drawer {
+          display: grid; grid-template-rows: 0fr;
+          transition: grid-template-rows 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .expand-card.open .card-drawer { grid-template-rows: 1fr; }
+        .card-drawer-inner { display: block; overflow: hidden; min-height: 0; }
+        /* Trim the collapsed card's vertical padding so stacked headers stay
+           compact; the tap target is still comfortable. */
+        .expand-card { padding-block: 20px; }
+
+        .concept-peers { display: none; }
+      }
+
       /* Tablet hero: keep the stats and CTA side by side (CTA on the right)
          instead of letting the CTA wrap below, which wasted vertical space.
          Shrink the stats type, and let the strip grow to fill the row (instead
@@ -1208,12 +1243,12 @@
         <h2 class="section-title">What is EJS?</h2>
         <p class="section-intro">What is the "E" for? "Embedded?" Could be. How about "Effective," "Elegant," or just "Easy"? EJS is a simple templating language that lets you generate HTML markup with plain JavaScript. No religiousness about how to organize things. No reinvention of iteration and control-flow.</p>
         <div class="expand-grid" aria-label="Why developers choose EJS">
-          <div class="expand-card"><div class="card-head"><span class="card-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span><h3 class="card-title">Use plain JavaScript</h3></div><p class="card-body">All templating languages grow to be Turing-complete. Just cut out the middle-man and use the JavaScript you already know.</p><ul class="card-feats"><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Server &amp; browser</li><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><a href="https://expressjs.com/" target="_blank" rel="noopener noreferrer">Express</a>&nbsp;view engine</li></ul></div>
-          <div class="expand-card"><div class="card-head"><span class="card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><h3 class="card-title">Fast development</h3></div><p class="card-body">Don't waste time figuring out arcane new syntax or how to preprocess your data so it renders right.</p><ul class="card-feats"><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Sub-template includes</li><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Bundled CLI</li></ul></div>
-          <div class="expand-card"><div class="card-head"><span class="card-icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span><h3 class="card-title">Simple syntax</h3></div><p class="card-body">JavaScript code in simple scriptlet tags. Just write JS that emits the HTML you want.</p><ul class="card-feats"><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><code>&lt;% %&gt;</code>&nbsp;tags</li><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Custom delimiters</li></ul></div>
-          <div class="expand-card"><div class="card-head"><span class="card-icon"><svg viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 4.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></span><h3 class="card-title">Speedy execution</h3></div><p class="card-body">Templating that never shows up in your performance budget. Fast enough you can forget it's there.</p><ul class="card-feats"><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Fast compile &amp; render</li><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Caches compiled JS</li><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Caches templates</li></ul></div>
-          <div class="expand-card"><div class="card-head"><span class="card-icon"><svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></span><h3 class="card-title">Easy debugging</h3></div><p class="card-body">When something breaks, you're not stuck deciphering a black box. Debug it with the tools you already know.</p><ul class="card-feats"><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Plain JS exceptions</li><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Template line numbers</li></ul></div>
-          <div class="expand-card"><div class="card-head"><span class="card-icon"><svg viewBox="0 0 24 24"><path d="M9 3h6"/><path d="M14 3v6l5.5 9.5a1 1 0 0 1-.87 1.5H5.37a1 1 0 0 1-.87-1.5L10 9V3"/><path d="M7 15h10"/></svg></span><h3 class="card-title">Active development</h3></div><p class="card-body">Large community, active maintainers. We're happy to answer questions or give help.</p><ul class="card-feats"><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Apache-2.0 licensed</li><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Zero dependencies</li></ul></div>
+          <div class="expand-card"><div class="card-head"><span class="card-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span><h3 class="card-title">Use plain JavaScript</h3><svg class="card-caret" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></div><div class="card-drawer"><div class="card-drawer-inner"><p class="card-body">All templating languages grow to be Turing-complete. Just cut out the middle-man and use the JavaScript you already know.</p><ul class="card-feats"><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Server &amp; browser</li><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><a href="https://expressjs.com/" target="_blank" rel="noopener noreferrer">Express</a>&nbsp;view engine</li></ul></div></div></div>
+          <div class="expand-card"><div class="card-head"><span class="card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><h3 class="card-title">Fast development</h3><svg class="card-caret" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></div><div class="card-drawer"><div class="card-drawer-inner"><p class="card-body">Don't waste time figuring out arcane new syntax or how to preprocess your data so it renders right.</p><ul class="card-feats"><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Sub-template includes</li><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Bundled CLI</li></ul></div></div></div>
+          <div class="expand-card"><div class="card-head"><span class="card-icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span><h3 class="card-title">Simple syntax</h3><svg class="card-caret" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></div><div class="card-drawer"><div class="card-drawer-inner"><p class="card-body">JavaScript code in simple scriptlet tags. Just write JS that emits the HTML you want.</p><ul class="card-feats"><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><code>&lt;% %&gt;</code>&nbsp;tags</li><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Custom delimiters</li></ul></div></div></div>
+          <div class="expand-card"><div class="card-head"><span class="card-icon"><svg viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 4.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></span><h3 class="card-title">Speedy execution</h3><svg class="card-caret" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></div><div class="card-drawer"><div class="card-drawer-inner"><p class="card-body">Templating that never shows up in your performance budget. Fast enough you can forget it's there.</p><ul class="card-feats"><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Fast compile &amp; render</li><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Caches compiled JS</li><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Caches templates</li></ul></div></div></div>
+          <div class="expand-card"><div class="card-head"><span class="card-icon"><svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></span><h3 class="card-title">Easy debugging</h3><svg class="card-caret" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></div><div class="card-drawer"><div class="card-drawer-inner"><p class="card-body">When something breaks, you're not stuck deciphering a black box. Debug it with the tools you already know.</p><ul class="card-feats"><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Plain JS exceptions</li><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Template line numbers</li></ul></div></div></div>
+          <div class="expand-card"><div class="card-head"><span class="card-icon"><svg viewBox="0 0 24 24"><path d="M9 3h6"/><path d="M14 3v6l5.5 9.5a1 1 0 0 1-.87 1.5H5.37a1 1 0 0 1-.87-1.5L10 9V3"/><path d="M7 15h10"/></svg></span><h3 class="card-title">Active development</h3><svg class="card-caret" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></div><div class="card-drawer"><div class="card-drawer-inner"><p class="card-body">Large community, active maintainers. We're happy to answer questions or give help.</p><ul class="card-feats"><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Apache-2.0 licensed</li><li class="card-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Zero dependencies</li></ul></div></div></div>
         </div>
 
         <div class="security-notice">
@@ -1234,24 +1269,20 @@
             <div class="peer-card">
               <div class="concept-engine">Handlebars</div>
               <div class="concept-code"><span class="t-tag">{{#if</span> <span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br>&nbsp;&nbsp;Hello, <span class="t-tag">{{</span><span class="t-var">user.name</span><span class="t-tag">}}</span>!<br><span class="t-tag">{{else}}</span><br>&nbsp;&nbsp;Hello, Guest!<br><span class="t-tag">{{/if}}</span></div>
-              <div class="concept-desc">Its own <code>{{ }}</code> syntax, with real logic pushed into helpers you register in JavaScript.</div>
             </div>
             <div class="peer-card">
               <div class="concept-engine">Pug</div>
               <div class="concept-code"><span class="t-kw">if</span> <span class="t-var">user.loggedIn</span><br>&nbsp;&nbsp;<span class="t-tag">|</span> Hello, <span class="t-tag">#{</span><span class="t-var">user.name</span><span class="t-tag">}</span>!<br><span class="t-kw">else</span><br>&nbsp;&nbsp;<span class="t-tag">|</span> Hello, Guest!</div>
-              <div class="concept-desc">A whitespace-sensitive syntax that replaces your HTML, with its own indentation rules to learn.</div>
             </div>
             <div class="peer-card">
               <div class="concept-engine">Mustache</div>
               <div class="concept-code"><span class="t-tag">{{#</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br>&nbsp;&nbsp;Hello, <span class="t-tag">{{</span><span class="t-var">user.name</span><span class="t-tag">}}</span>!<br><span class="t-tag">{{/</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br><span class="t-tag">{{^</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span><br>&nbsp;&nbsp;Hello, Guest!<br><span class="t-tag">{{/</span><span class="t-var">user.loggedIn</span><span class="t-tag">}}</span></div>
-              <div class="concept-desc">Logic-less by design, so each condition is repeated to cover both branches.</div>
             </div>
           </div>
           <hr class="concept-divider">
           <div class="concept-ejs-card">
             <div class="ejs-lead">
               <div class="concept-engine concept-engine-ejs"><span class="concept-engine-delims">&lt;%</span> EJS <span class="concept-engine-delims">%&gt;</span></div>
-              <div class="concept-desc">It's just JavaScript between tags. The snippet below is the whole language, nothing new to learn.</div>
             </div>
             <div class="concept-code"><span class="t-tag">&lt;%</span> <span class="t-kw">if</span> (<span class="t-var">user.loggedIn</span>) { <span class="t-tag">%&gt;</span><br>&nbsp;&nbsp;Hello, <span class="t-tag">&lt;%=</span> <span class="t-var">user.name</span> <span class="t-tag">%&gt;</span>!<br><span class="t-tag">&lt;%</span> } <span class="t-kw">else</span> { <span class="t-tag">%&gt;</span><br>&nbsp;&nbsp;Hello, Guest!<br><span class="t-tag">&lt;%</span> } <span class="t-tag">%&gt;</span></div>
             <ul class="concept-feats">
@@ -1692,9 +1723,13 @@
         // Compare: the EJS card reveals a beat after the peer cards, so when
         // the section is all in view the peers rise first, then EJS answers.
         document.querySelectorAll('.concept-ejs-card').forEach(function (n) {
-          var peers = document.querySelectorAll('.concept-peers .peer-card').length;
+          // Count only peers that are actually rendered — on phones (<=425px)
+          // the peers are display:none, so the EJS card shouldn't inherit their
+          // stagger delay and sit waiting on cards that never appear.
+          var peers = [].slice.call(document.querySelectorAll('.concept-peers .peer-card'))
+            .filter(function (p) { return p.offsetParent !== null; }).length;
           n.classList.add('reveal');
-          n.style.setProperty('--i', peers || 3);
+          n.style.setProperty('--i', peers || 0);
         });
         // Install code windows / tabs.
         document.querySelectorAll('#install .code-window, #install .tabs')
@@ -1748,6 +1783,70 @@
 
         reveals.forEach(function (n) { io.observe(n); });
         groups.forEach(function (g) { groupIo.observe(g); });
+      })();
+    </script>
+
+    <script>
+      // About-section accordion (phones only, <=425px). The feature cards
+      // collapse to just their icon + title; tapping a head opens its drawer
+      // (description + feature pills) and closes any other open card. The
+      // behavior is wired up only while the mobile media query matches, so on
+      // larger screens the heads stay inert, non-interactive cards (no button
+      // role, no pointer, no aria state) and every card shows in full.
+      (function () {
+        var cards = [].slice.call(document.querySelectorAll('#about .expand-card'));
+        if (!cards.length || !window.matchMedia) return;
+        var mq = window.matchMedia('(max-width: 425px)');
+
+        function head(card) { return card.querySelector('.card-head'); }
+
+        function setOpen(card, on) {
+          card.classList.toggle('open', on);
+          head(card).setAttribute('aria-expanded', on ? 'true' : 'false');
+        }
+
+        function activate(e) {
+          var card = e.currentTarget.closest('.expand-card');
+          var willOpen = !card.classList.contains('open');
+          cards.forEach(function (c) { setOpen(c, c === card && willOpen); });
+        }
+
+        function onKey(e) {
+          if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+            e.preventDefault();
+            activate(e);
+          }
+        }
+
+        function enable() {
+          cards.forEach(function (card) {
+            var h = head(card);
+            h.setAttribute('role', 'button');
+            h.setAttribute('tabindex', '0');
+            setOpen(card, false);
+            h.addEventListener('click', activate);
+            h.addEventListener('keydown', onKey);
+          });
+        }
+
+        function disable() {
+          cards.forEach(function (card) {
+            var h = head(card);
+            h.removeAttribute('role');
+            h.removeAttribute('tabindex');
+            h.removeAttribute('aria-expanded');
+            card.classList.remove('open');
+            h.removeEventListener('click', activate);
+            h.removeEventListener('keydown', onKey);
+          });
+        }
+
+        function sync() { mq.matches ? enable() : disable(); }
+        sync();
+        // Re-sync when crossing the breakpoint (e.g. phone rotation).
+        (mq.addEventListener
+          ? mq.addEventListener.bind(mq, 'change')
+          : mq.addListener.bind(mq))(sync);
       })();
     </script>
 
