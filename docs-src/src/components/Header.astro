@@ -11,17 +11,17 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 			<li><a href="/#install">Get Started</a></li>
 			<li><a href="/#support">Support</a></li>
 			<li class="nav-dropdown">
-				<a class="nav-dropdown-trigger" href="/docs/" aria-current="page" aria-haspopup="true" aria-expanded="false">Docs<svg class="nav-caret" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
-				<div class="nav-dropdown-menu" role="menu">
-					<a role="menuitem" href="/docs/#getting-started">Getting Started</a>
-					<a role="menuitem" href="/docs/#tags">Tags</a>
-					<a role="menuitem" href="/docs/#includes">Includes</a>
-					<a role="menuitem" href="/docs/#custom-delimiters">Custom Delimiters</a>
-					<a role="menuitem" href="/docs/#layouts">Layouts</a>
-					<a role="menuitem" href="/docs/#caching">Caching</a>
-					<a role="menuitem" href="/docs/#client-side-support">Client-Side Support</a>
-					<a role="menuitem" href="/docs/#options">Options</a>
-					<a role="menuitem" href="/docs/#cli-usage">CLI Usage</a>
+				<a class="nav-dropdown-trigger" href="/docs/" aria-current="page">Docs<svg class="nav-caret" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+				<div class="nav-dropdown-menu">
+					<a href="/docs/#getting-started">Getting Started</a>
+					<a href="/docs/#tags">Tags</a>
+					<a href="/docs/#includes">Includes</a>
+					<a href="/docs/#custom-delimiters">Custom Delimiters</a>
+					<a href="/docs/#layouts">Layouts</a>
+					<a href="/docs/#caching">Caching</a>
+					<a href="/docs/#client-side-support">Client-Side Support</a>
+					<a href="/docs/#options">Options</a>
+					<a href="/docs/#cli-usage">CLI Usage</a>
 				</div>
 			</li>
 		</ul>
@@ -209,6 +209,16 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 	initSiteNav();
 	// Re-bind after Starlight/Astro view-transition navigations swap the DOM.
 	document.addEventListener('astro:page-load', initSiteNav);
+</script>
+
+<script is:inline>
+	// Register the shared service worker (scope "/") from the docs too, so a
+	// visitor whose first page is /docs/ still gets offline caching without
+	// having to land on the homepage first. Re-registering the same worker is a
+	// no-op, so this coexists with the landing page's own registration.
+	if ('serviceWorker' in navigator) {
+		window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
+	}
 </script>
 
 <style>

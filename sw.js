@@ -1,7 +1,7 @@
 // Self-contained service worker for the EJS site — no external dependencies.
 // Bump CACHE_VERSION whenever the precached shell assets change.
-const CACHE_VERSION = 'ejs-v1';
-const PRECACHE = ['/', '/index.html', '/favicon.svg', '/manifest.json'];
+const CACHE_VERSION = 'ejs-v2';
+const PRECACHE = ['/', '/index.html', '/offline.html', '/favicon.svg', '/manifest.json'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -22,8 +22,10 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   if (request.method !== 'GET') return;
 
-  // Network-first for navigations so the page updates as soon as it's online;
-  // fall back to the cached shell offline.
+  // Network-first for navigations so the page updates as soon as it's online.
+  // Offline, serve this page from cache if we have it (any page visited while
+  // online is cached below); otherwise show the dedicated offline page rather
+  // than a stale copy of the landing page for a URL we've never seen.
   if (request.mode === 'navigate') {
     event.respondWith(
       fetch(request)
@@ -32,7 +34,7 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE_VERSION).then((cache) => cache.put(request, copy));
           return res;
         })
-        .catch(() => caches.match(request).then((r) => r || caches.match('/index.html')))
+        .catch(() => caches.match(request).then((r) => r || caches.match('/offline.html')))
     );
     return;
   }

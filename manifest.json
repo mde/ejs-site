@@ -1,7 +1,7 @@
 {
-  "name": "EJS", 
-  "short_name": "EJS -- Embedded JavaScript templates", 
-  "icons": [ 
+  "name": "EJS -- Embedded JavaScript templates",
+  "short_name": "EJS",
+  "icons": [
     {
       "src": "/assets/images/icon/64x64.png",
       "sizes": "64x64",
