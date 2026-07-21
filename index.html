@@ -226,7 +226,7 @@
       body { background-color: var(--bg); background-image: var(--body-grain); font-family: 'Inter', sans-serif; color: var(--text-body); overflow-x: clip; }
       .no-transitions, .no-transitions *, .no-transitions *::before, .no-transitions *::after { transition: none !important; }
       .hero-title, .section-title, .card-title, .notice-title, .block-title, .support-card-title,
-      .nav-center a, .nav-gh, .btn-primary, .support-btn {
+      .nav-center a, .nav-gh, .btn-primary {
         font-family: 'Montserrat', sans-serif;
         -webkit-tap-highlight-color: transparent;
       }
@@ -238,7 +238,6 @@
 
       .nav-gh,
       .theme-toggle,
-      .support-btn,
       .nav-hamburger,
       .btn-primary,
       .copy-btn {
@@ -249,7 +248,6 @@
 
       .nav-gh,
       .theme-toggle,
-      .support-btn,
       .nav-hamburger {
         background: var(--btn-face);
         box-shadow:
@@ -264,7 +262,6 @@
       @media (hover: hover) {
         .nav-gh:hover,
         .theme-toggle:hover,
-        .support-btn:hover,
         .nav-hamburger:hover {
           background: var(--surface-hover);
         }
@@ -272,7 +269,6 @@
 
       .nav-gh:active,
       .theme-toggle:active,
-      .support-btn:active,
       .nav-hamburger:active {
         transform: translateY(2px);
         box-shadow:
@@ -308,7 +304,6 @@
       .nav-center a:focus-visible,
       .nav-gh:focus-visible,
       .theme-toggle:focus-visible,
-      .support-btn:focus-visible,
       .nav-hamburger:focus-visible {
         outline: 2px solid var(--btn-focus);
         outline-offset: 3px;
@@ -335,7 +330,6 @@
           0 2px 8px var(--panel-shadow);
       }
 
-      .code-card,
       .code-window {
         border: none;
         box-shadow:
@@ -552,8 +546,6 @@
         padding: clamp(140px, 18vh, 180px) 48px clamp(80px, 10vh, 96px);
       }
       .hero-title { font-size: clamp(48px, 7.4vw, 90px); font-weight: 600; line-height: 1.04; letter-spacing: -3px; color: var(--text-primary); margin-bottom: 28px; }
-      .hero-title .ejs { color: var(--green); font-family: 'Montserrat', sans-serif; font-size: 1.18em; letter-spacing: -0.03em; }
-      .hero-title .delim { color: var(--hero-delim); font-family: 'IBM Plex Mono', monospace; font-size: 0.82em; font-weight: 600; vertical-align: baseline; }
       .hero-body { font-size: 20px; color: var(--text-prose); line-height: 1.65; max-width: 620px; margin-bottom: 20px; }
       .hero-cta { display: inline-flex; flex-direction: column; align-items: stretch; gap: 20px; min-width: 280px; }
       .hero-cta .btn-primary { padding: 20px 28px; }
@@ -567,11 +559,6 @@
       .hero-code .copy-btn.copied .icon-copy, .code-window.copy-inline .copy-btn.copied .icon-copy { opacity: 0; transform: scale(0.4); }
       .hero-code .copy-btn.copied .icon-check, .code-window.copy-inline .copy-btn.copied .icon-check { opacity: 1; transform: scale(1); }
       .hero .hero-title { color: var(--hero-ink); }
-      .hero .hero-title .ejs { color: var(--hero-delim); }
-      .hero .hero-title .ejs,
-      .hero .hero-title .delim {
-        text-shadow: 0 1px 0 var(--primary-edge-1);
-      }
       .hero .hero-body,
       .hero .stat-label { color: var(--hero-ink); }
       .hero .stat-value {
@@ -621,9 +608,7 @@
       }
 
       /* Code surface — dark in both themes */
-      .code-card { background: var(--code-bg); background: var(--code-face); border-radius: 5px; overflow: hidden; }
       .code-body { padding: 20px 20px 24px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.8; color: #f0f0f0; }
-      .ln { color: #666; margin-right: 14px; font-size: 10px; user-select: none; }
       .t-tag { color: #e05285; } .t-var { color: #ff6188; } .t-kw { color: #ab9df2; } .t-str { color: #a9dc76; } .t-path { color: #fc9867; } .t-html { color: #939293; } .t-cm { color: #78dce8; }
 
       /* Code scrolls horizontally instead of wrapping/clipping on narrow
@@ -1028,6 +1013,10 @@
         .stats-strip { width: 100%; }
         .stat { padding: 0 12px; }
         .hero .stat-value { font-size: 35px; }
+        /* Each stat is a third of the row; below ~540px the 15px "Weekly
+           downloads" label no longer fits its third and wraps. Scale it down
+           toward the 480-block's 13px as the row narrows. */
+        .stat-label { font-size: clamp(13px, 2.8vw, 15px); }
         .hero-cta { display: flex; min-width: unset; width: 100%; }
         .btn-primary { width: 100%; font-size: 18px; padding: 18px 32px; }
 
@@ -1147,7 +1136,10 @@
         .stats-strip { width: auto; flex: 1 1 auto; min-width: 0; }
         .stat { padding: 0 14px; min-width: 0; }
         .hero .stat-value { font-size: 46px; }
-        .stat-label { font-size: 14px; }
+        /* With the CTA sharing the row, each stat's third bottoms out around
+           108px at 700px wide; a fixed 14px "Weekly downloads" wraps below
+           ~760px. Scale with the row, reaching 14px from ~850px up. */
+        .stat-label { font-size: clamp(11px, 1.65vw, 14px); }
         .hero-cta { width: auto; min-width: 0; flex: 0 0 auto; }
         .btn-primary { width: auto; }
       }
@@ -1179,7 +1171,9 @@
            default min-content width makes the row overflow the viewport. */
         .stat { padding: 0 10px; min-width: 0; }
         .hero .stat-value { font-size: 31px; }
-        .stat-label { font-size: 13px; }
+        /* A fixed 13px "Weekly downloads" only fits its third down to ~430px;
+           keep scaling with the viewport so it stays on one line at 360px. */
+        .stat-label { font-size: clamp(10px, 2.85vw, 13px); }
 
         .block { gap: 16px; padding: 32px 0; }
 
