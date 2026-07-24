@@ -1,6 +1,6 @@
 ---
 title: Documentation
-description: Install EJS, learn every tag and feature, and look up the full options and CLI reference — all on one page.
+description: Install EJS, learn every tag and feature, and look up the full options and CLI reference, all on one page.
 ---
 
 EJS is a simple templating language that lets you generate HTML markup with
@@ -65,7 +65,7 @@ const html = await ejs.renderFile('./template.ejs', { people });
 
 ### Use it with Express
 
-EJS complies with the Express view system, so it works out of the box — just
+EJS complies with the Express view system, so it works out of the box: just
 set the view engine.
 
 ```js
@@ -176,7 +176,7 @@ For broader cleanup across the whole template, see the
 
 ## Includes
 
-Includes let you pull one template into another — headers, footers, list
+Includes let you pull one template into another: headers, footers, list
 items, anything reusable. Paths are resolved relative to the template that
 calls `include()`.
 
@@ -226,12 +226,12 @@ like `/partials/header`), use the [`views`](#options) and
 ### Preprocessor include (legacy)
 
 Older EJS supported a literal `<% include user/show %>` form. It is deprecated
-and has no caching benefits — prefer the `include()` function shown above.
+and has no caching benefits. Prefer the `include()` function shown above.
 
 ## Custom Delimiters
 
 The default delimiters are `<%` and `%>`. You can change the inner character,
-the opening character, and the closing character — either per render or
+the opening character, and the closing character, either per render or
 globally.
 
 ### Per-template
@@ -287,7 +287,7 @@ delimiter-related settings.
 ## Layouts
 
 EJS does not have a dedicated layout or block-inheritance system. Instead, you
-compose pages from partials using [includes](#includes) — which is
+compose pages from partials using [includes](#includes), which is
 flexible enough to cover the common header/content/footer pattern.
 
 ### Header and footer
@@ -325,7 +325,7 @@ is available in all three templates.
 
 ### Passing data into partials
 
-Need a partial that takes its own arguments? Pass them as the second argument
+Partials can take their own arguments. Pass them as the second argument
 to `include()`:
 
 ```ejs
@@ -358,7 +358,7 @@ const html = ejs.render(template, data, {
 ```
 
 When you render through `ejs.renderFile()` or Express, `filename` is set for
-you — just pass `cache: true`.
+you: just pass `cache: true`.
 
 ### Swapping in a custom cache
 
@@ -375,7 +375,7 @@ ejs.cache = new LRUCache({ max: 100 }); // keep the 100 most-recent templates
 
 ### Clearing the cache
 
-Call `ejs.clearCache()` to empty the cache — useful in development when
+Call `ejs.clearCache()` to empty the cache, useful in development when
 templates change on disk:
 
 ```js
@@ -385,12 +385,12 @@ ejs.clearCache();
 ## Client-Side Support
 
 EJS runs in the browser as well as on the server. Because browsers have no
-filesystem, a few file-oriented features behave differently — see the caveats
+filesystem, a few file-oriented features behave differently. See the caveats
 below.
 
 ### Add the script
 
-Download a prebuilt build from the
+Download a browser build from the
 [EJS releases](https://github.com/mde/ejs/releases) (or `ejs.min.js` for the
 minified version) and drop it in a script tag. EJS attaches itself to the
 global `ejs` object:
@@ -415,8 +415,8 @@ global `ejs` object:
 ### Precompiling templates
 
 For production you can compile templates ahead of time with the `client`
-option and ship the resulting standalone function — no template parsing needed
-at runtime:
+option and ship the resulting standalone function, with no template parsing
+needed at runtime:
 
 ```js
 const fn = ejs.compile(templateString, { client: true });
@@ -425,8 +425,8 @@ const html = fn(data); // call the compiled function with your data
 
 ## Options
 
-All EJS rendering functions — `ejs.render()`, `ejs.renderFile()`, and
-`ejs.compile()` — accept an options object as their final/optional argument.
+All EJS rendering functions (`ejs.render()`, `ejs.renderFile()`, and
+`ejs.compile()`) accept an optional options object as their final argument.
 
 ### Common options
 
@@ -471,8 +471,8 @@ See [Custom Delimiters](#custom-delimiters) for examples.
 | `includer`     | —       | Custom function to resolve and load includes. |
 
 :::tip
-When rendering through Express, `filename` and `cache` are managed for you —
-you typically only need to pass your own template data.
+When rendering through Express, `filename` and `cache` are managed for you.
+You typically only need to pass your own template data.
 :::
 
 ## CLI Usage
