@@ -36,7 +36,12 @@
 	class EjsThemeToggle extends HTMLElement {
 		constructor() {
 			super();
-			this.querySelector('button')?.addEventListener('click', () => {
+			this.querySelector('button')?.addEventListener('click', (event) => {
+				// Below 64rem the "On this page" TOC is a <details> dropdown that
+				// Starlight closes on any click outside it, listening on window.
+				// Flipping the theme is chrome, not an outside click, so keep the
+				// event from reaching that listener and leave the dropdown open.
+				event.stopPropagation();
 				const root = document.documentElement;
 				const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
 				// Snap the whole page (and the native scrollbar) instantly in lockstep —
