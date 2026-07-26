@@ -210,19 +210,6 @@
       html { scroll-behavior: smooth; scroll-padding-top: 60px; overflow-y: scroll; }
       * { box-sizing: border-box; margin: 0; padding: 0; }
 
-      /* Scroll reveal: titles/intros and cards rise + fade as they enter
-         the viewport (grid children cascade via --i). JS adds .reveal at
-         runtime, so with JS off everything stays visible; the classes are
-         stripped on transitionend, returning each element to its natural
-         hover/transform behavior. */
-      .reveal { opacity: 0; transform: translateY(18px);
-        transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-        transition-delay: calc(var(--i, 0) * 90ms); }
-      .reveal.in { opacity: 1; transform: none; }
-      @media (prefers-reduced-motion: reduce) {
-        .reveal { transform: none; transition: opacity 0.4s ease; transition-delay: 0ms; }
-      }
-
       body { background-color: var(--bg); background-image: var(--body-grain); font-family: 'Inter', sans-serif; color: var(--text-body); overflow-x: clip; }
       .no-transitions, .no-transitions *, .no-transitions *::before, .no-transitions *::after { transition: none !important; }
       .hero-title, .section-title, .card-title, .notice-title, .block-title, .support-card-title,
@@ -1682,89 +1669,6 @@
           if (nav.classList.contains('open') && !nav.contains(e.target)) closeMenu();
         });
       }
-    </script>
-
-    <script>
-      // Scroll reveal — rise + stagger. Titles, intros and cards fade up
-      // as they scroll into view (nav clicks scroll them in too). Uses one
-      // IntersectionObserver, reveals once, then removes the classes so the
-      // element returns to its natural hover/transform state.
-      (function () {
-        // Individually revealed blocks.
-        document.querySelectorAll('.section-title, .section-intro, .cta-inner')
-          .forEach(function (n) { n.classList.add('reveal'); });
-        // Grids: reveal each child and cascade it by its position in the grid.
-        // (.concept-peers so the three peer cards stagger individually.)
-        document.querySelectorAll('.expand-grid, .support-grid, .concept-peers').forEach(function (grid) {
-          [].slice.call(grid.children).forEach(function (card, i) {
-            card.classList.add('reveal');
-            card.style.setProperty('--i', i);
-          });
-        });
-        // Compare: the EJS card reveals a beat after the peer cards, so when
-        // the section is all in view the peers rise first, then EJS answers.
-        document.querySelectorAll('.concept-ejs-card').forEach(function (n) {
-          // Count only peers that are actually rendered — on phones (<=425px)
-          // the peers are display:none, so the EJS card shouldn't inherit their
-          // stagger delay and sit waiting on cards that never appear.
-          var peers = [].slice.call(document.querySelectorAll('.concept-peers .peer-card'))
-            .filter(function (p) { return p.offsetParent !== null; }).length;
-          n.classList.add('reveal');
-          n.style.setProperty('--i', peers || 0);
-        });
-        // Install code windows / tabs.
-        document.querySelectorAll('#install .code-window, #install .tabs')
-          .forEach(function (n) { n.classList.add('reveal'); });
-
-        // Group reveals: the compare cards fire together the moment the grid
-        // enters view (peers cascade, then EJS) instead of each waiting to be
-        // scrolled to — so lower cards (Mustache, EJS) never lag behind.
-        var groups = [].slice.call(document.querySelectorAll('.concept-grid'));
-        var grouped = [];
-        groups.forEach(function (g) {
-          grouped = grouped.concat([].slice.call(g.querySelectorAll('.reveal')));
-        });
-        var reveals = [].slice.call(document.querySelectorAll('.reveal'))
-          .filter(function (n) { return grouped.indexOf(n) === -1; });
-        if ((!reveals.length && !groups.length) || !('IntersectionObserver' in window)) {
-          [].slice.call(document.querySelectorAll('.reveal'))
-            .forEach(function (n) { n.classList.remove('reveal'); });
-          return;
-        }
-
-        function cleanup(e) {
-          if (e.propertyName !== 'opacity') return;
-          var n = e.currentTarget;
-          n.removeEventListener('transitionend', cleanup);
-          n.classList.remove('reveal', 'in');
-          n.style.removeProperty('--i');
-        }
-
-        function reveal(n) {
-          n.addEventListener('transitionend', cleanup);
-          n.classList.add('in');
-        }
-
-        var io = new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) {
-            if (!e.isIntersecting) return;
-            io.unobserve(e.target);
-            reveal(e.target);
-          });
-        }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
-
-        // When a group's top edge enters view, reveal every card in it at once.
-        var groupIo = new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) {
-            if (!e.isIntersecting) return;
-            groupIo.unobserve(e.target);
-            [].slice.call(e.target.querySelectorAll('.reveal')).forEach(reveal);
-          });
-        }, { rootMargin: '0px 0px -12% 0px', threshold: 0 });
-
-        reveals.forEach(function (n) { io.observe(n); });
-        groups.forEach(function (g) { groupIo.observe(g); });
-      })();
     </script>
 
   </body>
