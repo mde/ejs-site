@@ -129,15 +129,15 @@ Monokai-style palette and added `.t-path`:
 
 In document order:
 
-1. **Nav** (`.nav`, sticky) — logo, center anchor links (Why EJS, About, Features,
-   Get Started, Docs, Support), theme toggle, GitHub button. Transparent over the hero;
+1. **Nav** (`.nav`, sticky) — logo, center anchor links (About, Compare,
+   Get Started, Support, Docs), theme toggle, GitHub button. Transparent over the hero;
    gains a background + shadow once scrolled (`.scrolled`). Active link tracks scroll
    position via the scroll-spy script.
 2. **Hero** (`#hero`) — green gradient band with a noise-grain overlay and a giant
    `<%=` watermark. Holds the `<%= EJS %>` title, tagline, "Get Started" primary button,
    an `npm install ejs` copy pill, and a stats strip (20M+ downloads, 7.7k stars,
    0 dependencies). Pulled up under the nav via negative margin so the nav blends into it.
-3. **Compare** (`#compare`, "Why EJS") — tabbed old-way (Handlebars / Pug / Mustache)
+3. **Compare** (`#compare`, "Zero new concepts.") — tabbed old-way (Handlebars / Pug / Mustache)
    vs. the EJS way, side by side, to make the "it's just JavaScript" argument concrete.
 4. **About** (`#about`) — "What is EJS?" intro, a six-card feature grid, and the
    **security notice** (crimson left-border callout with the "do not submit this
