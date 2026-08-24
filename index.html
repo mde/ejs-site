@@ -372,7 +372,7 @@ let html = await ejs.renderFile(filename, data, options);
               <li><code>_with</code> Whether or not to use <code>with() {}</code> constructs. If <code>false</code> then the locals will be stored in the <code>locals</code> object. (Implies `--strict`)</li>
               <li><code>localsName</code> Name to use for the object storing local variables when not using <code>with</code> Defaults to <code>locals</code></li>
               <li><code>rmWhitespace</code> Remove all safe-to-remove whitespace, including leading and trailing whitespace. It also enables a safer version of <code>-%&gt;</code> line slurping for all scriptlet tags (it does not strip new lines of tags in the middle of a line).</li>
-              <li><code>escape</code> The escaping function used with <code>&lt;%=</code> construct. It is used in rendering. (By default escapes XML).</li>
+              <li><code>escape</code> The escaping function used with <code>&lt;%=</code> construct. It is used in rendering. (By default escapes XML.) See Escaping, below.</li>
               <li><code>outputFunctionName</code> Set to a string (e.g., <code>'echo'</code> or <code>'print'</code>) for a function to print output inside scriptlet tags.</li>
               <li><code>async</code> When <code>true</code>, EJS will use an async function for rendering. (Depends on async/await support in the JS runtime.</li>
               <li><code>unsafePrototypeLocals</code> When <code>true</code>, exposes the prototype chain of the locals object inside templates. Off by default; enabling it disables the v6 prototype-pollution mitigation.</li>
@@ -391,6 +391,19 @@ let html = await ejs.renderFile(filename, data, options);
               <li><code>-%&gt;</code> Trim-mode ('newline slurp') tag, trims following newline</li>
               <li><code>_%&gt;</code> ‘Whitespace Slurping’ ending tag, removes all whitespace after it</li>
             </ul>
+          </div><!--//block-->
+          <div class="block">
+            <h3 class="sub-title text-center">Escaping</h3>
+            <p>The escaped output tag (<code>&lt;%=</code>) escapes for HTML, specifically for HTML content and quoted attribute values. That covers most templates, because most templates generate HTML.</p>
+            <p>EJS can generate any kind of text, though, and it has no idea where your output ends up. If you're generating something else (SQL, shell scripts, plain-text email, config files), swap in escaping that fits:</p>
+
+            <div class="code-block">
+              <pre><code class="language-javascript">ejs.render(template, data, {escape: myEscapeFunction});</code></pre>
+            </div>
+            <!--//code-block-->
+
+            <p>With Express, set it for the whole app using <code>app.set('view options', {escape: myEscapeFunction})</code>. To escape just one value, use the raw tag: <code>&lt;%- myEscapeFunction(name) %&gt;</code>.</p>
+            <p>One spot to watch: inside a <code>&lt;script&gt;</code> tag, browsers don't decode HTML entities, so <code>&lt;%=</code> doesn't do what you want there. Put the value in an attribute and <code>JSON.parse</code> it from your script instead.</p>
           </div><!--//block-->
           <div class="block">
             <h3 class="sub-title text-center">Includes</h3>
