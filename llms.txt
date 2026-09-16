@@ -34,16 +34,20 @@ ejs.renderFile('template.ejs', { name: 'EJS' }, (err, html) => { /* ... */ });
 
 ## Documentation
 
+All documentation lives on a single page at https://ejs.co/docs/, linked below by section.
+
 - Home: https://ejs.co/
-- Getting started: https://ejs.co/docs/getting-started/
-- Tags reference: https://ejs.co/docs/guide/tags/
-- Includes and partials: https://ejs.co/docs/guide/includes/
-- Layouts: https://ejs.co/docs/guide/layouts/
-- Caching: https://ejs.co/docs/guide/caching/
-- Client-side use: https://ejs.co/docs/guide/client-side/
-- Custom delimiters: https://ejs.co/docs/guide/custom-delimiters/
-- Options reference: https://ejs.co/docs/reference/options/
-- CLI reference: https://ejs.co/docs/reference/cli/
+- Documentation: https://ejs.co/docs/
+- Getting started: https://ejs.co/docs/#getting-started
+- Tags reference: https://ejs.co/docs/#tags
+- Includes and partials: https://ejs.co/docs/#includes
+- Layouts: https://ejs.co/docs/#layouts
+- Caching: https://ejs.co/docs/#caching
+- Custom file loader: https://ejs.co/docs/#custom-file-loader
+- Client-side use: https://ejs.co/docs/#client-side-support
+- Custom delimiters: https://ejs.co/docs/#custom-delimiters
+- Options reference: https://ejs.co/docs/#options
+- CLI reference: https://ejs.co/docs/#cli-usage
 
 ## Project
 

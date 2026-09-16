@@ -31,6 +31,26 @@ import ejs from 'ejs';
 const ejs = require('ejs');
 ```
 
+### Bundler and runtime compatibility
+
+As of v6, the published package is verified against the following bundlers and
+alternate runtimes on every release:
+
+| Tool        | Supported |
+| ----------- | :-------: |
+| Rollup      | ✓ |
+| Rolldown    | ✓ |
+| tsdown      | ✓ |
+| esbuild     | ✓ |
+| Webpack     | ✓ |
+| Vite        | ✓ |
+| Browserify  | ✓ |
+| Bun         | ✓ |
+| Deno        | ✓ |
+
+For Browserify, pass `--node` so it picks the `main` entry rather than the
+prebuilt UMD bundle.
+
 ### Render a string
 
 Pass EJS a template string and some data. You get back HTML.
@@ -78,6 +98,9 @@ app.get('/', (req, res) => {
   res.render('index', { title: 'Home', people });
 });
 ```
+
+[This GitHub wiki page](https://github.com/mde/ejs/wiki/Using-EJS-with-Express)
+explains the various ways of passing EJS options to Express.
 
 :::caution[A note on security]
 EJS is effectively a JavaScript runtime. If you give end-users unfettered
@@ -382,6 +405,26 @@ templates change on disk:
 ejs.clearCache();
 ```
 
+## Custom File Loader
+
+The default file loader is `fs.readFileSync`. To customize how template files
+are read off disk, assign your own function to `ejs.fileLoader`:
+
+```js
+import ejs from 'ejs';
+import fs from 'fs';
+
+const myFileLoader = function (filePath) {
+  return 'myFileLoader: ' + fs.readFileSync(filePath);
+};
+
+ejs.fileLoader = myFileLoader;
+```
+
+With this you can preprocess a template before it is read, for example to
+strip a custom header or pull templates from somewhere other than the
+filesystem.
+
 ## Client-Side Support
 
 EJS runs in the browser as well as on the server. Because browsers have no
@@ -390,10 +433,9 @@ below.
 
 ### Add the script
 
-Download a browser build from the
-[EJS releases](https://github.com/mde/ejs/releases) (or `ejs.min.js` for the
-minified version) and drop it in a script tag. EJS attaches itself to the
-global `ejs` object:
+Download `ejs.js` or `ejs.min.js` from the
+[latest release](https://github.com/mde/ejs/releases/latest) and drop it in a
+script tag. EJS attaches itself to the global `ejs` object:
 
 ```html
 <script src="ejs.min.js"></script>
@@ -404,13 +446,29 @@ global `ejs` object:
 </script>
 ```
 
+Alternatively, compile it yourself: clone the repository and run `jake build`
+(or `$(npm bin)/jake build` if [jake](https://jakejs.com/) is not installed
+globally).
+
 ### Caveats in the browser
 
 - **`renderFile` is unavailable.** There is no filesystem to read from, so use
   `ejs.render()` (or `ejs.compile()`) with a template string instead.
 - **File-based includes don't work by default.** Relative `include()` paths
   resolve against the filesystem. In the browser, supply your partials through
-  the [`includer`](#options) option or preload them as strings.
+  the [`includer`](#options) option, preload them as strings, or pass an
+  include callback as the third argument to a compiled function:
+
+```js
+const str = "Hello <%= include('file', {person: 'John'}); %>";
+const fn = ejs.compile(str);
+
+fn(data, null, function (path, d) { // include callback
+  // path -> 'file'
+  // d -> {person: 'John'}
+  // Return the contents of the file as a string
+}); // returns the rendered string
+```
 
 ### Precompiling templates
 
@@ -460,15 +518,16 @@ See [Custom Delimiters](#custom-delimiters) for examples.
 | `localsName`          | `locals`   | Name of the object holding locals when `with` is disabled. |
 | `destructuredLocals`  | `[]`       | Locals always destructured from the data object (available even in strict mode). |
 | `outputFunctionName`  | —          | If set (e.g. `'echo'`), exposes a print function for use inside scriptlet tags. |
-| `rmWhitespace`        | `false`    | Remove all safe-to-remove whitespace, including leading/trailing. |
-| `async`              | `false`    | Use an async function for rendering, enabling `await` inside templates. |
+| `rmWhitespace`        | `false`    | Remove all safe-to-remove whitespace, including leading/trailing. Also enables a safer version of `-%>` line slurping for all scriptlet tags: it does not strip newlines of tags in the middle of a line. |
+| `async`              | `false`    | Use an async function for rendering, enabling `await` inside templates. Depends on async/await support in the JS runtime. |
 
 ### Advanced
 
-| Option         | Default | Description |
-| -------------- | ------- | ----------- |
-| `debug`        | `false` | Output the generated function body for inspection. |
-| `includer`     | —       | Custom function to resolve and load includes. |
+| Option                   | Default | Description |
+| ------------------------ | ------- | ----------- |
+| `debug`                  | `false` | Output the generated function body for inspection. |
+| `includer`               | —       | Custom function to resolve and load includes. |
+| `unsafePrototypeLocals`  | `false` | Exposes the prototype chain of the locals object inside templates. Enabling it disables the v6 prototype-pollution mitigation. |
 
 :::tip
 When rendering through Express, `filename` and `cache` are managed for you.
@@ -505,6 +564,16 @@ ejs ./template.ejs -f data.json
 
 # Inline as a URI-encoded JSON string
 ejs ./template.ejs -i '%7B%22name%22%3A%22world%22%7D'
+
+# As key=value pairs on the command line
+ejs ./test/fixtures/user.ejs name=Lerxst
+```
+
+Some further examples, combining flags:
+
+```bash
+ejs -p [ -c ] ./template_file.ejs -o ./output.html
+ejs -n -l _ ./some_template.ejs -f ./data_file.json
 ```
 
 ### Command-line flags
@@ -523,7 +592,12 @@ ejs ./template.ejs -i '%7B%22name%22%3A%22world%22%7D'
 | `-w`, `--rm-whitespace`       | Remove safe-to-remove whitespace. |
 | `-d`, `--debug`               | Output the generated function body. |
 | `-h`, `--help`                | Show usage. |
-| `-V`, `--version`             | Print the EJS version. |
+| `-V`, `-v`, `--version`       | Print the EJS version. |
 
 These flags mirror the [render options](#options) of the
 JavaScript API.
+
+## License
+
+EJS is licensed under the Apache License, version 2.0. Information can be found
+at [apache.org/licenses](https://www.apache.org/licenses/).
