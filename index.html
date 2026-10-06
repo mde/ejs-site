@@ -300,6 +300,7 @@ let html = ejs.render('&lt;%= people.join(", "); %&gt;', {people: people});</cod
                 <tr><td>Deno</td><td class="text-center"><i class="fa fa-check"></i></td></tr>
               </tbody>
             </table>
+            <p>Browser-targeted bundlers that support conditional exports get the prebuilt browser bundle through the <code>browser</code> export condition. That bundle compiles and renders template strings; loading templates from the filesystem with <code>renderFile</code> needs the Node entry point.</p>
 
             <h3 class="sub-title text-center">Browser support</h3>
             <p>Download a browser build from <a href="https://github.com/mde/ejs/releases/latest">the latest release</a>, and use it in a script tag.</p>
@@ -403,7 +404,7 @@ let html = await ejs.renderFile(filename, data, options);
             </div>
             <!--//code-block-->
 
-            <p>With Express, set it for the whole app using <code>app.set('view options', {escape: myEscapeFunction})</code>. To escape just one value, use the raw tag: <code>&lt;%- myEscapeFunction(name) %&gt;</code>.</p>
+            <p>To escape just one value, use the raw tag: <code>&lt;%- myEscapeFunction(name) %&gt;</code>. To set it for a whole Express app, see Using EJS with Express, below.</p>
             <p>One spot to watch: inside a <code>&lt;script&gt;</code> tag, browsers don't decode HTML entities, so <code>&lt;%=</code> doesn't do what you want there. Put the value in an attribute and <code>JSON.parse</code> it from your script instead.</p>
           </div><!--//block-->
           <div class="block">
@@ -465,6 +466,15 @@ $ ejs ./test/fixtures/user.ejs name=Lerxst
 $ ejs -n -l _ ./some_template.ejs -f ./data_file.json</code></pre>
             </div>
             <!--//code-block-->
+
+            <p>How arguments work, as of v7:</p>
+            <ul>
+              <li>The template file comes first. Any <code>name=value</code> data comes after it.</li>
+              <li>Pass data one way: <code>-f</code>, <code>-i</code>, or stdin (<code>ejs ./template_file.ejs &lt; data_file.json</code>). Stdin is only read when there's no <code>-f</code>, <code>-i</code>, or <code>name=value</code> data. Using <code>-f</code> and <code>-i</code> together is an error.</li>
+              <li>Unknown options are an error.</li>
+              <li>Short options can be grouped (<code>-sdw</code>) and take attached values (<code>-m$</code>). A value that starts with <code>-</code> needs <code>=</code>: <code>-o=-out.html</code>. Use <code>--</code> to end options, for example when a template's name starts with <code>-</code>.</li>
+              <li>Exit status is 0 on success, 2 for a usage error, and 1 for a runtime error.</li>
+            </ul>
           </div><!--//block-->
           <div class="block">
             <h3 class="sub-title text-center">Custom delimiters</h3>
@@ -599,7 +609,19 @@ fn(data, null, function(path, d){ // include callback
 
           <div class="block">
             <h3 class="sub-title text-center">Using EJS with Express</h3>
-            <p><a href="https://github.com/mde/ejs/wiki/Using-EJS-with-Express">This GitHub Wiki page</a> explains various ways of passing EJS options to Express.</p>
+            <p>As of v7, EJS doesn't read its options from Express's render data, <code>app.locals</code>, or <code>app.set('view options')</code>. To set EJS options for an Express app, register a render function. Pass along Express's <code>views</code> and <code>view cache</code> settings too, since a custom render function replaces the default handling of them:</p>
+
+            <div class="code-block">
+              <pre><code class="language-javascript">const ejsOptions = {
+  delimiter: '?',
+  views: [].concat(app.get('views')),
+  cache: app.enabled('view cache')
+};
+app.engine('ejs', (path, data, cb) => {
+  ejs.renderFile(path, data, ejsOptions, cb);
+});</code></pre>
+            </div>
+            <!--//code-block-->
           </div><!--//block-->
 
         </div><!--//docs-inner-->
