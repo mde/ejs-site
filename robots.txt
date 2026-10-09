@@ -1,0 +1,33 @@
+# https://ejs.co/ — robots policy
+# Open to all crawlers, including AI answer engines and agents.
+
+User-agent: *
+Allow: /
+
+# AI crawlers explicitly welcomed (some honor a named block).
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://ejs.co/sitemap.xml
+Sitemap: https://ejs.co/docs/sitemap-index.xml

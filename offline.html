@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Offline -- EJS</title>
+    <style>
+      /* Self-contained: no external fonts or assets, since this page is only
+         ever shown when the network is unavailable. */
+      :root {
+        --bg: #f4f5f3;
+        --text: #1a1a1a;
+        --muted: #4f535a;
+        --green: #557d0c;
+        --delim: #d32563;
+        --btn-face: linear-gradient(180deg, #fefffd 0%, #f2f4f0 100%);
+        --border: #d1d4cf;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #101114;
+          --text: #eef0f3;
+          --muted: #a4a7ae;
+          --green: #b4ca65;
+          --delim: #ff6188;
+          --btn-face: linear-gradient(180deg, #232428 0%, #15161a 100%);
+          --border: #26282d;
+        }
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { height: 100%; }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 24px;
+        line-height: 1.6;
+      }
+      .wrap { max-width: 420px; }
+      .logo {
+        font-size: 34px;
+        font-weight: 700;
+        color: var(--green);
+        margin-bottom: 28px;
+      }
+      .logo .delim {
+        font-family: ui-monospace, 'SFMono-Regular', 'IBM Plex Mono', Menlo, monospace;
+        font-size: 0.7em;
+        font-weight: 600;
+        color: var(--delim);
+        opacity: 0.85;
+      }
+      h1 { font-size: 24px; font-weight: 600; letter-spacing: -0.4px; margin-bottom: 12px; }
+      p { font-size: 16px; color: var(--muted); margin-bottom: 28px; }
+      button {
+        font: inherit;
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--text);
+        cursor: pointer;
+        padding: 12px 28px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: var(--btn-face);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="logo"><span class="delim">&lt;%=</span> EJS <span class="delim">%&gt;</span></div>
+      <h1>You're offline</h1>
+      <p>This page isn't available without a connection. Check your network and try again.</p>
+      <button type="button" onclick="location.reload()">Try again</button>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,831 @@
+---
+import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
+---
+
+<nav class="site-nav" aria-label="Site navigation">
+	<div class="site-nav-inner">
+		<a class="nav-logo" href="/"><span class="nav-delim">&lt;%=</span> EJS <span class="nav-delim">%&gt;</span></a>
+		<ul class="nav-center">
+			<li><a href="/#about">About</a></li>
+			<li><a href="/#compare">Compare</a></li>
+			<li><a href="/#install">Get Started</a></li>
+			<li><a href="/#support">Support</a></li>
+			<li class="nav-dropdown">
+				<a class="nav-dropdown-trigger" href="/docs/" aria-current="page">Docs<svg class="nav-caret" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+				<div class="nav-dropdown-menu">
+					<a href="/docs/#getting-started">Getting Started</a>
+					<a href="/docs/#tags">Tags</a>
+					<a href="/docs/#includes">Includes</a>
+					<a href="/docs/#custom-delimiters">Custom Delimiters</a>
+					<a href="/docs/#layouts">Layouts</a>
+					<a href="/docs/#caching">Caching</a>
+					<a href="/docs/#client-side-support">Client-Side Support</a>
+					<a href="/docs/#options">Options</a>
+					<a href="/docs/#cli-usage">CLI Usage</a>
+				</div>
+			</li>
+		</ul>
+		<div class="nav-right">
+			<ThemeSelect />
+			<a
+				class="nav-gh"
+				href="https://github.com/mde/ejs"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				<svg viewBox="0 0 24 24" aria-hidden="true"
+					><path
+						d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+					></path></svg
+				>
+				<span class="nav-gh-label">GitHub</span>
+				<svg class="ext-icon" viewBox="0 0 24 24" aria-hidden="true"
+					><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline
+						points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg
+				>
+			</a>
+			<button class="nav-hamburger" type="button" aria-label="Open menu" aria-expanded="false">
+				<svg class="icon-menu" viewBox="0 0 24 24" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+				<svg class="icon-close" viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+			</button>
+		</div>
+	</div>
+</nav>
+
+<script>
+	// Keep the active "On this page" TOC link visible within the right-sidebar
+	// scroll region. Starlight flips aria-current on the active link as you
+	// scroll the (long, single-page) docs, but never scrolls the TOC column to
+	// follow it, so on a tall page the green active item drifts below the fold.
+	// We watch for the aria-current change and nudge only the TOC container's
+	// own scroll, never the page.
+	function syncActiveTocIntoView() {
+		const container = document.querySelector<HTMLElement>('.right-sidebar');
+		const toc = document.querySelector('starlight-toc');
+		if (!container || !toc) return;
+		// At the very top of the page, reset the TOC to its top too, so its
+		// heading and first items are fully in view (the active link may already
+		// be the first one, so no aria-current change fires to trigger this).
+		if (window.scrollY <= 4) {
+			container.scrollTop = 0;
+			return;
+		}
+		const active = toc.querySelector<HTMLElement>('a[aria-current="true"]');
+		if (!active) return;
+		// Only act when the column actually scrolls (desktop layout); on mobile
+		// the TOC is a dropdown and scrollTop is a no-op anyway.
+		const margin = 32; // breathing room above/below the active item
+		const cRect = container.getBoundingClientRect();
+		const aRect = active.getBoundingClientRect();
+		if (aRect.top < cRect.top + margin) {
+			container.scrollTop -= cRect.top + margin - aRect.top;
+		} else if (aRect.bottom > cRect.bottom - margin) {
+			container.scrollTop += aRect.bottom - (cRect.bottom - margin);
+		}
+	}
+
+	// Reflect the section you're currently reading onto the nav Docs dropdown.
+	// Starlight's TOC scroll-spy flips aria-current on the active heading link;
+	// the dropdown lists only the top-level (h2) sections while the TOC also
+	// tracks h3s, so map the active heading to the last dropdown section that
+	// starts at or before it in document order, and mark that item active.
+	function updateActiveDocsNav() {
+		const items = Array.from(
+			document.querySelectorAll<HTMLAnchorElement>('.nav-dropdown-menu a'),
+		);
+		if (!items.length) return;
+		const toc = document.querySelector('starlight-toc');
+		const activeLink = toc?.querySelector<HTMLAnchorElement>('a[aria-current="true"]');
+		const activeId = activeLink?.hash ? decodeURIComponent(activeLink.hash.slice(1)) : '';
+		const activeHeading = activeId ? document.getElementById(activeId) : null;
+
+		let current: HTMLAnchorElement | null = null;
+		if (activeHeading) {
+			for (const item of items) {
+				const id = decodeURIComponent(new URL(item.href).hash.slice(1));
+				const section = id ? document.getElementById(id) : null;
+				if (!section) continue;
+				// Once a section begins after the active heading, stop: the section
+				// the heading lives in is the previous (last-kept) one.
+				if (
+					section !== activeHeading &&
+					section.compareDocumentPosition(activeHeading) & Node.DOCUMENT_POSITION_PRECEDING
+				) {
+					break;
+				}
+				current = item;
+			}
+		}
+
+		// Above the first section (the "Overview" at the top of the page), no
+		// section precedes the active heading — treat that as the start of the
+		// first section so Getting Started stays lit at the top.
+		if (!current) current = items[0];
+
+		for (const item of items) {
+			item.classList.toggle('active', item === current);
+			if (item === current) item.setAttribute('aria-current', 'location');
+			else item.removeAttribute('aria-current');
+		}
+	}
+
+	function onTocUpdate() {
+		syncActiveTocIntoView();
+		updateActiveDocsNav();
+	}
+
+	let observer: MutationObserver | undefined;
+	function initTocFollow() {
+		observer?.disconnect();
+		const toc = document.querySelector('starlight-toc');
+		if (!toc) return;
+		observer = new MutationObserver(onTocUpdate);
+		observer.observe(toc, {
+			subtree: true,
+			attributes: true,
+			attributeFilter: ['aria-current'],
+		});
+		// Align once on load in case we deep-linked partway down the page.
+		onTocUpdate();
+	}
+
+	initTocFollow();
+	// Re-bind after Starlight/Astro view-transition navigations swap the DOM.
+	document.addEventListener('astro:page-load', initTocFollow);
+	// The observer only fires on aria-current changes, which don't happen when
+	// scrolling back up to the very top — so catch the top via the scroll event.
+	window.addEventListener('scroll', onTocUpdate, { passive: true });
+</script>
+
+<script>
+	// Mobile nav: the hamburger reveals/collapses the center-links panel. Docs is
+	// a plain link to the docs page at every breakpoint. Ported from the landing
+	// page's nav so the two headers behave identically.
+	function initSiteNav() {
+		const nav = document.querySelector<HTMLElement>('.site-nav');
+		const hamburger = nav?.querySelector<HTMLButtonElement>('.nav-hamburger');
+		const navCenter = nav?.querySelector<HTMLElement>('.nav-center');
+		if (!nav || !hamburger || !navCenter) return;
+
+		// The inline height drives the mobile slide only. Off mobile (desktop
+		// popover, height:auto) clear it (empty string) rather than pinning 0.
+		const isMobileNav = () => window.matchMedia('(max-width: 719px)').matches;
+		const openMenu = () => {
+			nav.classList.add('open');
+			navCenter.style.height = navCenter.scrollHeight + 'px';
+			hamburger.setAttribute('aria-expanded', 'true');
+			hamburger.setAttribute('aria-label', 'Close menu');
+		};
+		const closeMenu = () => {
+			navCenter.style.height = isMobileNav() ? '0' : '';
+			nav.classList.remove('open');
+			hamburger.setAttribute('aria-expanded', 'false');
+			hamburger.setAttribute('aria-label', 'Open menu');
+		};
+
+		hamburger.addEventListener('click', () => {
+			nav.classList.contains('open') ? closeMenu() : openMenu();
+		});
+
+		// Docs links to /docs/ at every breakpoint; on mobile it's a plain link
+		// like the rest, so every panel link closes the menu on tap.
+		nav.querySelectorAll('.nav-center a').forEach((link) =>
+			link.addEventListener('click', closeMenu),
+		);
+
+		// Close on an outside click. Bound once at the document level, re-querying
+		// the (view-transition-swappable) nav each time so it survives navigation.
+		if (!(window as any).__ejsSiteNavGlobalsBound) {
+			(window as any).__ejsSiteNavGlobalsBound = true;
+			document.addEventListener('click', (e) => {
+				const n = document.querySelector<HTMLElement>('.site-nav');
+				if (n?.classList.contains('open') && !n.contains(e.target as Node)) {
+					n.querySelector<HTMLButtonElement>('.nav-hamburger')?.click();
+				}
+			});
+		}
+	}
+
+	initSiteNav();
+	// Re-bind after Starlight/Astro view-transition navigations swap the DOM.
+	document.addEventListener('astro:page-load', initSiteNav);
+</script>
+
+<script is:inline>
+	// Register the shared service worker (scope "/") from the docs too, so a
+	// visitor whose first page is /docs/ still gets offline caching without
+	// having to land on the homepage first. Re-registering the same worker is a
+	// no-op, so this coexists with the landing page's own registration.
+	if ('serviceWorker' in navigator) {
+		window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
+	}
+</script>
+
+<style>
+	@layer starlight.core {
+		:global(:root) {
+			--sl-nav-height: 60px;
+		}
+
+		/* Mirrors the landing nav in its resting (`.nav.scrolled`) state: a
+		   surface bar whose color matches both the landing and the docs chrome,
+		   with the same layered bottom edge. */
+		.site-nav {
+			/* Fill the full --sl-nav-height: the header pads by --sl-nav-pad-y top
+			   and bottom, so height:100% (the content box) would leave the bar a
+			   short band. Add the padding back and the negative margin below pulls
+			   it edge-to-edge, matching the landing nav's 60px. */
+			height: calc(100% + 2 * var(--sl-nav-pad-y));
+			margin: calc(-1 * var(--sl-nav-pad-y)) calc(-1 * var(--sl-nav-pad-x));
+			background-color: var(--sl-color-bg-nav);
+			box-shadow:
+				inset 0 -1px 0 var(--ejs-nav-highlight),
+				0 1px 0 var(--sl-color-hairline),
+				0 1px 2px var(--ejs-panel-shadow),
+				0 4px 16px var(--ejs-panel-shadow-soft);
+		}
+
+		.site-nav-inner {
+			max-width: 1200px;
+			height: 100%;
+			margin: 0 auto;
+			padding: 0 48px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 20px;
+		}
+
+		.nav-logo,
+		.nav-center a,
+		.nav-gh {
+			font-family: 'Montserrat', sans-serif;
+		}
+
+		.nav-logo {
+			flex-shrink: 0;
+			color: #96b040;
+			font-size: 24px;
+			font-weight: 700;
+			text-decoration: none;
+			transition: color 0.15s ease;
+		}
+
+		:global([data-theme='dark']) .nav-logo {
+			color: var(--ejs-green);
+		}
+
+		.nav-delim {
+			font-family: 'IBM Plex Mono', monospace;
+			font-size: 0.72em;
+			font-weight: 600;
+			opacity: 0.55;
+		}
+
+		.nav-logo:hover,
+		.nav-logo:focus-visible {
+			color: var(--ejs-green-hover);
+		}
+
+		.nav-center {
+			display: flex;
+			gap: 4px;
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			min-width: 0;
+		}
+
+		.nav-center a {
+			position: relative;
+			z-index: 0;
+			display: inline-flex;
+			align-items: center;
+			box-sizing: border-box;
+			height: 31px;
+			padding: 0 16px;
+			border-radius: 3px;
+			color: var(--ejs-hero-ink-soft);
+			font-size: 14px;
+			font-weight: 400;
+			text-decoration: none;
+			transition: color 0.15s;
+		}
+
+		/* The hover fill + ring live on a pseudo so they can scale in from the
+		   center with an overshoot ("bounce") without distorting the text. */
+		.nav-center a::before {
+			content: '';
+			position: absolute;
+			inset: 0;
+			z-index: -1;
+			border-radius: inherit;
+			background: var(--ejs-surface-hover);
+			box-shadow: inset 0 0 0 1px var(--ejs-border-subtle);
+			opacity: 0;
+			transform: scale(0.4);
+			transition: opacity 0.08s ease,
+				transform 0.1s cubic-bezier(0.22, 1, 0.36, 1);
+			pointer-events: none;
+		}
+
+		/* Match the landing nav: in dark mode the hover ring uses the visible
+		   --border tone (--sl-color-hairline here) rather than the near-invisible
+		   subtle border. */
+		:global([data-theme='dark']) .nav-center a::before {
+			box-shadow: inset 0 0 0 1px var(--sl-color-hairline);
+		}
+
+		.nav-center a:focus-visible {
+			color: var(--sl-color-white);
+		}
+
+		.nav-center a:focus-visible::before {
+			opacity: 1;
+			transform: scale(1);
+		}
+
+		/* Hover reveal only where hover is real (mouse). On touch, :hover latches
+		   after a tap, so a tapped link (e.g. the Docs accordion trigger, which
+		   stays put) would be left stuck lit. :focus-visible above still covers
+		   keyboard use. Mirrors the landing nav. */
+		@media (hover: hover) {
+			.nav-center a:hover {
+				color: var(--sl-color-white);
+			}
+
+			.nav-center a:hover::before {
+				opacity: 1;
+				transform: scale(1);
+			}
+		}
+
+		/* Active page mirrors the landing's `.nav-center a.active`: green text at
+		   the heavier weight, with no fill or edge. */
+		.nav-center a[aria-current='page'] {
+			color: var(--sl-color-text-accent);
+			font-weight: 600;
+		}
+
+		.nav-center a:active {
+			color: var(--sl-color-white);
+		}
+
+		.nav-center a:active::before {
+			box-shadow:
+				inset 0 0 0 1px var(--ejs-border-subtle),
+				inset 0 1px 2px rgba(0, 0, 0, 0.14);
+		}
+
+		:global([data-theme='dark']) .nav-center a:active::before {
+			box-shadow:
+				inset 0 0 0 1px var(--sl-color-hairline),
+				inset 0 1px 3px rgba(0, 0, 0, 0.55);
+		}
+
+		/* Respect reduced-motion: keep the fade, drop the scale/bounce. */
+		@media (prefers-reduced-motion: reduce) {
+			.nav-center a::before {
+				transform: none;
+				transition: opacity 0.15s ease;
+			}
+			.nav-center a:hover::before,
+			.nav-center a:focus-visible::before {
+				transform: none;
+			}
+		}
+
+		/* Docs dropdown — ported from the landing nav so the two headers match.
+		   CSS-driven reveal on hover/focus-within; trigger keeps aria-current. */
+		.nav-dropdown {
+			position: relative;
+		}
+
+		.nav-caret {
+			width: 13px;
+			height: 13px;
+			margin-left: 4px;
+			fill: none;
+			stroke: currentColor;
+			stroke-width: 2;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+			opacity: 0.7;
+			transition: transform 0.2s ease;
+		}
+
+		.nav-dropdown:hover .nav-caret,
+		.nav-dropdown:focus-within .nav-caret {
+			transform: rotate(180deg);
+		}
+
+		.nav-dropdown-menu {
+			position: absolute;
+			top: calc(100% + 9px);
+			left: 0;
+			min-width: 224px;
+			padding: 7px;
+			background: var(--sl-color-bg-nav);
+			border: 1px solid var(--sl-color-hairline);
+			border-radius: 6px;
+			box-shadow:
+				0 1px 2px var(--ejs-panel-shadow),
+				0 10px 30px var(--ejs-panel-shadow-soft);
+			display: flex;
+			flex-direction: column;
+			gap: 3px;
+			opacity: 0;
+			visibility: hidden;
+			pointer-events: none;
+			transform: translateY(-6px);
+			transition: opacity 0.15s ease,
+				transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+				visibility 0s linear 0.18s;
+			z-index: 20;
+		}
+
+		/* transparent bridge over the gap so the menu stays open while the
+		   cursor travels from trigger to panel */
+		.nav-dropdown-menu::before {
+			content: '';
+			position: absolute;
+			top: -9px;
+			left: 0;
+			right: 0;
+			height: 9px;
+		}
+
+		.nav-dropdown:hover .nav-dropdown-menu,
+		.nav-dropdown:focus-within .nav-dropdown-menu {
+			opacity: 1;
+			visibility: visible;
+			pointer-events: auto;
+			transform: translateY(0);
+			transition: opacity 0.15s ease,
+				transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+		}
+
+		.nav-dropdown-menu a {
+			height: auto;
+			padding: 7px 11px;
+			font-size: 13.5px;
+			font-weight: 400;
+			color: var(--sl-color-gray-3);
+			border-radius: 3px;
+			white-space: nowrap;
+		}
+
+		.nav-dropdown-menu a::before {
+			display: none;
+		}
+
+		.nav-dropdown-menu a:focus-visible {
+			color: var(--sl-color-white);
+			background: var(--ejs-surface-hover);
+		}
+
+		/* Hover only on real-hover devices: these items are same-page anchors, so
+		   on touch a tap keeps you on the page and would otherwise leave the item
+		   stuck highlighted. :active still gives a press cue on tap. */
+		@media (hover: hover) {
+			.nav-dropdown-menu a:hover {
+				color: var(--sl-color-white);
+				background: var(--ejs-surface-hover);
+			}
+		}
+
+		.nav-dropdown-menu a:active {
+			color: var(--sl-color-white);
+			background: var(--ejs-surface-hover);
+			box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.14);
+		}
+
+		:global([data-theme='dark']) .nav-dropdown-menu a:active {
+			box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.55);
+		}
+
+		/* The section you're currently reading (set by the scroll-spy in the
+		   script above) gets the same green + heavier weight the "On this page"
+		   TOC and the nav's active links use. Declared after :hover so an active
+		   item stays accent-colored on hover, while still picking up the hover
+		   background. */
+		.nav-dropdown-menu a.active,
+		.nav-dropdown-menu a.active:hover,
+		.nav-dropdown-menu a.active:focus-visible {
+			color: var(--sl-color-text-accent);
+			font-weight: 600;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.nav-dropdown-menu {
+				transition: opacity 0.15s ease, visibility 0s linear 0.15s;
+				transform: none;
+			}
+			.nav-dropdown:hover .nav-dropdown-menu,
+			.nav-dropdown:focus-within .nav-dropdown-menu {
+				transform: none;
+				transition: opacity 0.15s ease;
+			}
+		}
+
+		.nav-right {
+			flex-shrink: 0;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		/* GitHub button gets the landing's layered "physical button" treatment
+		   (--btn-face gradient, inset highlight, stacked edge, drop). */
+		.nav-gh {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			box-sizing: border-box;
+			height: 31px;
+			padding: 0 14px;
+			border: none;
+			border-radius: 3px;
+			background: var(--ejs-btn-face);
+			font-family: 'Montserrat', sans-serif;
+			font-size: 14px;
+			font-weight: 500;
+			text-decoration: none;
+			box-shadow:
+				inset 0 1px 0 var(--ejs-btn-highlight),
+				0 1px 0 var(--ejs-edge),
+				0 2px 2px var(--ejs-btn-drop);
+			transition: transform 70ms ease-out, box-shadow 70ms ease-out,
+				background 120ms ease, color 120ms ease;
+		}
+
+		.nav-gh {
+			color: var(--sl-color-text-accent);
+		}
+
+		.nav-gh:focus-visible {
+			background: var(--ejs-surface-hover);
+			color: var(--sl-color-accent-high);
+		}
+
+		/* Hover only on real-hover devices — on touch the state latches after a
+		   tap (the link opens a new tab, so this page keeps the button) and it
+		   would sit stuck highlighted until you tapped elsewhere. */
+		@media (hover: hover) {
+			.nav-gh:hover {
+				background: var(--ejs-surface-hover);
+				color: var(--sl-color-accent-high);
+			}
+		}
+
+		.nav-gh:active {
+			transform: translateY(1px);
+			box-shadow:
+				inset 0 1px 0 var(--ejs-btn-highlight-pressed),
+				0 0 0 var(--ejs-edge),
+				0 1px 1px var(--ejs-btn-drop-pressed);
+		}
+
+		.nav-gh:focus-visible {
+			outline: 2px solid var(--ejs-btn-focus);
+			outline-offset: 3px;
+		}
+
+		.nav-gh svg {
+			width: 16px;
+			height: 16px;
+			fill: currentColor;
+		}
+
+		.nav-gh svg.ext-icon {
+			width: 11px;
+			height: 11px;
+			fill: none;
+			stroke: currentColor;
+			stroke-width: 2;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+		}
+
+		/* Hamburger toggle — hidden on desktop, revealed at the mobile-nav
+		   breakpoint. Same physical-button treatment as the sibling theme
+		   toggle, with a menu/close icon crossfade driven by `.site-nav.open`.
+		   Mirrors the landing page's `.nav-hamburger`. */
+		.nav-hamburger {
+			display: none;
+			align-items: center;
+			position: relative;
+			box-sizing: border-box;
+			height: 31px;
+			padding: 0 9px;
+			border: none;
+			border-radius: 3px;
+			background: var(--ejs-btn-face);
+			color: var(--sl-color-gray-3);
+			cursor: pointer;
+			box-shadow:
+				inset 0 1px 0 var(--ejs-btn-highlight),
+				0 1px 0 var(--ejs-edge),
+				0 2px 2px var(--ejs-btn-drop);
+			transition: transform 70ms ease-out, box-shadow 70ms ease-out,
+				background 120ms ease;
+		}
+
+		/* Hover only where hover is real — on touch it latches after the tap that
+		   opens the menu, leaving the button stuck highlighted. */
+		@media (hover: hover) {
+			.nav-hamburger:hover {
+				background: var(--ejs-surface-hover);
+			}
+		}
+
+		.nav-hamburger:active {
+			transform: translateY(1px);
+			box-shadow:
+				inset 0 1px 0 var(--ejs-btn-highlight-pressed),
+				0 0 0 var(--ejs-edge),
+				0 1px 1px var(--ejs-btn-drop-pressed);
+		}
+
+		.nav-hamburger:focus-visible {
+			outline: 2px solid var(--ejs-btn-focus);
+			outline-offset: 3px;
+		}
+
+		.nav-hamburger svg {
+			width: 16px;
+			height: 16px;
+			stroke: currentColor;
+			fill: none;
+			stroke-width: 2;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+			display: block;
+			transition: opacity 0.2s ease, transform 0.2s ease;
+		}
+
+		.nav-hamburger .icon-close {
+			position: absolute;
+			inset: 0;
+			margin: auto;
+			opacity: 0;
+			transform: rotate(-45deg);
+		}
+
+		.site-nav.open .nav-hamburger .icon-menu {
+			opacity: 0;
+			transform: rotate(45deg);
+		}
+
+		.site-nav.open .nav-hamburger .icon-close {
+			opacity: 1;
+			transform: rotate(0deg);
+		}
+
+		/* ── Mobile nav ──
+		   Below 900px the center links collapse behind the hamburger into a
+		   full-width panel that slides down from under the bar, and the Docs
+		   dropdown becomes a tap-to-expand accordion. Ported from the landing
+		   nav so the two headers behave identically; GitHub and the theme
+		   toggle stay in the bar. The panel is `position: fixed` (the docs
+		   header is itself a fixed bar), so it hangs below the nav without
+		   being clipped by the header box. */
+		@media (max-width: 900px) {
+			.nav-hamburger {
+				display: inline-flex;
+			}
+
+			.nav-center {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-end;
+				position: fixed;
+				top: var(--sl-nav-height);
+				left: 0;
+				right: 0;
+				background: var(--sl-color-bg-nav);
+				border-bottom: 1px solid var(--sl-color-hairline);
+				box-shadow: 0 4px 16px var(--ejs-panel-shadow-soft);
+				border-radius: 0 0 6px 6px;
+				gap: 2px;
+				z-index: 10;
+				padding: 8px 20px 16px;
+				overflow: hidden;
+				height: 0;
+				opacity: 0;
+				pointer-events: none;
+				/* close: height slides up, opacity snaps at the very end */
+				transition: height 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+					opacity 0s linear 0.2s;
+			}
+
+			.site-nav.open .nav-center {
+				opacity: 1;
+				pointer-events: auto;
+				/* open: height slides down, opacity fades in quickly */
+				transition: height 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+					opacity 0.15s ease;
+			}
+
+			.nav-center a {
+				height: auto;
+				padding: 10px 12px;
+				font-size: 15px;
+				color: var(--sl-color-text);
+			}
+
+			/* Docs is a plain link to the docs page (which carries its own in-page
+			   section nav / TOC). Hide the desktop caret + fly-out sub-menu so the
+			   trigger behaves like every other link in the panel. */
+			.nav-center .nav-caret {
+				display: none;
+			}
+
+			.nav-center .nav-dropdown-menu {
+				display: none;
+			}
+
+			/* Whenever the compact nav is in play, the GitHub button collapses to
+			   an icon-only square (matching the hamburger beside it) so it doesn't
+			   tower over it. Mirrors the landing nav. */
+			.nav-gh {
+				padding: 0 9px;
+				gap: 0;
+			}
+
+			.nav-gh .nav-gh-label,
+			.nav-gh svg.ext-icon {
+				display: none;
+			}
+		}
+
+		/* Tablet (720-900px): keep the center links inline instead of behind the
+		   hamburger — the narrowed gutter below plus the icon-only GitHub leave
+		   enough room. Undo the mobile drop-down panel so .nav-center reads as the
+		   desktop row again, and hide the hamburger. Mirrors the landing nav.
+		   Placed after the 900px block so it wins the overlap, but before the
+		   768px block so that block's 20px gutter still wins below 768. Keep the
+		   JS isMobileNav() query (max-width: 719px) in step with this bound. */
+		@media (min-width: 720px) and (max-width: 900px) {
+			.nav-hamburger {
+				display: none;
+			}
+
+			/* Trim the 48px bar gutter to 32px so the inline links get more room
+			   (below 768 the 768px block takes it down to 20px). Also tighten the
+			   inter-group gap (20px is generous for this narrower bar) — it's only
+			   a floor, so 810-900px still spreads via space-between. */
+			.site-nav-inner {
+				padding-inline: 32px;
+				gap: 10px;
+			}
+
+			.nav-center {
+				position: static;
+				top: auto;
+				left: auto;
+				right: auto;
+				flex-direction: row;
+				align-items: center;
+				gap: 4px;
+				background: none;
+				border-bottom: none;
+				box-shadow: none;
+				border-radius: 0;
+				z-index: auto;
+				padding: 0;
+				overflow: visible;
+				height: auto;
+				opacity: 1;
+				pointer-events: auto;
+				transition: none;
+			}
+
+			.nav-center a {
+				height: 31px;
+				padding: 0 16px;
+				font-size: 14px;
+				color: var(--ejs-hero-ink-soft);
+				white-space: nowrap;
+			}
+
+			/* Docs stays a plain link on tablet (no caret / fly-out menu) —
+			   inherited from the 900px block. */
+		}
+
+		@media (max-width: 768px) {
+			.site-nav-inner {
+				padding: 0 20px;
+			}
+		}
+
+		/* Phone: the theme toggle, GitHub button, and hamburger crowd the bar,
+		   so tighten the gap between them. GitHub is already icon-only from the
+		   900px block above. */
+		@media (max-width: 480px) {
+			.nav-right {
+				gap: 6px;
+			}
+		}
+	}
+</style>

@@ -1,13 +1,13 @@
 {
   "name": "ejs-site",
   "version": "1.0.0",
-  "description": "Free Bootstrap Theme for developers",
-  "main": "index.js",
+  "description": "Marketing site and documentation for EJS (Embedded JavaScript templates)",
+  "private": true,
   "dependencies": {},
-  "devDependencies": {
-    "less": "^2.3.1"
-  },
   "scripts": {
+    "docs:dev": "npm --prefix docs-src run dev",
+    "docs:build": "npm --prefix docs-src run build",
+    "docs:preview": "npm --prefix docs-src run preview",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "mde@fleegix.org",

@@ -1,0 +1,779 @@
+/*
+  EJS docs theme — maps Starlight's design tokens onto the landing page's
+  palette (cream/green/crimson) so /docs/ feels like a seamless continuation
+  of /. Fonts: Inter (body), Montserrat (headings/UI), IBM Plex Mono (code).
+  Code surfaces stay dark in both themes, matching the landing page.
+*/
+
+/* ---------- Page scrollbar ---------- */
+/* Always show the window's vertical scrollbar so it never appears/disappears as
+   the page height changes across widths (which also prevents the content from
+   shifting sideways when a bar toggles). `scroll`, not the default `auto`. */
+html {
+  overflow-y: scroll;
+}
+
+/* ---------- Fonts ---------- */
+:root {
+  --sl-font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --sl-font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Brand colors shared across themes */
+  --ejs-crimson: #bf225a;
+
+  /* Copy-button "physical button" tokens — mirror the landing page. Code
+     surfaces stay dark in both themes, so these are fixed (not theme-scoped). */
+  --code-btn-face: linear-gradient(180deg, #353535 0%, #282828 100%);
+  --code-btn-hover: linear-gradient(180deg, #3d3d3d 0%, #303030 100%);
+  --code-btn-active: linear-gradient(180deg, #282828 0%, #202020 100%);
+  --code-edge-1: #161616;
+  --code-btn-highlight: rgba(255, 255, 255, 0.12);
+  --code-btn-highlight-pressed: rgba(255, 255, 255, 0.08);
+  --code-btn-drop: rgba(0, 0, 0, 0.35);
+  --code-btn-drop-pressed: rgba(0, 0, 0, 0.3);
+  --code-btn-focus: rgba(180, 202, 101, 0.45);
+}
+
+/* ---------- Dark theme (Starlight default :root) ---------- */
+:root {
+  /* Gray scale tuned to the landing page's dark surfaces */
+  --sl-color-white: #eef0f3;
+  --sl-color-gray-1: #dee0e4;
+  --sl-color-gray-2: #c4c7cd;
+  --sl-color-gray-3: #a4a7ae;
+  --sl-color-gray-4: #6b6e75;
+  --sl-color-gray-5: #26282d;
+  --sl-color-gray-6: #1c1e22;
+  --sl-color-gray-7: #15161a;
+  --sl-color-black: #101114;
+
+  /* Accent = EJS green */
+  --sl-color-accent-low: #2a330f;
+  --sl-color-accent: #5a7020;
+  --sl-color-accent-high: #b4ca65;
+
+  --sl-color-text: #dee0e4;
+  --sl-color-text-accent: #b4ca65;
+  --sl-color-bg: #101114;
+  --sl-color-bg-nav: #181a1e;
+  --sl-color-bg-sidebar: #181a1e;
+  --sl-color-bg-inline-code: #0e0e0e;
+  --sl-color-hairline-light: #26282d;
+  --sl-color-hairline: #26282d;
+  --sl-color-hairline-shade: #0a0a0d;
+
+  --ejs-hero-bg: #4a6213;
+  --ejs-hero-ink: #f2f5ea;
+  --ejs-inline-code-text: #b4ca65;
+}
+
+/* ---------- Light theme (cream) ---------- */
+:root[data-theme='light'] {
+  --sl-color-white: #1a1a1a;
+  --sl-color-gray-1: #1f1f1f;
+  --sl-color-gray-2: #2a2a2a;
+  --sl-color-gray-3: #4f535a;
+  --sl-color-gray-4: #6e7178;
+  --sl-color-gray-5: #d1d4cf;
+  --sl-color-gray-6: #e5e7e3;
+  --sl-color-gray-7: #ebedea;
+  /* Mirror the dark block, where --sl-color-black == --sl-color-bg. The dark
+     `:root` above sets this unlayered, which beats Starlight's own layered
+     light default, so it must be re-set here or it stays dark in light mode
+     (e.g. the mobile "On this page" toggle/dropdown, which fill with it). */
+  --sl-color-black: #f4f5f3;
+
+  --sl-color-accent-low: #e6ecd2;
+  --sl-color-accent: #557d0c;
+  --sl-color-accent-high: #3c5a08;
+
+  --sl-color-text: #1f1f1f;
+  --sl-color-text-accent: #557d0c;
+  --sl-color-bg: #f4f5f3;
+  --sl-color-bg-nav: #fdfefc;
+  --sl-color-bg-sidebar: #fcfdfb;
+  --sl-color-bg-inline-code: #ebedea;
+  --sl-color-hairline-light: #d1d4cf;
+  --sl-color-hairline: #d1d4cf;
+  --sl-color-hairline-shade: #dee0dc;
+
+  --ejs-hero-bg: #b4ca65;
+  --ejs-hero-ink: #1c2208;
+  --ejs-inline-code-text: #557d0c;
+}
+
+/* ---------- Landing-nav parity tokens ----------
+   The docs top bar reproduces the landing nav in its resting (scrolled) state:
+   a surface bar — NOT the green hero band, which on the landing only exists
+   because a green hero sits behind it. These are lifted verbatim from
+   index.html so the two navs are the same bar, not an approximation. The
+   surface color itself reuses --sl-color-bg-nav (identical hex), and
+   --border / --text-secondary / --text-primary / --green-link map onto
+   --sl-color-hairline / --sl-color-gray-3 / --sl-color-white /
+   --sl-color-text-accent, which already hold the landing's exact values. */
+:root {
+  --ejs-nav-highlight: transparent;
+  --ejs-border-subtle: #181a1e;
+  --ejs-panel-shadow: rgba(0, 0, 0, 0.32);
+  --ejs-panel-shadow-soft: rgba(0, 0, 0, 0.22);
+  --ejs-btn-face: linear-gradient(180deg, #232428 0%, #15161a 100%);
+  --ejs-surface-hover: linear-gradient(180deg, #2b2c31 0%, #1d1e22 100%);
+  --ejs-btn-highlight: rgba(255, 255, 255, 0.14);
+  --ejs-btn-highlight-pressed: rgba(255, 255, 255, 0.08);
+  --ejs-btn-drop: rgba(0, 0, 0, 0.35);
+  --ejs-btn-drop-pressed: rgba(0, 0, 0, 0.3);
+  --ejs-btn-focus: rgba(180, 202, 101, 0.45);
+  --ejs-edge-1: #0d0d0d;
+  --ejs-edge: #080808;
+  --ejs-green: #b4ca65;
+  --ejs-green-hover: #d2e889;
+  --ejs-green-link-hover: #d2e889;
+  --ejs-green-active: #e8f7b0;
+  --ejs-hero-ink-soft: #d6ddc6;
+}
+
+:root[data-theme='light'] {
+  --ejs-nav-highlight: rgba(255, 255, 255, 0.28);
+  --ejs-border-subtle: #e5e7e3;
+  --ejs-panel-shadow: rgba(92, 97, 104, 0.12);
+  --ejs-panel-shadow-soft: rgba(92, 97, 104, 0.08);
+  --ejs-btn-face: linear-gradient(180deg, #fefffd 0%, #f2f4f0 100%);
+  --ejs-surface-hover: linear-gradient(180deg, #f1f3ef 0%, #e8eae6 100%);
+  --ejs-btn-highlight: rgba(255, 255, 255, 0.55);
+  --ejs-btn-highlight-pressed: rgba(255, 255, 255, 0.3);
+  --ejs-btn-drop: rgba(92, 97, 104, 0.12);
+  --ejs-btn-drop-pressed: rgba(92, 97, 104, 0.1);
+  --ejs-btn-focus: rgba(94, 140, 12, 0.45);
+  --ejs-edge-1: #dde0db;
+  --ejs-edge: #d1d4cf;
+  --ejs-green: #9eb44e;
+  --ejs-green-hover: #84993e;
+  --ejs-green-link-hover: #44640a;
+  --ejs-green-active: #2a3d05;
+  --ejs-hero-ink-soft: #2e3a18;
+}
+
+/* ---------- Instant theme switch (matches the landing page) ---------- */
+/* The toggle adds `.no-transitions` to <html> for one frame so flipping
+   light/dark doesn't animate every colored surface. */
+.no-transitions,
+.no-transitions *,
+.no-transitions *::before,
+.no-transitions *::after {
+  transition: none !important;
+}
+
+/* ---------- Headings & UI chrome use Montserrat ---------- */
+.site-title,
+.sl-markdown-content h1,
+.sl-markdown-content h2,
+.sl-markdown-content h3,
+.sl-markdown-content h4,
+.sl-markdown-content h5,
+.sl-markdown-content h6,
+.content-panel h1,
+h1#_top {
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: -0.5px;
+}
+
+/* Loosen Starlight's 1.5em gap above headings that follow non-headings. */
+.sl-markdown-content :not(h1, h2, h3, h4, h5, h6) + :is(h2, h3, h4, h5, h6) {
+  margin-top: 3rem;
+}
+
+h1#_top {
+  padding-top: 1.5rem;
+}
+
+#starlight__on-this-page {
+  padding-top: 1rem;
+}
+
+starlight-toc a {
+  padding-block: 0.45rem;
+  /* Match the sidebar's softer inactive ink. */
+  color: var(--sl-color-gray-3);
+}
+
+/* Restore the active state: our unlayered rule above outranks Starlight's
+   layered [aria-current] accent, so re-assert it here (accent + bold, in
+   line with the left sidebar and nav active links). */
+starlight-toc a[aria-current='true'] {
+  color: var(--sl-color-text-accent);
+  font-weight: 600;
+}
+
+/* ---------- Make the "On this page" TOC read as its own scroll region ----------
+   The docs are one long page, so the right-hand TOC overflows the viewport and
+   scrolls independently of the prose. Starlight builds the scroll container
+   (.right-sidebar) as a fixed, viewport-width element with the TOC left-aligned
+   inside it, which parks the native scrollbar off the right edge of the screen,
+   then hides it (scrollbar-width: none). So the column scrolls but gives no
+   visible cue. We fix the root cause: constrain .right-sidebar to the reserved
+   TOC column (so its scrollbar lands at the visible gutter), un-hide it, and
+   give it a persistent, visibly-tracked bar. The non-transparent thumb+track
+   also forces a classic (non-overlay) bar in Blink, so it never auto-hides. */
+@media (min-width: 64rem) {
+  .right-sidebar {
+    /* Match the visible .right-sidebar-container: the reserved sidebar column
+       plus the half-gutter Starlight's content clamp leaves beside it. Without
+       this the element is viewport-width and its scrollbar is off-screen. The
+       half-gutter is derived from the frame (capped at --docs-frame-width) so
+       the scrollbar stays at the visible gutter across all widths >= 64rem. */
+    width: calc(
+      var(--sl-sidebar-width) +
+        (min(100vw, var(--docs-frame-width)) - 2 * var(--docs-frame-pad) -
+              var(--sl-content-width) - var(--sl-sidebar-width)) / 2
+    );
+    box-sizing: border-box;
+    /* Take the scroller out of flow and hairline it off from the prose. Starlight
+       only sets these at its `lg` (72rem) breakpoint; at 64–72rem we supply them
+       so the TOC is pinned to the right gutter instead of sitting static in the
+       column (which otherwise renders it to the left of the prose). */
+    position: fixed;
+    border-inline-start: 1px solid var(--sl-color-hairline);
+    /* Start the scroll container below the fixed nav instead of behind it
+       (Starlight uses top:0 + padding-top:nav-height), so the scrollbar track
+       isn't clipped under the nav. Content keeps the same offset because the
+       removed padding equals the new top inset. */
+    top: var(--sl-nav-height);
+    height: calc(100vh - var(--sl-nav-height));
+    padding-top: 0;
+    /* Scroll the TOC independently of the page (Starlight sets this only at
+       72rem; without it the fixed column overflows the viewport with no bar).
+       `scroll`, not `auto`, so the bar is always present and never auto-hides —
+       the non-transparent thumb below also forces a classic (non-overlay) bar. */
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
+    /* Now that the bar sits at the visible gutter, keep it quiet: a thin neutral
+       thumb on a transparent track is enough of a cue without a heavy channel. */
+    scrollbar-width: thin; /* undo Starlight's `none` */
+    scrollbar-color: var(--sl-color-gray-4) transparent;
+  }
+  /* WebKit/Blink fallback for engines that ignore the standard properties. */
+  .right-sidebar::-webkit-scrollbar {
+    width: 8px;
+  }
+  .right-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .right-sidebar::-webkit-scrollbar-thumb {
+    background: var(--sl-color-gray-4);
+    border-radius: 4px;
+  }
+  .right-sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--sl-color-gray-3);
+  }
+}
+
+.site-title {
+  font-weight: 700;
+}
+
+/* Sidebar section labels ("Start Here", "Guide", "Reference") */
+.group-label {
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Increase content panel vertical padding beyond Starlight's default 1.5rem. */
+.content-panel {
+  padding-block: 4rem;
+}
+
+/* ---------- Remove hairline and gap between the h1 panel and the content panel ---------- */
+.content-panel + .content-panel {
+  border-top: none;
+  padding-top: 0;
+}
+
+.content-panel:has(h1#_top) {
+  padding-top: 2rem;
+  padding-bottom: var(--sl-content-gap-y);
+}
+
+/* ---------- Top nav: the bottom edge is drawn by .site-nav's box-shadow
+   (matching the landing's scrolled nav), so suppress Starlight's own header
+   border to avoid a doubled hairline. ---------- */
+header.header {
+  border-bottom: none;
+}
+
+/* ---------- Inline code: brand green, monospace ---------- */
+.sl-markdown-content code:not(:where(.expressive-code *)) {
+  color: var(--ejs-inline-code-text);
+  font-family: var(--sl-font-mono);
+  font-size: 0.875em;
+  border: 1px solid var(--sl-color-hairline);
+}
+
+/* ---------- Links pick up the green accent ---------- */
+.sl-markdown-content a {
+  color: var(--sl-color-text-accent);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 0.15s, text-decoration-color 0.15s;
+}
+
+.sl-markdown-content a:hover {
+  color: var(--ejs-green-link-hover);
+  text-decoration-color: currentColor;
+}
+
+.sl-markdown-content a:active {
+  color: var(--ejs-green-active);
+}
+
+/* ---------- EJS delimiters glow crimson inside code blocks ---------- */
+/* Shiki tags the <% %> punctuation; nudge it toward the brand crimson. The
+   brand crimson (#bf225a / --ejs-crimson) only hits 2.9:1 on the dark code
+   surface, so use a code-tuned lift (same hue, raised lightness) that clears
+   WCAG AA at 4.6:1. Matches the landing page's .t-tag token. */
+.expressive-code .ec-line .ejs-delim {
+  color: #e05285;
+}
+
+/* ---------- Copy tooltip: tone down EC's bright green "Copied!" ---------- */
+.expressive-code {
+  --ec-frm-tooltipSuccessBg: #2e2e2e;
+  --ec-frm-tooltipSuccessFg: #c8c8c8;
+  /* Copy-button edge length (square). Drives the button size and the inline-end
+     inset so the gap to every nearby border stays even automatically. */
+  --copy-size: 2rem;
+  /* Copy/check glyph box. A fixed even px value (not `contain`, which would size
+     the mask against a fractional content box and anti-alias to 14 or 15px
+     depending on each button's sub-pixel position — making some icons, e.g. the
+     first one, look smaller). 16px matches the landing page's copy button, which
+     is the same 32px button around a 16px icon (`.copy-btn` svg 16px + 8px
+     padding), so the icon-to-button ratio is identical. It also centres at an
+     integer 8px offset in the 32px button, so every icon renders crisply. */
+  --copy-icon: 16px;
+}
+
+/* ---------- Terminal frames: no macOS title bar ---------- */
+/* The window buttons are already hidden; drop the empty title bar too so
+   terminal blocks are just the code surface. The `figure` qualifier raises
+   specificity above Expressive Code's own `.header` rule, which is bundled
+   into a stylesheet that loads after this one. */
+.expressive-code figure.frame.is-terminal .header {
+  display: none;
+}
+
+/* Expressive Code squares off the top of terminal `pre`/`code` and shifts the
+   copy button down by the title-bar height, expecting the header to sit above.
+   With the header gone, restore the rounded top corners + top border, and reset
+   the copy-button spacing to the same value plain (header-less) frames use. The
+   `figure` qualifier keeps specificity above EC's own rules. */
+.expressive-code figure.frame.is-terminal pre,
+.expressive-code figure.frame.is-terminal code {
+  border-top: var(--ec-brdWd) solid var(--ec-brdCol);
+  border-top-left-radius: calc(var(--ec-brdRad) + var(--ec-brdWd));
+  border-top-right-radius: calc(var(--ec-brdRad) + var(--ec-brdWd));
+}
+/* ---------- Copy-button placement: vertically centred in every block, pinned
+   to the right with an even gap to the border. Both terminal and editor frames
+   render without a header here, so one set of rules covers all frames (the
+   `figure.frame` prefix also keeps specificity above EC's own `.copy` inset,
+   which loads after this stylesheet). The inline-end gap matches the single-
+   line vertical-centring gap, codePadBlk + (lineHeight - size)/2, so a
+   single-line block hugs the top, bottom, and right borders evenly. */
+.expressive-code figure.frame .copy {
+  inset-inline-end: calc(var(--ec-brdWd) + var(--ec-codePadBlk) + (var(--ec-codeLineHt) * var(--ec-codeFontSize) - var(--copy-size)) / 2);
+  inset-block: 0;
+  align-items: center;
+}
+.expressive-code figure.frame .copy button {
+  align-self: center;
+}
+
+/* Copy button on every frame — the js/ejs/html examples are runnable snippets
+   people copy, matching the landing page (which shows a copy button on its
+   editor-style example windows too). Editor frames keep Expressive Code's
+   native top-right button placement; terminal frames use the centered
+   placement tuned above. */
+
+/* ---------- Code frames: same skeuomorphic "physical panel" as the landing
+   page's .code-window — a subtle gradient face, a lit top bevel, and a layered
+   drop shadow so each block reads as a raised surface. Shadow alpha tracks the
+   page theme just like the landing page's --code-panel-shadow tokens. The
+   `.expressive-code` prefix keeps these above EC's own rules. ---------- */
+.expressive-code figure.frame {
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.34),
+    0 10px 24px rgba(0, 0, 0, 0.22);
+}
+:root[data-theme='light'] .expressive-code figure.frame {
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.3),
+    0 10px 24px rgba(0, 0, 0, 0.2);
+}
+.expressive-code .frame pre {
+  background: linear-gradient(180deg, #202020 0%, #1a1a1a 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ---------- Copy button: match the landing page's physical button ---------- */
+/* Expressive Code ships a flat icon-only button; restyle it as the same dark
+   gradient "physical button" used on the landing page. Most selectors carry the
+   `.expressive-code` prefix to outrank EC's own (lower- or equal-specificity)
+   rules. Opacity is the exception: EC hides the button (opacity: 0) then reveals
+   it on hover via an *equal-specificity* rule in a stylesheet that loads after
+   this one, so only `!important` reliably keeps it always visible like the
+   landing page. */
+.expressive-code .copy button {
+  width: var(--copy-size);
+  height: var(--copy-size);
+  border-radius: 3px;
+  background: var(--code-btn-face);
+  opacity: 1 !important;
+  box-shadow:
+    inset 0 1px 0 var(--code-btn-highlight),
+    0 1px 0 var(--code-edge-1),
+    0 2px 3px var(--code-btn-drop);
+  transition: transform 70ms ease-out, box-shadow 70ms ease-out,
+    background 120ms ease;
+}
+/* EC layers a translucent fill `<div>` and a border pseudo over the button;
+   drop both so only the gradient face shows. */
+.expressive-code .copy button div {
+  display: none;
+}
+/* Repurpose EC's border pseudo as a green checkmark, stacked over the copy icon
+   (::after). It crossfades in when EC flags success via `.feedback.show`,
+   mirroring the landing page's copy → check swap. */
+.expressive-code .copy button::before {
+  content: '';
+  display: block;
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  opacity: 0;
+  transform: scale(0.4);
+  background-color: #b4ca65;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: var(--copy-icon);
+  mask-size: var(--copy-icon);
+  transition: opacity 180ms ease, transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+/* Icon tint — idle grey, brightening on hover, matching the landing page.
+   Also override EC's default clipboard glyph with the landing page's Feather
+   "copy" icon (the offset rounded rectangles) so the two pages match. The
+   higher-specificity `.expressive-code` prefix wins over EC's own `::after`
+   mask regardless of load order. */
+.expressive-code .copy button::after {
+  margin: 0;
+  background-color: #aaa;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='9' y='9' width='13' height='13' rx='2'/%3E%3Cpath d='M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='9' y='9' width='13' height='13' rx='2'/%3E%3Cpath d='M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: var(--copy-icon);
+  mask-size: var(--copy-icon);
+  transition: opacity 180ms ease, transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.expressive-code .copy button:hover {
+  background: var(--code-btn-hover);
+  opacity: 1;
+}
+.expressive-code .copy button:hover::after {
+  background-color: #d0d0d0;
+}
+.expressive-code .copy button:active {
+  transform: translateY(1px);
+  background: var(--code-btn-active);
+  box-shadow:
+    inset 0 1px 0 var(--code-btn-highlight-pressed),
+    0 0 0 var(--code-edge-1),
+    0 1px 1px var(--code-btn-drop-pressed);
+}
+.expressive-code .copy button:focus-visible {
+  outline: 2px solid var(--code-btn-focus);
+  outline-offset: 2px;
+}
+
+/* Success: swap copy icon → checkmark. On copy, EC appends a `.feedback.show`
+   div into the button's sibling `[aria-live]` region. Hide that "Copied!" bubble
+   visually — but keep it screen-reader-available so the live region still
+   announces — so the checkmark is the sole visual feedback, as on the landing
+   page. Match the success state via :has() since the feedback is nested in the
+   live region, not a direct sibling of the button. */
+.expressive-code .copy .feedback {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.expressive-code .copy:has(.feedback.show) button::after {
+  opacity: 0;
+  transform: scale(0.4);
+}
+.expressive-code .copy:has(.feedback.show) button::before {
+  opacity: 1;
+  transform: scale(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .expressive-code .copy button::after,
+  .expressive-code .copy button::before {
+    transition: none;
+  }
+}
+
+/* ---------- Page footer: Edit page + Prev/Next on one row ---------- */
+footer.sl-flex {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2.5rem;
+  gap: 1rem;
+}
+
+footer.sl-flex .meta {
+  margin-top: 0;
+}
+
+/* ---------- Prev/Next pagination buttons ---------- */
+/* Match the nav bar's physical-button treatment: gradient face, layered
+   edge/drop shadows, surface-hover on hover, translateY press on active. */
+.pagination-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.pagination-links a[rel='next'] {
+  margin-inline-start: auto;
+  padding-inline-end: 1rem;
+}
+
+.pagination-links a[rel='prev'] {
+  padding-inline-start: 1rem;
+}
+
+:root .pagination-links a {
+  width: auto;
+  flex-basis: auto;
+  flex-grow: 0;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 5px;
+  padding: 0.6rem 1.5rem;
+  background: var(--ejs-btn-face);
+  color: var(--sl-color-gray-2);
+  box-shadow:
+    inset 0 1px 0 var(--ejs-btn-highlight),
+    0 1px 0 var(--ejs-edge-1),
+    0 2px 0 var(--ejs-edge),
+    0 3px 6px var(--ejs-btn-drop);
+  transition: transform 70ms ease-out, box-shadow 70ms ease-out, background 120ms ease,
+    color 120ms ease, border-color 120ms ease;
+}
+
+:root .pagination-links a:hover {
+  background: var(--ejs-surface-hover);
+  box-shadow:
+    inset 0 0 0 1px var(--ejs-border-subtle),
+    0 1px 0 var(--ejs-edge),
+    0 2px 3px var(--ejs-btn-drop);
+  color: var(--sl-color-white);
+}
+
+:root:not([data-theme='light']) .pagination-links a:hover {
+  box-shadow:
+    inset 0 0 0 1px var(--sl-color-hairline),
+    0 1px 0 var(--ejs-edge),
+    0 2px 3px var(--ejs-btn-drop);
+}
+
+:root .pagination-links a:hover > svg {
+  color: currentColor;
+}
+
+:root .pagination-links a:active {
+  transform: translateY(2px);
+  box-shadow:
+    inset 0 1px 0 var(--ejs-btn-highlight-pressed),
+    0 0 0 var(--ejs-edge),
+    0 1px 2px var(--ejs-btn-drop-pressed);
+}
+
+:root .pagination-links a:active > svg {
+  color: currentColor;
+}
+
+:root .pagination-links .link-title {
+  font-size: var(--sl-text-lg);
+}
+
+:root .pagination-links a > svg {
+  color: currentColor;
+  flex-shrink: 0;
+  transition: transform 150ms ease-out;
+}
+
+:root .pagination-links a[rel='next']:hover > svg {
+  transform: translateX(4px);
+}
+
+:root .pagination-links a[rel='prev']:hover > svg {
+  transform: translateX(-4px);
+}
+
+:root[data-theme='light'] .pagination-links a {
+  box-shadow:
+    inset 0 1px 0 var(--ejs-btn-highlight),
+    0 1px 0 var(--ejs-edge-1),
+    0 2px 0 var(--ejs-edge),
+    0 3px 6px rgba(92, 97, 104, 0.22);
+}
+
+:root[data-theme='light'] .pagination-links a:active {
+  box-shadow:
+    inset 0 1px 0 var(--ejs-btn-highlight-pressed),
+    0 0 0 var(--ejs-edge),
+    0 1px 2px rgba(92, 97, 104, 0.14);
+}
+
+/* ---------- Tables ---------- */
+/* Give header cells a tinted panel background so they read as labels, not data. */
+.sl-markdown-content th {
+  background: var(--sl-color-gray-7);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--sl-color-gray-2);
+  text-transform: uppercase;
+}
+
+.sl-markdown-content thead {
+  border-bottom: 1px solid var(--sl-color-hairline);
+}
+
+/* ---------- Tag reference table: no header row ---------- */
+/* The Tag / Name / What-it-does columns are self-evident from the rows, so drop
+   the header. Markdown always emits a <thead>, and the table is the immediate
+   sibling of its heading, so scope the removal to just this one table. */
+#tag-reference + table thead {
+  display: none;
+}
+
+/* ---------- Asides: no left bar ---------- */
+/* The tinted background already signals the callout; drop Starlight's colored
+   left border. This rule is unlayered, so it wins over the layered default. */
+.starlight-aside {
+  border-inline-start: none;
+  border-radius: 6px;
+}
+
+/* ---------- Splash hero (landing page) ---------- */
+.hero {
+  padding-block: 2rem;
+}
+.hero h1 {
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: -1px;
+}
+.hero .tagline {
+  color: var(--sl-color-gray-3);
+}
+
+/* Primary call-to-action button → crimson, matching the landing page */
+.hero .actions a[data-variant='primary'] {
+  background: linear-gradient(180deg, #c93066 0%, #b21f56 100%);
+  border-color: #a01a4a;
+  color: #fff;
+}
+.hero .actions a[data-variant='primary']:hover {
+  background: linear-gradient(180deg, #be2a5d 0%, #9b1949 100%);
+}
+
+/* The hero image (EJS mark) shouldn't be cramped */
+.hero img {
+  max-width: 11rem;
+  margin-inline: auto;
+}
+
+/* ---------- Single-page content frame ---------- */
+/* The docs are one page with no left sidebar (see src/routeData.ts). Starlight's
+   no-sidebar layout otherwise runs the prose full-width (at 67.5rem) and lets
+   the TOC overflow the viewport, because its content-width clamp is gated on
+   [data-has-sidebar], which we don't set. Re-create the layout inside the same
+   centered frame. The frame is a touch wider than the nav's 1120px so the docs
+   don't read as a narrow island on large screens; this trades the exact nav
+   logo / GitHub-button alignment for ~60px of breathing room on each side.
+   --docs-frame-width is the single source of truth, shared with the TOC scroll
+   container's width calc above. */
+@media (min-width: 64rem) {
+  [data-has-toc]:not([data-has-sidebar]) {
+    --docs-frame-width: 1200px; /* outer frame; nav stays at 1120 by design */
+    --docs-frame-pad: 48px; /* inline gutter, matches the nav */
+    /* Fluid measure: start at 40rem so the prose plus the 15rem TOC clear a
+       1024px (64rem) laptop, then grow to the roomy 46rem once the frame has the
+       room for it (>= 72rem). Interpolating keeps a near-constant gutter beside
+       the TOC instead of snapping the measure wider at 72rem. Above ~72rem the
+       calc exceeds 46rem and the clamp pins it there, so wide screens are
+       unchanged. */
+    --sl-content-width: clamp(40rem, calc(40rem + (100vw - 64rem) * 0.75), 46rem);
+    --sl-sidebar-width: 15rem; /* width reserved for the "On this page" column */
+    --sl-content-margin-inline: 0 auto; /* hug the gutter */
+  }
+  /* Surface the on-page TOC early. Starlight gates the two-column layout on its
+     `lg` (72rem) utilities: `.lg:sl-flex` (the split), `.right-sidebar-panel`
+     (the desktop TOC, `sl-hidden` until `lg`), and `.lg:sl-hidden` (the mobile
+     TOC bar). Re-trigger all three at 64rem so 1024–1152px laptops get the
+     sidebar TOC instead of the compacted mobile view. */
+  [data-has-toc]:not([data-has-sidebar]) .lg\:sl-flex {
+    display: flex;
+    max-width: var(--docs-frame-width);
+    margin-inline: auto;
+    padding-inline: var(--docs-frame-pad);
+    box-sizing: border-box;
+  }
+  [data-has-toc]:not([data-has-sidebar]) .right-sidebar-panel.sl-hidden {
+    display: block;
+  }
+  [data-has-toc]:not([data-has-sidebar]) .lg\:sl-hidden {
+    display: none;
+  }
+  /* The frame supplies the 48px gutter; drop the panel's own inline padding so
+     the prose starts exactly at the gutter. */
+  [data-has-toc]:not([data-has-sidebar]) .content-panel {
+    padding-inline: 0;
+  }
+  /* Clamp the content column so content + TOC sum to the frame width (the stock
+     clamp is gated on [data-has-sidebar]). 100% here is the frame's inner box.
+     `order` puts the prose first (left) and the TOC column second (right);
+     Starlight only assigns these orders at 72rem, so without them the 64–72rem
+     band lays the columns out in DOM order (TOC left, prose right). */
+  [data-has-toc]:not([data-has-sidebar]) .main-pane {
+    order: 1;
+    width: calc(
+      var(--sl-content-width) +
+        (100% - var(--sl-content-width) - var(--sl-sidebar-width)) / 2
+    );
+  }
+  /* Reserve the TOC column (Starlight sizes/orders this only at 72rem). The
+     width matches the half-gutter left beside the clamped content, so the fixed
+     .right-sidebar above lines up with it. */
+  [data-has-toc]:not([data-has-sidebar]) .right-sidebar-container {
+    order: 2;
+    position: relative;
+    width: calc(
+      var(--sl-sidebar-width) +
+        (100% - var(--sl-content-width) - var(--sl-sidebar-width)) / 2
+    );
+  }
+}
