@@ -51,6 +51,11 @@ alternate runtimes on every release:
 For Browserify, pass `--node` so it picks the `main` entry rather than the
 prebuilt UMD bundle.
 
+Browser-targeted bundlers that support conditional exports get the prebuilt
+browser bundle through the `browser` export condition. That bundle compiles and
+renders template strings; loading templates from the filesystem with
+`renderFile` needs the Node entry point.
+
 ### Render a string
 
 Pass EJS a template string and some data. You get back HTML.
@@ -99,8 +104,22 @@ app.get('/', (req, res) => {
 });
 ```
 
-[This GitHub wiki page](https://github.com/mde/ejs/wiki/Using-EJS-with-Express)
-explains the various ways of passing EJS options to Express.
+As of v7, EJS doesn't read its options from Express's render data,
+`app.locals`, or `app.set('view options')`. To set EJS options for an Express
+app, register a render function. Pass along Express's `views` and `view cache`
+settings too, since a custom render function replaces the default handling of
+them:
+
+```js
+const ejsOptions = {
+  delimiter: '?',
+  views: [].concat(app.get('views')),
+  cache: app.enabled('view cache'),
+};
+app.engine('ejs', (path, data, cb) => {
+  ejs.renderFile(path, data, ejsOptions, cb);
+});
+```
 
 :::caution[A note on security]
 EJS is effectively a JavaScript runtime. If you give end-users unfettered
@@ -169,6 +188,26 @@ when you intend to emit raw HTML (for example, the result of an
 :::tip
 Always use `<%-` with `include()` to avoid double-escaping the included HTML.
 :::
+
+### Escaping and output context
+
+`<%=` escapes for HTML: specifically, for HTML content and quoted attribute
+values. That covers most templates, because most templates generate HTML.
+
+EJS can generate any kind of text, though, and it has no idea where your output
+ends up. If you're generating something else (SQL, shell scripts, plain-text
+email, config files), swap in escaping that fits:
+
+```js
+ejs.render(template, data, { escape: myEscapeFunction });
+```
+
+To escape just one value, use the raw tag: `<%- myEscapeFunction(name) %>`. To
+set it for a whole Express app, see [Use it with Express](#use-it-with-express).
+
+One spot to watch: inside a `<script>` tag, browsers don't decode HTML
+entities, so `<%=` doesn't do what you want there. Put the value in an
+attribute and `JSON.parse` it from your script instead.
 
 ### Comments
 
@@ -470,17 +509,6 @@ fn(data, null, function (path, d) { // include callback
 }); // returns the rendered string
 ```
 
-### Precompiling templates
-
-For production you can compile templates ahead of time with the `client`
-option and ship the resulting standalone function, with no template parsing
-needed at runtime:
-
-```js
-const fn = ejs.compile(templateString, { client: true });
-const html = fn(data); // call the compiled function with your data
-```
-
 ## Options
 
 All EJS rendering functions (`ejs.render()`, `ejs.renderFile()`, and
@@ -496,7 +524,6 @@ All EJS rendering functions (`ejs.render()`, `ejs.renderFile()`, and
 | `views`          | —           | Array of paths searched when resolving relative includes. |
 | `context`        | `null`      | Function execution context (`this`) inside the template. |
 | `compileDebug`   | `true`      | When `false`, no debug instrumentation is compiled. |
-| `client`         | `false`     | Returns a standalone compiled function (for [client-side](#client-side-support) use). |
 | `escape`         | HTML escape | The escaping function applied to `<%=` output. |
 
 ### Delimiter options
@@ -565,9 +592,16 @@ ejs ./template.ejs -f data.json
 # Inline as a URI-encoded JSON string
 ejs ./template.ejs -i '%7B%22name%22%3A%22world%22%7D'
 
-# As key=value pairs on the command line
-ejs ./test/fixtures/user.ejs name=Lerxst
+# From stdin
+ejs ./template.ejs < data.json
+
+# As key=value pairs after the template
+ejs ./template.ejs name=world
 ```
+
+Pass JSON data one way: stdin, `-f`, or `-i`. Using `-f` and `-i` together is
+an error. Stdin is only read when there's no `-f`, `-i`, or `key=value` data.
+`key=value` pairs override values from `-f` or `-i`, and are always strings.
 
 Some further examples, combining flags:
 
@@ -596,6 +630,17 @@ ejs -n -l _ ./some_template.ejs -f ./data_file.json
 
 These flags mirror the [render options](#options) of the
 JavaScript API.
+
+### How arguments work
+
+As of v7:
+
+- The template file comes first. Any `key=value` data comes after it.
+- Unknown options are an error.
+- Short options can be grouped (`-sdw`) and take attached values (`-m$`).
+- A value that starts with `-` needs `=`: `-o=-out.html`.
+- `--` ends options, for example when a template's name starts with `-`.
+- Exit status is 0 on success, 2 for a usage error, and 1 for a runtime error.
 
 ## License
 
