@@ -135,7 +135,7 @@ In document order:
    position via the scroll-spy script.
 2. **Hero** (`#hero`) — green gradient band with a noise-grain overlay and a giant
    `<%=` watermark. Holds the `<%= EJS %>` title, tagline, "Get Started" primary button,
-   an `npm install ejs` copy pill, and a stats strip (20M+ downloads, 7.7k stars,
+   an `npm install ejs` copy pill, and a stats strip (40M+ downloads, 7.7k stars,
    0 dependencies). Pulled up under the nav via negative margin so the nav blends into it.
 3. **Compare** (`#compare`, "Zero new concepts.") — tabbed old-way (Handlebars / Pug / Mustache)
    vs. the EJS way, side by side, to make the "it's just JavaScript" argument concrete.
