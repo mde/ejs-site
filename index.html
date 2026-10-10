@@ -1359,7 +1359,7 @@
     <footer class="footer">
       <div class="footer-inner">
         <div class="footer-logo"><span class="tag">&lt;%=</span> EJS <span class="tag">%&gt;</span></div>
-        <div class="footer-copy">© 2026 <a href="https://github.com/mde" target="_blank" rel="noopener noreferrer">Matthew Eernisse</a> · <span class="footer-credit">Designed by <a href="https://www.linkedin.com/in/hiro-design" target="_blank" rel="noopener noreferrer">Hiro Eernisse</a></span></div>
+        <div class="footer-copy">© <span data-year>2026</span> <a href="https://github.com/mde" target="_blank" rel="noopener noreferrer">Matthew Eernisse</a> · <span class="footer-credit">Designed by <a href="https://www.linkedin.com/in/hiro-design" target="_blank" rel="noopener noreferrer">Hiro Eernisse</a></span></div>
         <ul class="footer-links"><li><a href="https://github.com/mde/ejs" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a href="https://github.com/mde/ejs/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">License</a></li><li><a href="https://github.com/mde/ejs/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer">Security</a></li></ul>
       </div>
     </footer>
@@ -1677,6 +1677,9 @@
           if (nav.classList.contains('open') && !nav.contains(e.target)) closeMenu();
         });
       }
+
+      // Keep the footer copyright year current; the HTML value is the fallback.
+      document.querySelectorAll('[data-year]').forEach(el => { el.textContent = new Date().getFullYear(); });
 
       // ── Live stats ───────────────────────────────────────────────────────
       // The HTML carries fallback numbers; these replace them with current
