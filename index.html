@@ -1225,8 +1225,8 @@
         <p class="hero-body">No new syntax, no special directives. Write the JavaScript you already know, right inside your HTML.</p>
         <div class="hero-row">
           <div class="stats-strip">
-            <div class="stat"><div class="stat-value">40M+</div><div class="stat-label">Weekly downloads</div></div>
-            <div class="stat"><div class="stat-value">7.7k</div><div class="stat-label">GitHub stars</div></div>
+            <div class="stat"><div class="stat-value" data-stat="downloads">40M+</div><div class="stat-label">Weekly downloads</div></div>
+            <div class="stat"><div class="stat-value" data-stat="stars">8.1k</div><div class="stat-label">GitHub stars</div></div>
             <div class="stat"><div class="stat-value">0</div><div class="stat-label">Dependencies</div></div>
           </div>
           <div class="hero-cta">
@@ -1676,6 +1676,44 @@
         document.addEventListener('click', e => {
           if (nav.classList.contains('open') && !nav.contains(e.target)) closeMenu();
         });
+      }
+
+      // ── Live stats ───────────────────────────────────────────────────────
+      // The HTML carries fallback numbers; these replace them with current
+      // npm weekly downloads and GitHub stars. Results are cached for a day
+      // so repeat visits stay well under GitHub's 60 req/hr unauthenticated limit.
+      {
+        const STATS_KEY = 'ejs-stats';
+        const STATS_TTL = 24 * 60 * 60 * 1000;
+        const formatStats = {
+          downloads: n => Math.floor(n / 1e6) + 'M+',
+          stars: n => n >= 1000 ? (Math.floor(n / 100) / 10) + 'k' : String(n)
+        };
+        const renderStats = stats => {
+          Object.keys(formatStats).forEach(key => {
+            const el = document.querySelector(`[data-stat="${key}"]`);
+            if (el && typeof stats[key] === 'number' && stats[key] > 0) {
+              el.textContent = formatStats[key](stats[key]);
+            }
+          });
+        };
+        let cached = null;
+        try { cached = JSON.parse(localStorage.getItem(STATS_KEY)); } catch (e) {}
+        if (cached && cached.stats) renderStats(cached.stats);
+        if (!cached || !cached.time || Date.now() - cached.time > STATS_TTL) {
+          const getJSON = url => fetch(url).then(r => r.ok ? r.json() : Promise.reject(r.status));
+          Promise.allSettled([
+            getJSON('https://api.npmjs.org/downloads/point/last-week/ejs'),
+            getJSON('https://api.github.com/repos/mde/ejs')
+          ]).then(([npm, gh]) => {
+            const stats = Object.assign({}, cached && cached.stats);
+            if (npm.status === 'fulfilled') stats.downloads = npm.value.downloads;
+            if (gh.status === 'fulfilled') stats.stars = gh.value.stargazers_count;
+            renderStats(stats);
+            if (npm.status !== 'fulfilled' && gh.status !== 'fulfilled') return;
+            try { localStorage.setItem(STATS_KEY, JSON.stringify({ time: Date.now(), stats })); } catch (e) {}
+          });
+        }
       }
     </script>
 
