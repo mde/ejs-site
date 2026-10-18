@@ -148,14 +148,14 @@ whether code runs, whether its result is printed, and how it is escaped.
 | Tag    | Name                  | What it does |
 | ------ | --------------------- | ------------ |
 | `<%`   | Scriptlet             | Runs control-flow JavaScript; produces no output. |
-| `<%_`  | Whitespace-slurping scriptlet | Like `<%`, but strips all whitespace *before* it. |
+| `<%_`  | Whitespace-slurping scriptlet | Like `<%`, but strips the spaces and tabs *before* it. |
 | `<%=`  | Escaped output        | Prints the value into the template, HTML-escaped. |
 | `<%-`  | Unescaped output      | Prints the raw value into the template (no escaping). |
 | `<%#`  | Comment               | Does nothing and prints nothing. |
 | `<%%`  | Literal               | Outputs a literal `<%`. |
 | `%>`   | Closing tag           | Plain close. |
 | `-%>`  | Newline-trimming close | Trims the newline immediately after the tag. |
-| `_%>`  | Whitespace-slurping close | Strips all whitespace *after* the tag. |
+| `_%>`  | Whitespace-slurping close | Strips the spaces and tabs *after* the tag, then one newline. |
 
 ### Scriptlets and output
 
@@ -221,9 +221,9 @@ never appear in the output.
 
 ### Controlling whitespace
 
-The slurping tags help you keep generated HTML tidy. `-%>` removes the single
-newline that follows a tag, while `<%_` and `_%>` strip *all* surrounding
-whitespace:
+The slurping tags help you keep generated HTML tidy. `-%>` removes the newline
+directly after a tag. `<%_` strips the spaces and tabs before it, and `_%>`
+strips the spaces and tabs after it, then one newline:
 
 ```ejs
 <ul>
@@ -545,7 +545,7 @@ See [Custom Delimiters](#custom-delimiters) for examples.
 | `localsName`          | `locals`   | Name of the object holding locals when `with` is disabled. |
 | `destructuredLocals`  | `[]`       | Locals always destructured from the data object (available even in strict mode). |
 | `outputFunctionName`  | —          | If set (e.g. `'echo'`), exposes a print function for use inside scriptlet tags. |
-| `rmWhitespace`        | `false`    | Remove all safe-to-remove whitespace, including leading/trailing. Also enables a safer version of `-%>` line slurping for all scriptlet tags: it does not strip newlines of tags in the middle of a line. |
+| `rmWhitespace`        | `false`    | Remove all safe-to-remove whitespace: leading/trailing whitespace on each line, and blank lines. Because trailing spaces are removed first, `-%>` reliably trims the newline after a tag. |
 | `async`              | `false`    | Use an async function for rendering, enabling `await` inside templates. Depends on async/await support in the JS runtime. |
 
 ### Advanced

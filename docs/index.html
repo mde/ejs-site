@@ -131,7 +131,7 @@ whether code runs, whether its result is printed, and how it is escaped.</p>
 <tr>
 <td><code dir="auto">&lt;%_</code></td>
 <td>Whitespace-slurping scriptlet</td>
-<td>Like <code dir="auto">&lt;%</code>, but strips all whitespace <em>before</em> it.</td>
+<td>Like <code dir="auto">&lt;%</code>, but strips the spaces and tabs <em>before</em> it.</td>
 </tr>
 <tr>
 <td><code dir="auto">&lt;%=</code></td>
@@ -166,7 +166,7 @@ whether code runs, whether its result is printed, and how it is escaped.</p>
 <tr>
 <td><code dir="auto">_%&gt;</code></td>
 <td>Whitespace-slurping close</td>
-<td>Strips all whitespace <em>after</em> the tag.</td>
+<td>Strips the spaces and tabs <em>after</em> the tag, then one newline.</td>
 </tr>
 </tbody>
 </table>
@@ -197,9 +197,9 @@ attribute and <code dir="auto">JSON.parse</code> it from your script instead.</p
 never appear in the output.</p>
 <div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="ejs"><code><div class="ec-line"><div class="code"><span style="--0:#78DCE8">&lt;%# This block explains the markup below — it won't render %&gt;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#939293">&lt;p&gt;</span><span style="--0:#E1E4E8">Visible to the reader.</span><span style="--0:#939293">&lt;/p&gt;</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="<%# This block explains the markup below — it won&#x27;t render %><p>Visible to the reader.</p>"><div></div></button></div></figure></div>
 <h3 id="controlling-whitespace">Controlling whitespace</h3>
-<p>The slurping tags help you keep generated HTML tidy. <code dir="auto">-%&gt;</code> removes the single
-newline that follows a tag, while <code dir="auto">&lt;%_</code> and <code dir="auto">_%&gt;</code> strip <em>all</em> surrounding
-whitespace:</p>
+<p>The slurping tags help you keep generated HTML tidy. <code dir="auto">-%&gt;</code> removes the newline
+directly after a tag. <code dir="auto">&lt;%_</code> strips the spaces and tabs before it, and <code dir="auto">_%&gt;</code>
+strips the spaces and tabs after it, then one newline:</p>
 <div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="ejs"><code><div class="ec-line"><div class="code"><span style="--0:#939293">&lt;ul&gt;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#E05285">&lt;%</span><span style="--0:#E1E4E8"> items.</span><span style="--0:#FF6188">forEach</span><span style="--0:#E1E4E8">(item </span><span style="--0:#AB9DF2">=&gt;</span><span style="--0:#E1E4E8"> { </span><span style="--0:#AB9DF2">-%&gt;</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#939293">&lt;li&gt;</span><span style="--0:#E1E4E8">&lt;%= item %&gt;</span><span style="--0:#939293">&lt;/li&gt;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#AB9DF2">&lt;%</span><span style="--0:#E1E4E8"> }); </span><span style="--0:#E05285">-%&gt;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#939293">&lt;/ul&gt;</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="<ul><% items.forEach(item => { -%>  <li><%= item %></li><% }); -%></ul>"><div></div></button></div></figure></div>
 <p>For broader cleanup across the whole template, see the
 <a href="#options"><code dir="auto">rmWhitespace</code></a> option.</p>
@@ -440,7 +440,7 @@ include callback as the third argument to a compiled function:</li>
 <tr>
 <td><code dir="auto">rmWhitespace</code></td>
 <td><code dir="auto">false</code></td>
-<td>Remove all safe-to-remove whitespace, including leading/trailing. Also enables a safer version of <code dir="auto">-%&gt;</code> line slurping for all scriptlet tags: it does not strip newlines of tags in the middle of a line.</td>
+<td>Remove all safe-to-remove whitespace: leading/trailing whitespace on each line, and blank lines. Because trailing spaces are removed first, <code dir="auto">-%&gt;</code> reliably trims the newline after a tag.</td>
 </tr>
 <tr>
 <td><code dir="auto">async</code></td>
